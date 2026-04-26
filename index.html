@@ -1,76 +1,184 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MAIA_for you</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;min-height:100vh}
-body{
-  display:flex;align-items:center;justify-content:center;
-  min-height:100vh;padding:20px;
-  background:#7b4f8e;
-  font-family:Arial,sans-serif;
-}
-.card{
-  background:#fff;border-radius:20px;
-  box-shadow:0 8px 32px rgba(0,0,0,.25);
-  max-width:340px;width:100%;overflow:hidden;
-}
-.hdr{
-  background:linear-gradient(135deg,#7b4f8e,#c8a0c8);
-  padding:30px 20px 20px;text-align:center;
-}
-.hdr img{
-  width:80px;height:80px;border-radius:50%;
-  border:3px solid rgba(255,255,255,.6);
-  display:block;margin:0 auto 12px;
-}
-.hdr h1{color:#fff;font-size:20px;letter-spacing:2px;margin-bottom:4px}
-.hdr p{color:rgba(255,255,255,.85);font-size:13px}
-.body{padding:24px;text-align:center}
-.body h2{font-size:17px;color:#4a2c4a;margin-bottom:10px}
-.body p{font-size:13px;color:#777;line-height:1.6}
-.emojis{font-size:20px;margin-top:8px;letter-spacing:4px}
-.actions{padding:0 24px 24px}
-.btn{
-  display:block;width:100%;padding:14px;
-  background:linear-gradient(135deg,#7b4f8e,#c8a0c8);
-  color:#fff;border:none;border-radius:12px;
-  font-size:15px;font-weight:bold;cursor:pointer;
-  text-align:center;text-decoration:none;
-  margin-top:12px;
-}
-.btn:hover{opacity:.9}
-.pie{
-  text-align:center;padding:0 0 16px;
-  font-size:11px;color:#bbb;letter-spacing:.5px;
-}
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MAIA_for you — Boutique Flores y Globos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --viola:    #7b4f8e;
+      --viola-dk: #6a3d7a;
+      --rosa:     #e8a0b4;
+      --gris:     #f4f4f6;
+      --texto:    #2c2c2c;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #f3e8f7 0%, #fce8ef 50%, #f0e0f8 100%);
+      font-family: 'DM Sans', sans-serif; padding: 1rem;
+    }
+    body::before, body::after {
+      content: ''; position: fixed; border-radius: 50%;
+      filter: blur(80px); opacity: .35; pointer-events: none; z-index: 0;
+    }
+    body::before {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, var(--viola) 0%, transparent 70%);
+      top: -100px; left: -100px;
+    }
+    body::after {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, var(--rosa) 0%, transparent 70%);
+      bottom: -80px; right: -80px;
+    }
+    .card {
+      position: relative; z-index: 1; background: #fff; border-radius: 24px;
+      box-shadow: 0 8px 40px rgba(123,79,142,.18);
+      max-width: 360px; width: 100%; overflow: hidden;
+      animation: slideUp .5s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(28px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .card-header {
+      background: linear-gradient(135deg, #7b4f8e 0%, #a06fa0 60%, #c8a0c8 100%);
+      padding: 28px 24px 22px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .logo-circle {
+      width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
+      border: 3px solid rgba(255,255,255,.5);
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+      background: #c8a0c8;
+    }
+    .logo-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card-header h1 {
+      color: #fff; font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; letter-spacing: 2px; margin: 0;
+    }
+    .card-header p { color: rgba(255,255,255,.88); font-size: .82rem; }
+    .card-body { padding: 28px 28px 12px; text-align: center; }
+    .card-body h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; color: var(--texto); line-height: 1.4; margin-bottom: 12px;
+    }
+    .card-body p { font-size: .875rem; color: #666; line-height: 1.6; }
+    .emojis { margin-top: 6px; font-size: 1.1rem; letter-spacing: 3px; }
+    .divider { height: 1px; background: var(--gris); margin: 22px 28px 0; }
+    .card-actions { padding: 18px 28px 28px; display: flex; gap: 12px; }
+    .btn {
+      flex: 1; border: none; border-radius: 12px; padding: 13px 8px;
+      font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 500;
+      cursor: pointer; transition: all .18s ease;
+    }
+    .btn-cerrar { background: var(--gris); color: #666; }
+    .btn-cerrar:hover { background: #e5e5e8; transform: translateY(-1px); }
+    .btn-entrar {
+      background: linear-gradient(135deg, var(--viola), #c8a0c8);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(123,79,142,.35);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-entrar:hover { opacity: .9; transform: translateY(-2px); }
+    .btn-entrar:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+    .loading {
+      display: none; position: absolute; inset: 0;
+      background: rgba(255,255,255,.88); border-radius: 24px;
+      flex-direction: column; align-items: center; justify-content: center; gap: 12px; z-index: 10;
+    }
+    .loading.visible { display: flex; }
+    .spinner {
+      width: 36px; height: 36px; border: 3px solid var(--gris);
+      border-top-color: var(--viola); border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading p { font-size: .82rem; color: #888; }
+    .maia-brand {
+      text-align: center; padding: 0 0 20px;
+      font-size: .72rem; color: #bbb; letter-spacing: .8px; text-transform: uppercase;
+    }
+    .maia-brand span { color: var(--viola); font-weight: 500; }
+    .btn-directo {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; text-decoration: none; border-radius: 12px; padding: 13px 8px;
+      background: linear-gradient(135deg, var(--viola), #c8a0c8);
+      color: #fff; font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; font-weight: 500;
+      box-shadow: 0 4px 16px rgba(123,79,142,.35);
+      transition: all .18s ease;
+    }
+    .btn-directo:hover { opacity: .9; transform: translateY(-2px); }
+  </style>
 </head>
 <body>
-<div class="card">
-  <div class="hdr">
-    <img src="https://i.postimg.cc/8zL8DB99/MAIA.jpg" alt="MAIA"
-         onerror="this.style.background='#c8a0c8'"/>
+<div class="card" id="card">
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Abriendo la tienda…</p>
+  </div>
+
+  <div class="card-header">
+    <div class="logo-circle">
+      <img src="https://i.postimg.cc/8zL8DB99/MAIA.jpg" alt="MAIA"
+           onerror="this.style.display='none'"/>
+    </div>
     <h1>MAIA_for you</h1>
     <p>Boutique Flores y Globos 🌸</p>
   </div>
-  <div class="body">
-    <h2>¡Bienvenida!</h2>
-    <p>Arreglos florales, ramos personalizados<br>y globos para cada ocasión.</p>
-    <div class="emojis">🌷 💐 🎈</div>
+
+  <div class="card-body" id="card-body">
+    <h2>¿Deseas visitar<br>nuestra tienda en línea?</h2>
+    <p>Explora arreglos florales, ramos personalizados<br>
+       y globos para cada ocasión especial.</p>
+    <p class="emojis">🌷 💐 🎈</p>
   </div>
-  <div class="actions">
-    <a class="btn"
-       href="https://script.google.com/macros/s/AKfycbybiU5TTvMDNedUC9gev5gh7mmWbZdqGSelDU_gLdypgXr9d5k6olPo1mhCUGqXdcMV/exec"
-       target="_blank"
-       rel="noopener noreferrer">
-      🌸 Entrar a la tienda
-    </a>
+
+  <div class="divider"></div>
+
+  <div class="card-actions" id="card-actions">
+    <button class="btn btn-cerrar" onclick="cerrar()">Cerrar</button>
+    <button class="btn btn-entrar" id="btn-entrar" onclick="entrar()">
+      🌸 &nbsp;Entrar
+    </button>
   </div>
-  <div class="pie">MAIA_for you &nbsp;|&nbsp; 55 7924 8882</div>
+
+  <div class="maia-brand">Tienda <span>MAIA</span> &nbsp;|&nbsp; 55 7924 8882</div>
+
 </div>
+
+<script>
+  var TIENDA = 'https://script.google.com/macros/s/AKfycbybiU5TTvMDNedUC9gev5gh7mmWbZdqGSelDU_gLdypgXr9d5k6olPo1mhCUGqXdcMV/exec';
+
+  function cerrar() {
+    if (window.history.length > 1) window.history.back();
+    else window.close();
+  }
+
+  function mostrarBoton() {
+    document.getElementById('loading').classList.remove('visible');
+    document.getElementById('card-body').innerHTML =
+      '<h2 style="color:var(--viola)">¡Ya casi! 🌷</h2>' +
+      '<p style="margin-top:10px">Toca el botón para abrir la tienda.</p>';
+    document.getElementById('card-actions').innerHTML =
+      '<a href="' + TIENDA + '" class="btn-directo">🌸 &nbsp;Abrir tienda</a>';
+  }
+
+  function entrar() {
+    document.getElementById('btn-entrar').disabled = true;
+    document.getElementById('loading').classList.add('visible');
+
+    // Misma técnica que el código de WhatsApp que funciona
+    window.location.href = TIENDA;
+
+    // Respaldo: si no redirigió, mostrar botón manual
+    setTimeout(mostrarBoton, 1800);
+  }
+</script>
 </body>
 </html>
