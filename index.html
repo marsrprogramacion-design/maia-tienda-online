@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MAIA_for you — Boutique Flores y Globos</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     :root {
       --viola:    #7b4f8e;
@@ -37,7 +38,7 @@
     .card {
       position: relative; z-index: 1; background: #fff; border-radius: 24px;
       box-shadow: 0 8px 40px rgba(123,79,142,.18);
-      max-width: 360px; width: 100%; overflow: hidden;
+      max-width: 380px; width: 100%; overflow: hidden;
       animation: slideUp .5s cubic-bezier(.22,1,.36,1) both;
     }
     @keyframes slideUp {
@@ -52,8 +53,7 @@
     .logo-circle {
       width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
       border: 3px solid rgba(255,255,255,.5);
-      box-shadow: 0 4px 16px rgba(0,0,0,.2);
-      background: #c8a0c8;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2); background: #c8a0c8;
     }
     .logo-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .card-header h1 {
@@ -61,39 +61,55 @@
       font-size: 1.3rem; letter-spacing: 2px; margin: 0;
     }
     .card-header p { color: rgba(255,255,255,.88); font-size: .82rem; }
-    .card-body { padding: 28px 28px 12px; text-align: center; }
+    .card-body { padding: 22px 28px 8px; text-align: center; }
     .card-body h2 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.25rem; color: var(--texto); line-height: 1.4; margin-bottom: 12px;
+      font-size: 1.15rem; color: var(--texto); line-height: 1.4; margin-bottom: 8px;
     }
-    .card-body p { font-size: .875rem; color: #666; line-height: 1.6; }
-    .emojis { margin-top: 6px; font-size: 1.1rem; letter-spacing: 3px; }
-    .divider { height: 1px; background: var(--gris); margin: 22px 28px 0; }
-    .card-actions { padding: 18px 28px 28px; display: flex; gap: 12px; }
-    .btn {
-      flex: 1; border: none; border-radius: 12px; padding: 13px 8px;
-      font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 500;
-      cursor: pointer; transition: all .18s ease; text-decoration: none;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
+    .card-body p { font-size: .82rem; color: #888; line-height: 1.6; }
+    /* QR */
+    .qr-wrap {
+      display: flex; justify-content: center; margin: 16px 0 8px;
     }
-    .btn-cerrar { background: var(--gris); color: #666; }
-    .btn-cerrar:hover { background: #e5e5e8; }
+    .qr-wrap canvas, .qr-wrap img {
+      border-radius: 12px;
+      border: 4px solid var(--gris);
+      padding: 8px; background: #fff;
+    }
+    .qr-hint {
+      font-size: .75rem; color: #bbb; text-align: center;
+      margin-bottom: 4px; font-family: Arial, sans-serif;
+    }
+    .divider { height: 1px; background: var(--gris); margin: 14px 28px 0; }
+    .card-actions { padding: 16px 28px 24px; display: flex; flex-direction: column; gap: 10px; }
     .btn-entrar {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; text-decoration: none; border-radius: 12px; padding: 13px;
       background: linear-gradient(135deg, var(--viola), #c8a0c8);
-      color: #fff !important;
+      color: #fff; font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; font-weight: 700;
       box-shadow: 0 4px 16px rgba(123,79,142,.35);
+      transition: all .18s ease; border: none; cursor: pointer;
     }
-    .btn-entrar:hover { opacity: .9; transform: translateY(-2px); }
+    .btn-entrar:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-copy {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; border-radius: 12px; padding: 11px;
+      background: var(--gris); color: #666;
+      font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 500;
+      border: none; cursor: pointer; transition: all .18s ease;
+    }
+    .btn-copy:hover { background: #e5e5e8; }
+    .btn-copy.copiado { background: #e8f5ee; color: #27ae60; }
     .maia-brand {
-      text-align: center; padding: 0 0 20px;
+      text-align: center; padding: 0 0 18px;
       font-size: .72rem; color: #bbb; letter-spacing: .8px; text-transform: uppercase;
     }
     .maia-brand span { color: var(--viola); font-weight: 500; }
   </style>
 </head>
 <body>
-<div class="card" id="card">
-
+<div class="card">
   <div class="card-header">
     <div class="logo-circle">
       <img src="https://i.postimg.cc/8zL8DB99/MAIA.jpg" alt="MAIA"
@@ -104,33 +120,53 @@
   </div>
 
   <div class="card-body">
-    <h2>¿Deseas visitar<br>nuestra tienda en línea?</h2>
-    <p>Explora arreglos florales, ramos personalizados<br>
-       y globos para cada ocasión especial.</p>
-    <p class="emojis">🌷 💐 🎈</p>
+    <h2>¡Bienvenida a la tienda!</h2>
+    <p>Escanea el código QR con tu cámara<br>o toca el botón para entrar.</p>
+    <div class="qr-wrap" id="qr"></div>
+    <p class="qr-hint">📷 Apunta tu cámara al código</p>
   </div>
 
   <div class="divider"></div>
 
   <div class="card-actions">
-    <button class="btn btn-cerrar" onclick="cerrar()">Cerrar</button>
-    <!-- Enlace directo tipo <a> — igual que el botón de WhatsApp que funciona -->
-    <a class="btn btn-entrar"
+    <a class="btn-entrar"
        href="https://script.google.com/macros/s/AKfycbybiU5TTvMDNedUC9gev5gh7mmWbZdqGSelDU_gLdypgXr9d5k6olPo1mhCUGqXdcMV/exec"
-       target="_blank"
-       rel="noopener">
-      🌸 &nbsp;Entrar
+       target="_blank" rel="noopener">
+      🌸 &nbsp;Abrir tienda
     </a>
+    <button class="btn-copy" id="btn-copy" onclick="copiarLink()">
+      📋 &nbsp;Copiar link de la tienda
+    </button>
   </div>
 
   <div class="maia-brand">Tienda <span>MAIA</span> &nbsp;|&nbsp; 55 7924 8882</div>
-
 </div>
 
 <script>
-  function cerrar() {
-    if (window.history.length > 1) window.history.back();
-    else window.close();
+  var TIENDA = 'https://script.google.com/macros/s/AKfycbybiU5TTvMDNedUC9gev5gh7mmWbZdqGSelDU_gLdypgXr9d5k6olPo1mhCUGqXdcMV/exec';
+
+  // Generar QR automáticamente
+  new QRCode(document.getElementById('qr'), {
+    text:   TIENDA,
+    width:  160,
+    height: 160,
+    colorDark:  '#4a2c4a',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  function copiarLink() {
+    navigator.clipboard.writeText(TIENDA).then(function() {
+      var btn = document.getElementById('btn-copy');
+      btn.textContent = '✅  ¡Link copiado!';
+      btn.classList.add('copiado');
+      setTimeout(function() {
+        btn.innerHTML = '📋 &nbsp;Copiar link de la tienda';
+        btn.classList.remove('copiado');
+      }, 2500);
+    }).catch(function() {
+      prompt('Copia este link:', TIENDA);
+    });
   }
 </script>
 </body>
