@@ -791,28 +791,13 @@ footer a{color:var(--rosa);text-decoration:none}
 //  En la versión Apps Script estos datos vienen del servidor.
 // ═══════════════════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════════
-//  ⚠️  NOTA PARA CONFIGURAR EN GITHUB PAGES
-//  Si conectas esta página a un backend (Apps Script u otro),
-//  reemplaza la función confirmarPedido() con una llamada fetch()
-//  a tu URL de Apps Script desplegada. Ejemplo:
-//
-//  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
-//  // Pega aquí la URL que obtienes al publicar tu Apps Script como app web.
-//
-//  Por ahora el pedido se envía por WhatsApp automáticamente.
+//  VERSIÓN GITHUB PAGES
+//  Los productos y categorías se cargan desde Apps Script vía fetch.
+//  La URL ya está configurada con tu despliegue real.
 // ═══════════════════════════════════════════════════════════
-var PRODUCTOS = [
-  // Ejemplo — reemplaza con tus productos reales:
-  // { id:1, modulo:'Ramos más vendidos', categoria:'Rosas', descripcion:'Ramo de 12 rosas rojas',
-  //   precio:350, imagen:'https://...', numOpciones:0, opciones:'',
-  //   imagenRef:'', imagenRef2:'', imagenRef3:'', stockSuc1:5, stockSuc2:3 }
-];
-var CATEGORIAS = [
-  // Ejemplo — reemplaza con tus categorías reales:
-  // { id:1, nombre:'Ramos Personalizados', frase:'Diseña tu ramo ideal' },
-  // { id:2, nombre:'Ramos más vendidos',   frase:'Los favoritos de nuestras clientes' },
-  // { id:3, nombre:'Ocasiones',            frase:'Para cada momento especial' }
-];
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6RCMuKXMmYWuViUwaNrBh4cQG-qYX1gkWS9ABUZnqJ1ZuDYi5ZByi007kshEGkbyQ/exec';
+var PRODUCTOS  = [];
+var CATEGORIAS = [];
 // ═══════════════════════════════════════════════════════════
 //  ESTADO GLOBAL
 // ═══════════════════════════════════════════════════════════
@@ -839,6 +824,24 @@ function selSuc(btn, suc) {
   document.getElementById('btn-continuar').disabled = false;
 }
 function entrarTienda() {
+  // VERSIÓN GITHUB: carga productos y categorías desde Apps Script (endpoint JSON con CORS)
+  var btnCont = document.getElementById('btn-continuar');
+  if (btnCont) { btnCont.disabled = true; btnCont.textContent = 'Cargando... ⏳'; }
+
+  fetch(APPS_SCRIPT_URL + '?action=datos', { redirect: 'follow' })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if (data.productos)  PRODUCTOS  = data.productos;
+      if (data.categorias) CATEGORIAS = data.categorias;
+      mostrarTienda();
+    })
+    .catch(function(err){
+      console.warn('fetch datos falló:', err);
+      mostrarTienda(); // mostrar tienda aunque llegue vacía
+    });
+}
+
+function mostrarTienda() {
   actualizarStockEnServidor();
   document.getElementById('pantalla-bienvenida').style.display = 'none';
   document.getElementById('tienda').style.display = 'block';
@@ -847,13 +850,30 @@ function entrarTienda() {
   renderCarrito();
 }
 function actualizarStockEnServidor() {
-  // VERSIÓN GITHUB: sin conexión a Apps Script.
-  // El stock ya viene definido en el arreglo PRODUCTOS arriba.
-  document.querySelectorAll('.prod-stock').forEach(function(el){
-    var id = el.dataset.prodid;
-    var prod = PRODUCTOS.find(function(pr){ return pr.id == parseInt(id); });
-    if (prod) actualizarBadgeStock(id, prod);
-  });
+  // VERSIÓN GITHUB: actualiza stock desde Apps Script vía fetch JSON
+  fetch(APPS_SCRIPT_URL + '?action=stock', { redirect: 'follow' })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if (data.productos) {
+        data.productos.forEach(function(p){
+          var prod = PRODUCTOS.find(function(pr){ return pr.id == p.id; });
+          if (prod) { prod.stockSuc1 = p.stockSuc1; prod.stockSuc2 = p.stockSuc2; }
+        });
+      }
+      document.querySelectorAll('.prod-stock').forEach(function(el){
+        var id = el.dataset.prodid;
+        var prod = PRODUCTOS.find(function(pr){ return pr.id == parseInt(id); });
+        if (prod) actualizarBadgeStock(id, prod);
+      });
+    })
+    .catch(function(){
+      // Si falla, usar stock ya en memoria
+      document.querySelectorAll('.prod-stock').forEach(function(el){
+        var id = el.dataset.prodid;
+        var prod = PRODUCTOS.find(function(pr){ return pr.id == parseInt(id); });
+        if (prod) actualizarBadgeStock(id, prod);
+      });
+    });
 }
 function actualizarBadgeStock(id, prod) {
   var el = document.getElementById('stock-'+id);
