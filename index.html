@@ -1,33 +1,31 @@
-<!-- Busca la etiqueta <script> al final de tu archivo en GitHub y reemplaza desde "DATOS" hasta "ESTADO GLOBAL" -->
-
 <script>
 // ═══════════════════════════════════════════════════════════
-//  DATOS — CARGA DINÁMICA DESDE GOOGLE SHEETS
+//  DATOS DINÁMICOS DESDE GOOGLE SHEETS
 // ═══════════════════════════════════════════════════════════
 var PRODUCTOS  = [];
 var CATEGORIAS = [];
 
-// Reemplaza esta URL con el link que te dé Google al "Implementar"
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwwumevqjnynIbwvHL8Uxyb77c3ZTPe3_M_8rVWr-ZzhPVIoZRzJ_HDiSTfeSCchfQ/exec";
+// URL de tu Web App (La que termina en /exec)
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzdRh-HlFqfZKUTCGnFREEZJf7isGZoOogKyVivpAi-2wOjuY9cvxiQXoVfBBpusZg/exec";
 
-async function sincronizarConGoogleSheets() {
+async function cargarDatosHojas() {
   try {
     const response = await fetch(WEB_APP_URL + "?action=getDatos");
     const data = await response.json();
     PRODUCTOS = data.productos;
     CATEGORIAS = data.categorias;
-    console.log("Sincronización MAIA exitosa.");
-    if (sucursal) construirModulos();
+    console.log("Inventario sincronizado.");
+    if(sucursal) construirModulos();
   } catch (e) {
-    console.error("Error al conectar con el inventario:", e);
+    console.error("Error al conectar con las hojas:", e);
   }
 }
 
-// Carga inicial obligatoria para GitHub Pages
-window.onload = sincronizarConGoogleSheets;
+// Iniciar carga al abrir la página
+window.onload = cargarDatosHojas;
 
 // ═══════════════════════════════════════════════════════════
-//  ESTADO GLOBAL Y LÓGICA (Sin cambios)
+//  ESTADO GLOBAL (Lógica de diseño intacta)
 // ═══════════════════════════════════════════════════════════
 var sucursal     = '';
 var carrito      = [];
@@ -40,5 +38,17 @@ var _galImgs  = [];
 var _galIdx   = 0;
 var SUC_COORDS = { 'Ecatepec': { lat: 19.6094, lng: -99.0350 }, 'Tecámac':  { lat: 19.7143, lng: -98.9716 } };
 
-// ... AQUÍ CONTINÚAN TODAS TUS FUNCIONES: selSuc(), entrarTienda(), construirModulos(), etc.
+function entrarTienda() {
+  // Sincronizar stock antes de mostrar
+  cargarDatosHojas().then(() => {
+    document.getElementById('pantalla-bienvenida').style.display = 'none';
+    document.getElementById('tienda').style.display = 'block';
+    document.getElementById('hero-suc-txt').textContent = sucursal;
+    construirModulos();
+    renderCarrito();
+  });
+}
+
+// IMPORTANTE: Para el envío del pedido, reemplaza la llamada google.script.run en confirmarPedido() por:
+// fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(datos) });
 </script>
