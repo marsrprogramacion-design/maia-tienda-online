@@ -790,7 +790,7 @@ footer a{color:var(--rosa);text-decoration:none}
 //  Los datos se cargan via JSONP en DOMContentLoaded.
 //  URL del despliegue publicado como app web.
 // ═══════════════════════════════════════════════════════════
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxs5-N-uhhrpe77lI-gIZVurxp4XxbS7S8M_jPSZNb6Z2MjeWhdOa82euPlYI8ioXHu/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeS9kyp5UaPLfxeo97I3L5zdqMAPujQUty9fhmV5t1JTyjZg6d59t2ysUy8CosiUYS/exec';
 var PRODUCTOS        = [];
 var CATEGORIAS       = [];
 var _datosListos     = false;
@@ -813,20 +813,44 @@ document.addEventListener('DOMContentLoaded', function() {
   cargarDatos();
 });
 
+var _intentosCarga = 0;
+var _MAX_INTENTOS  = 3;
+
 function cargarDatos() {
+  _intentosCarga++;
+  var ind = document.getElementById('datos-cargando');
+
+  // Limpiar cualquier script JSONP anterior huérfano
+  document.querySelectorAll('script[data-maia-jsonp]').forEach(function(s){ s.remove(); });
+
   var cbName  = 'maiaCallback_' + Date.now();
+  var espera  = 20000; // 20 segundos — Apps Script puede tardar en arrancar
   var timeout = setTimeout(function() {
-    var ind = document.getElementById('datos-cargando');
-    if (ind) { ind.style.color = '#ff9999'; ind.textContent = 'Error al cargar catálogo. Recarga la página.'; }
-    if (window[cbName]) delete window[cbName];
-  }, 12000);
+    delete window[cbName];
+    if (_intentosCarga < _MAX_INTENTOS) {
+      // Reintento automático
+      if (ind) ind.textContent = 'Reintentando... (' + _intentosCarga + '/' + _MAX_INTENTOS + ')';
+      setTimeout(cargarDatos, 2000);
+    } else {
+      // Falló 3 veces — mostrar botón de reintento manual
+      if (ind) {
+        ind.innerHTML =
+          '<span style="color:#ff9999">No se pudo cargar el catálogo.</span><br>' +
+          '<button onclick="window.location.reload()" ' +
+          'style="margin-top:8px;background:rgba(255,255,255,.25);color:#fff;border:1px solid rgba(255,255,255,.5);' +
+          'padding:6px 18px;border-radius:20px;font-size:12px;cursor:pointer;font-family:Arial,sans-serif">' +
+          'Recargar página</button>';
+      }
+    }
+  }, espera);
+
   window[cbName] = function(d) {
     clearTimeout(timeout);
     delete window[cbName];
-    PRODUCTOS    = d.productos  || [];
-    CATEGORIAS   = d.categorias || [];
+    _intentosCarga = 0;
+    PRODUCTOS    = (d && d.productos)  ? d.productos  : [];
+    CATEGORIAS   = (d && d.categorias) ? d.categorias : [];
     _datosListos = true;
-    var ind = document.getElementById('datos-cargando');
     if (ind) ind.remove();
     var btnCont = document.getElementById('btn-continuar');
     if (btnCont) {
@@ -834,12 +858,27 @@ function cargarDatos() {
       if (document.querySelector('.suc-btn.sel')) btnCont.disabled = false;
     }
   };
+
   var s = document.createElement('script');
-  s.src = APPS_SCRIPT_URL + '?action=datos&callback=' + cbName;
+  s.setAttribute('data-maia-jsonp', '1');
+  // Cachebuster para forzar petición fresca en cada intento
+  s.src = APPS_SCRIPT_URL + '?action=datos&callback=' + cbName + '&t=' + Date.now();
   s.onerror = function() {
     clearTimeout(timeout);
-    var ind = document.getElementById('datos-cargando');
-    if (ind) { ind.style.color = '#ff9999'; ind.textContent = 'Error al cargar catálogo. Recarga la página.'; }
+    delete window[cbName];
+    if (_intentosCarga < _MAX_INTENTOS) {
+      if (ind) ind.textContent = 'Reintentando... (' + _intentosCarga + '/' + _MAX_INTENTOS + ')';
+      setTimeout(cargarDatos, 2000);
+    } else {
+      if (ind) {
+        ind.innerHTML =
+          '<span style="color:#ff9999">No se pudo cargar el catálogo.</span><br>' +
+          '<button onclick="window.location.reload()" ' +
+          'style="margin-top:8px;background:rgba(255,255,255,.25);color:#fff;border:1px solid rgba(255,255,255,.5);' +
+          'padding:6px 18px;border-radius:20px;font-size:12px;cursor:pointer;font-family:Arial,sans-serif">' +
+          'Recargar página</button>';
+      }
+    }
   };
   document.head.appendChild(s);
 }
