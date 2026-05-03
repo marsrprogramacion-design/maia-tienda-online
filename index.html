@@ -1,12 +1,10 @@
 <!--
 =======================================================================
-  MAIA — Tienda en Línea  |  Index V12.0
+  MAIA — Tienda en Línea  |  V3.1
   VERSIÓN: GITHUB PAGES
   → Este archivo se sube a GitHub Pages como "index.html"
-  → Funciona standalone en el navegador sin Apps Script
-  → El pedido se envía por WhatsApp al número 55 7924 8882
-  → Edita el arreglo PRODUCTOS y CATEGORIAS en el <script> para
-    mostrar tus productos reales (busca "VERSIÓN GITHUB PAGES")
+  → Funciona standalone: los pedidos se envían por WhatsApp
+  → Productos/categorías se cargan via JSONP desde Apps Script
   → NO uses este archivo en Apps Script
 =======================================================================
 -->
@@ -210,7 +208,7 @@ body{font-family:Georgia,serif;background:var(--crema);color:var(--texto);min-he
 .panel-hdr{display:flex;align-items:center;justify-content:space-between;
   padding:16px 22px;border-bottom:1px solid var(--gris);background:var(--crema)}
 .panel-hdr-titulo{color:var(--viola);font-size:16px;font-weight:700;letter-spacing:1px}
-.panel-close-btn{background:none;border:1.5px solid var(--gris);color:#999;
+.panel-close-btn{background:none;border:1.5px solid var(--gris);color:#555;
   border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:Arial,sans-serif;transition:.2s}
 .panel-close-btn:hover{border-color:var(--rosa);color:var(--viola)}
 
@@ -242,6 +240,9 @@ body{font-family:Georgia,serif;background:var(--crema);color:var(--texto);min-he
 .prod-body{padding:10px 12px;flex:1;display:flex;flex-direction:column}
 .prod-desc{color:var(--texto);font-size:12px;flex:1;margin-bottom:5px;line-height:1.45}
 .prod-precio{color:var(--viola);font-size:15px;font-weight:700;margin-bottom:4px}
+.prod-precio-original{color:#aaa;font-size:12px;text-decoration:line-through;font-weight:400;display:block;line-height:1.2}
+.prod-precio-desc{color:#27ae60;font-size:16px;font-weight:900;display:block;line-height:1.3}
+.prod-badge-desc{display:inline-block;background:#27ae60;color:#fff;font-size:9px;font-family:Arial,sans-serif;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:2px;letter-spacing:1px}
 .prod-stock{font-size:10px;font-family:Arial,sans-serif;font-weight:700;
   padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:6px}
 .prod-stock.disponible{background:#e8f5ee;color:#27ae60}
@@ -311,7 +312,7 @@ body{font-family:Georgia,serif;background:var(--crema);color:var(--texto);min-he
 .wa-modal-body p{color:#666;font-size:13px;font-family:Arial,sans-serif;
   text-align:center;line-height:1.5;margin-bottom:20px}
 .wa-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.wa-btn-cerrar{background:var(--gris);color:#888;border:none;padding:12px;
+.wa-btn-cerrar{background:var(--gris);color:#444;border:none;padding:12px;
   border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:Georgia,serif;transition:.2s}
 .wa-btn-cerrar:hover{background:#e0d0e0;color:var(--viola)}
 .wa-btn-aceptar{background:#25D366;color:#fff;border:none;padding:12px;
@@ -456,7 +457,7 @@ body{font-family:Georgia,serif;background:var(--crema);color:var(--texto);min-he
   font-family:Georgia,serif;cursor:pointer;margin-top:18px;letter-spacing:1px;transition:.2s}
 .btn-confirmar:hover{opacity:.9}
 .btn-back{width:100%;background:rgba(0,0,0,.04);border:1.5px solid var(--gris);
-  color:#888;padding:11px;border-radius:12px;font-size:13px;font-family:Georgia,serif;
+  color:#444;padding:11px;border-radius:12px;font-size:13px;font-family:Georgia,serif;
   cursor:pointer;margin-top:8px;transition:.2s}
 .btn-back:hover{background:var(--gris);color:var(--viola)}
 .btn-limpiar{display:block;width:100%;margin-top:8px;background:transparent;
@@ -474,7 +475,7 @@ body{font-family:Georgia,serif;background:var(--crema);color:var(--texto);min-he
 .confirm-btns{display:flex;gap:10px;justify-content:center}
 .confirm-btns button{flex:1;padding:11px;border-radius:10px;font-size:13px;
   font-weight:700;cursor:pointer;border:none;transition:.2s;font-family:Georgia,serif}
-.btn-no{background:var(--gris);color:#888}.btn-no:hover{background:#e0d0e0}
+.btn-no{background:var(--gris);color:#444;font-weight:700}.btn-no:hover{background:#e0d0e0}
 .btn-si{background:linear-gradient(135deg,var(--violeta),var(--viola));color:#fff}.btn-si:hover{opacity:.9}
 
 .success-box{text-align:center;padding:44px 28px}
@@ -786,16 +787,11 @@ footer a{color:var(--rosa);text-decoration:none}
 
 <script>
 // ═══════════════════════════════════════════════════════════
-//  DATOS — VERSIÓN GITHUB PAGES
-//  Reemplaza estos arreglos con tus productos y categorías reales.
-//  En la versión Apps Script estos datos vienen del servidor.
-// ═══════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════
 //  VERSIÓN GITHUB PAGES
-//  Conexión a Apps Script via JSONP (mismo patrón que maia-whatsapp).
-//  La URL apunta al despliegue publicado como app web.
+//  Productos y categorías se cargan via JSONP desde Apps Script.
+//  URL del despliegue publicado como app web (Anyone, ejecutar como Yo).
 // ═══════════════════════════════════════════════════════════
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxpugGyYkdCYQSpl1rpUL2N3NdcLJ0WYCMuNVc7v5eB4uINCHkczueCO72fQjLu_2tc/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqmN0x3jp9WWtvwZNfc5o0tifLDf-5xAbD-BbDCVITFSPgAy73fDpp-qzEeNtZP-o-/exec';
 var PRODUCTOS  = [];
 var CATEGORIAS = [];
 
@@ -805,11 +801,10 @@ function cargarDatosJSONP() {
     var callbackName = 'maiaCallback_' + Date.now();
     var script = document.createElement('script');
     var timeout = setTimeout(function() {
-      // Si tarda más de 8 segundos, continúa sin datos
       delete window[callbackName];
-      document.body.removeChild(script);
+      try { document.body.removeChild(script); } catch(e){}
       resolve();
-    }, 8000);
+    }, 10000);
     window[callbackName] = function(data) {
       clearTimeout(timeout);
       delete window[callbackName];
@@ -897,8 +892,14 @@ function actualizarBadgeStock(id, prod) {
 function abrirWA() { document.getElementById('wa-modal').classList.add('open'); }
 function cerrarWA() { document.getElementById('wa-modal').classList.remove('open'); }
 function aceptarWA() {
-  var d = JSON.stringify({ sucursal: sucursal, notas: 'Contacto via WhatsApp desde tienda' });
-  // VERSIÓN GITHUB: registro de contacto WA deshabilitado (sin Apps Script).
+  // VERSIÓN GITHUB: registrar contacto WA via POST no-cors (igual que maia-whatsapp)
+  var payload = { sucursal: sucursal, notas: 'Contacto via WhatsApp desde tienda GitHub' };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(function(e){ console.warn('WA registro:', e); });
   cerrarWA();
   window.open('https://api.whatsapp.com/send?phone=5215579248882&text=Hola!!%20Estoy%20interesada%20en%20un%20arreglo%20de%20flores%F0%9F%92%90y%2Fo%20globos%F0%9F%8E%88%E2%80%A6','_blank');
 }
@@ -1102,7 +1103,15 @@ function buildPanelProductos(catNombre, catIdx) {
 }
 function buildProdCard(p, catNombre) {
   var img    = p.imagen || 'https://i.postimg.cc/8zL8DB99/MAIA.jpg';
-  var precio = p.precio > 0 ? '$' + p.precio.toFixed(2) : 'Por cotizar';
+  // Cambio 3: precio con descuento
+  var precioHtml;
+  if (p.tieneDescuento && p.precioConDesc > 0) {
+    precioHtml = '<span class="prod-precio-original">$' + Number(p.precio).toFixed(2) + '</span>' +
+                 '<span class="prod-precio-desc">$' + Number(p.precioConDesc).toFixed(2) + '</span>' +
+                 '<span class="prod-badge-desc">✓ Con descuento</span>';
+  } else {
+    precioHtml = p.precio > 0 ? '$' + Number(p.precio).toFixed(2) : 'Por cotizar';
+  }
   var esOcasion = catNombre === 'Ocasiones';
   var stockVal = sucursal === 'Ecatepec' ? (p.stockSuc1||0) : (p.stockSuc2||0);
   var stockTxt = stockVal > 0
@@ -1134,7 +1143,7 @@ function buildProdCard(p, catNombre) {
     '</div>'+
     '<div class="prod-body">'+
       '<div class="prod-desc">'+p.descripcion+'</div>'+
-      '<div class="prod-precio">'+precio+'</div>'+
+      '<div class="prod-precio">'+precioHtml+'</div>'+
       stockHtml+
       opcsHtml+
       '<div class="prod-footer">'+
@@ -1169,7 +1178,8 @@ function changeQty(id, delta) {
   if (idx >= 0) {
     var p = PRODUCTOS.find(function(pr){ return pr.id == id; });
     carrito[idx].cantidad = nuevo;
-    carrito[idx].precio   = p && p.precio > 0 ? p.precio * nuevo : 0;
+    var pFinal = (p && p.tieneDescuento && p.precioConDesc > 0) ? p.precioConDesc : (p ? p.precio : 0);
+    carrito[idx].precio   = pFinal > 0 ? pFinal * nuevo : 0;
     renderCarrito();
   }
 }
@@ -1182,7 +1192,8 @@ function quitarProd(id) {
     if (idx >= 0) {
       var p = PRODUCTOS.find(function(pr){ return pr.id == id; });
       carrito[idx].cantidad = qty - 1;
-      carrito[idx].precio   = p && p.precio > 0 ? p.precio * (qty - 1) : 0;
+      var pFinalQ = (p && p.tieneDescuento && p.precioConDesc > 0) ? p.precioConDesc : (p ? p.precio : 0);
+      carrito[idx].precio   = pFinalQ > 0 ? pFinalQ * (qty - 1) : 0;
       renderCarrito();
     }
     return;
@@ -1205,8 +1216,14 @@ function confirmarProd(id, catNombre, numOpc, opcionesStr) {
     });
   }
   var existe = carrito.findIndex(function(it){ return it._prodId == id; });
+  // Cambio 3: incluir datos de descuento en el ítem del carrito
+  var precioFinal = (p.tieneDescuento && p.precioConDesc > 0) ? p.precioConDesc : p.precio;
   var item = { _prodId:id, tipo:catNombre, descripcion:p.descripcion,
-    precio: p.precio>0?p.precio*qty:0, precioUnit:p.precio, cantidad:qty,
+    precio: precioFinal>0 ? precioFinal*qty : 0,
+    precioUnit: precioFinal, precioOriginal: p.precio,
+    tieneDescuento: p.tieneDescuento || false,
+    precioConDesc: p.precioConDesc || 0,
+    cantidad:qty,
     imagen:p.imagen, personalizacion:null, opcionesElegidas:opcsElegidas };
   if (existe >= 0) carrito[existe] = item; else carrito.push(item);
   var card = document.getElementById('prodcard-'+id);
@@ -1263,8 +1280,14 @@ function renderCarrito() {
     }
     if(item.opcionesElegidas && item.opcionesElegidas.length)
       det+='<div class="ci-detalle">'+item.opcionesElegidas.join(' | ')+'</div>';
+    // Cambio 3: mostrar descuento en carrito
     var pTxt = item.precio>0?'$'+item.precio.toFixed(2):'Por cotizar';
-    var qtyPrecio = item.precioUnit>0 ? '<div class="ci-qty-precio">x'+item.cantidad+' × $'+item.precioUnit.toFixed(2)+'</div>' : '';
+    var qtyPrecio = '';
+    if (item.tieneDescuento && item.precioConDesc > 0) {
+      qtyPrecio = '<div class="ci-qty-precio">x'+item.cantidad+' × <span style="text-decoration:line-through;color:#bbb">$'+Number(item.precioOriginal).toFixed(2)+'</span> <span style="color:#27ae60;font-weight:700">$'+Number(item.precioConDesc).toFixed(2)+'</span></div>';
+    } else if (item.precioUnit > 0) {
+      qtyPrecio = '<div class="ci-qty-precio">x'+item.cantidad+' × $'+Number(item.precioUnit).toFixed(2)+'</div>';
+    }
     return '<div class="cart-item">'+
       '<img class="ci-img" src="'+(item.imagen||'')+'" alt="" onerror="this.src=\'https://i.postimg.cc/8zL8DB99/MAIA.jpg\'">'+
       '<div class="ci-info"><div class="ci-tipo">'+item.tipo+'</div>'+
@@ -1421,7 +1444,21 @@ function abrirCheckout() {
     '<button class="btn-back" onclick="cerrarCheckout();abrirCarrito()">← Regresar a Mi pedido</button>'+
     (recogerEnTienda?'':'<button class="btn-limpiar" onclick="pedirConfirmLimpiar()">Limpiar datos de envío</button>');
   document.getElementById('modal-checkout').classList.add('open');
-  setTimeout(function(){ carrito.forEach(function(_,idx){ actualizarDirEnvioProd(idx); }); }, 120);
+  setTimeout(function(){
+    carrito.forEach(function(_, idx){ actualizarDirEnvioProd(idx); });
+    // CAMBIO: pre-llenar fechas desde Ramos Personalizados si el usuario las llenó
+    carrito.forEach(function(item, idx) {
+      if (item.tipo === 'Ramos Personalizados' && item.personalizacion && item.personalizacion.fechaEntrega) {
+        var fecha = item.personalizacion.fechaEntrega;
+        // Campo recoger en sucursal
+        var elRecoger = document.getElementById('ch-fecha-entrega');
+        if (elRecoger && !elRecoger.value) elRecoger.value = fecha;
+        // Campo fecha de entrega por producto (envío)
+        var elEp = document.getElementById('ep-fecha-' + idx);
+        if (elEp && !elEp.value) elEp.value = fecha;
+      }
+    });
+  }, 120);
 }
 function actualizarDirEnvioProd(idx) {
   var get = function(id){ var e=document.getElementById(id); return e?e.value.trim():''; };
@@ -1615,34 +1652,35 @@ function confirmarPedido() {
     enviosPorProducto:enviosProd
   };
   document.getElementById('loader').classList.add('show');
-  // VERSIÓN GITHUB: registra el pedido en Apps Script via POST no-cors
-  // (mismo patrón probado en maia-whatsapp) y luego redirige a WhatsApp.
+
+  // VERSIÓN GITHUB: enviar pedido a Apps Script via POST no-cors
   var idPedidoGH = 'GH-' + new Date().getTime();
 
-  // Construir resumen para WhatsApp
-  var msgWA = encodeURIComponent('🌸 *Nuevo Pedido MAIA* — ' + idPedidoGH + '\n');
-  msgWA += encodeURIComponent('📍 Sucursal: ' + datos.sucursal + '\n');
-  msgWA += encodeURIComponent('👤 ' + datos.nombre + ' | 📱 ' + datos.telefono + '\n');
-  msgWA += encodeURIComponent('📧 ' + datos.email + '\n');
-  msgWA += encodeURIComponent('💳 Pago: ' + datos.tipoPago + '\n');
-  msgWA += encodeURIComponent(datos.recogerEnTienda ? '🏪 Recoger en tienda\n' : '🚗 Envío a domicilio\n');
-  msgWA += encodeURIComponent('\n🛒 Pedido:\n');
+  // Construir mensaje WhatsApp
+  var msgWA = encodeURIComponent('🌸 Nuevo Pedido MAIA — ' + idPedidoGH + '\n');
+  msgWA += encodeURIComponent('Sucursal: ' + datos.sucursal + '\n');
+  msgWA += encodeURIComponent('Nombre: ' + datos.nombre + ' | Tel: ' + datos.telefono + '\n');
+  msgWA += encodeURIComponent('Email: ' + datos.email + '\n');
+  msgWA += encodeURIComponent('Pago: ' + datos.tipoPago + '\n');
+  msgWA += encodeURIComponent(datos.recogerEnTienda ? 'Recoger en tienda\n' : 'Envio a domicilio\n');
+  msgWA += encodeURIComponent('\nPedido:\n');
   datos.carrito.forEach(function(it){
     msgWA += encodeURIComponent('• ' + it.descripcion + ' x' + it.cantidad);
     msgWA += encodeURIComponent(it.precio > 0 ? ' — $' + it.precio.toFixed(2) : ' — Por cotizar');
     msgWA += encodeURIComponent('\n');
     if (it.tipo === 'Ramos Personalizados' && it.personalizacion) {
       var p = it.personalizacion;
-      if (p.ocasion)     msgWA += encodeURIComponent('  Ocasión: '     + p.ocasion     + '\n');
+      if (p.ocasion)     msgWA += encodeURIComponent('  Ocasion: '     + p.ocasion     + '\n');
       if (p.flores)      msgWA += encodeURIComponent('  Flores: '      + p.flores      + '\n');
       if (p.presupuesto) msgWA += encodeURIComponent('  Presupuesto: ' + p.presupuesto + '\n');
+      if (p.fechaEntrega)msgWA += encodeURIComponent('  Fecha: '       + p.fechaEntrega+ '\n');
     }
   });
   if (!datos.recogerEnTienda && datos.dirEnvio)
-    msgWA += encodeURIComponent('\n📍 Dir: ' + datos.dirEnvio + '\n');
+    msgWA += encodeURIComponent('\nDir: ' + datos.dirEnvio + '\n');
 
-  // Enviar a Apps Script via POST no-cors (igual que maia-whatsapp — funciona)
-  var payload = {
+  // POST no-cors a Apps Script (guarda en hojas 9 PEDIDOS y 15 CONTACTO, envía correo PDF)
+  var payloadGH = {
     sucursal:   datos.sucursal,
     nombre:     datos.nombre,
     telefono:   datos.telefono,
@@ -1650,15 +1688,17 @@ function confirmarPedido() {
     tipoPago:   datos.tipoPago,
     recoger:    datos.recogerEnTienda,
     idPedido:   idPedidoGH,
-    notas:      'Pedido desde GitHub Tienda MAIA — ' + idPedidoGH,
+    notas:      'Pedido desde GitHub Tienda MAIA',
     carrito:    JSON.stringify(datos.carrito),
-    dirEnvio:   datos.dirEnvio || ''
+    dirEnvio:   datos.dirEnvio  || '',
+    dedicatoria: datos.dedicatoria || '',
+    fechaEntrega: datos.fechaEntrega || ''
   };
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payloadGH)
   }).catch(function(e){ console.warn('POST pedido:', e); });
 
   document.getElementById('loader').classList.remove('show');
@@ -1691,10 +1731,10 @@ function confirmarPedido() {
   else if (datos.tipoPago === 'Link Mercado Pago') mostrarInfoPago('mp');
   else if (datos.tipoPago === 'Transferencia') mostrarInfoPago('transferencia');
 
-  // Abrir WhatsApp con el resumen del pedido
+  // Abrir WhatsApp con el resumen
   setTimeout(function(){
     window.open('https://api.whatsapp.com/send?phone=5215579248882&text=' + msgWA, '_blank');
-  }, 800);
+  }, 900);
 }
 // ═══════════════════════════════════════════════════════════
 //  MODALES DE PAGO — CAMBIO: textos actualizados + cierre con ESC
