@@ -1,1865 +1,3573 @@
-<!--
-=======================================================================
-  MAIA — Tienda en Línea  |  Index V12.0
-  VERSIÓN: APPS SCRIPT
-  → Este archivo va en Google Apps Script como archivo "Index.html"
-  → NO funciona si se abre directamente en el navegador
-  → Requiere Codigo.gs en el mismo proyecto de Apps Script
-=======================================================================
--->
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-<!-- CAMBIO: Tipografía Florania para encabezados MAIA -->
-<style>
-@font-face {
-  font-family: 'Florania';
-  src: url('https://fonts.cdnfonts.com/s/91496/Florania.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
-/* CAMBIO: Clase maia-font ahora usa Florania */
-.maia-font{font-family:'Florania','Playfair Display',Georgia,serif;font-weight:normal;letter-spacing:4px}
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+<style>
+
+/* V4.1: Clase Bodoni/Didot para el nombre MAIA */
+
+.maia-font{font-family:'Cormorant Garamond','Playfair Display',Georgia,serif;font-weight:900;letter-spacing:5px}
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  --rosa:#c8a0c8; --viola:#7b4f7b; --violeta:#4a2c4a;
-  --crema:#faf5fb; --gris:#f0e8f5; --texto:#4a2c4a;
-  --verde:#27ae60; --oro:#d4a017; --radio:14px;
+
+--rosa:#c8a0c8; --viola:#7b4f7b; --violeta:#4a2c4a;
+
+--crema:#faf5fb; --gris:#f0e8f5; --texto:#4a2c4a;
+
+--verde:#27ae60; --oro:#d4a017; --radio:14px;
+
 }
 
 body{font-family:Georgia,serif;background:var(--crema);color:var(--texto);min-height:100vh}
 
 ::-webkit-scrollbar{width:5px}
+
 ::-webkit-scrollbar-thumb{background:var(--rosa);border-radius:3px}
 
 /* ── NAVBAR ─────────────────────────────────────────────── */
+
 .navbar{background:var(--violeta);height:64px;padding:0 20px;position:sticky;top:0;z-index:200;
-  display:flex;align-items:center;justify-content:space-between;
-  box-shadow:0 2px 20px rgba(74,44,74,.55)}
+
+display:flex;align-items:center;justify-content:space-between;
+
+box-shadow:0 2px 20px rgba(74,44,74,.55)}
 
 .nb-left{display:flex;align-items:center;gap:10px}
+
 .nb-left img{height:42px;border-radius:50%;border:2px solid rgba(200,160,200,.5)}
+
 .nb-brand{color:#fff;font-size:15px;letter-spacing:2px}
 
 .cart-btn{background:var(--rosa);color:var(--violeta);border:none;padding:9px 16px;
-  border-radius:24px;font-weight:700;font-size:13px;cursor:pointer;
-  display:flex;align-items:center;gap:7px;transition:.2s;font-family:Georgia,serif}
+
+border-radius:24px;font-weight:700;font-size:13px;cursor:pointer;
+
+display:flex;align-items:center;gap:7px;transition:.2s;font-family:Georgia,serif}
+
 .cart-btn:hover{background:#d9b3d9;transform:translateY(-1px)}
+
 .cart-count{background:var(--violeta);color:#fff;border-radius:50%;
-  width:20px;height:20px;font-size:11px;font-weight:700;
-  display:flex;align-items:center;justify-content:center}
+
+width:20px;height:20px;font-size:11px;font-weight:700;
+
+display:flex;align-items:center;justify-content:center}
 
 /* ── BIENVENIDA ─────────────────────────────────────────── */
+
 #pantalla-bienvenida{min-height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  background:linear-gradient(160deg,var(--violeta) 0%,#6e3f6e 40%,#9c6f9c 80%,var(--rosa) 100%);
-  padding:40px 24px;text-align:center}
+
+align-items:center;justify-content:center;
+
+background:linear-gradient(160deg,var(--violeta) 0%,#6e3f6e 40%,#9c6f9c 80%,var(--rosa) 100%);
+
+padding:40px 24px;text-align:center}
 
 .bv-logo{width:130px;height:130px;border-radius:50%;border:4px solid rgba(255,255,255,.4);
-  object-fit:cover;margin-bottom:20px;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+
+object-fit:cover;margin:0 auto 20px;display:block;box-shadow:0 8px 32px rgba(0,0,0,.3)}
 
 .bv-tag{display:inline-block;background:rgba(255,255,255,.15);color:#fff;
-  border:1px solid rgba(255,255,255,.4);padding:5px 20px;border-radius:20px;
-  font-size:12px;font-family:Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 
-.bv-titulo{color:#fff;font-size:clamp(26px,6vw,50px);letter-spacing:4px;margin-bottom:6px;font-family:'Florania','Playfair Display',Georgia,serif;font-weight:normal}
+border:1px solid rgba(255,255,255,.4);padding:5px 20px;border-radius:20px;
+
+font-size:12px;font-family:Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+
+.bv-titulo{color:#fff;font-size:clamp(26px,6vw,50px);letter-spacing:5px;margin-bottom:6px;font-family:'Cormorant Garamond','Playfair Display',Georgia,serif;font-weight:900}
 
 .bv-sub{color:rgba(255,255,255,.8);font-size:14px;margin-bottom:28px}
 
 .bv-box{background:rgba(255,255,255,.12);backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.25);border-radius:20px;
-  padding:28px 30px;max-width:420px;width:100%}
+
+border:1px solid rgba(255,255,255,.25);border-radius:20px;
+
+padding:28px 30px;max-width:420px;width:100%}
 
 .bv-box h3{color:#fff;font-size:15px;font-family:Arial,sans-serif;letter-spacing:1px;margin-bottom:18px}
 
 /* V4: solo 2 sucursales */
+
 .suc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 
 .suc-btn{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.3);
-  color:#fff;padding:14px 12px;border-radius:12px;font-size:14px;
-  font-family:Georgia,serif;cursor:pointer;transition:.25s;letter-spacing:.5px;
-  text-align:left;vertical-align:top}
+
+color:#fff;padding:14px 12px;border-radius:12px;font-size:14px;
+
+font-family:Georgia,serif;cursor:pointer;transition:.25s;letter-spacing:.5px;
+
+text-align:left;vertical-align:top}
+
 .suc-btn:hover{background:rgba(200,160,200,.3);border-color:rgba(255,255,255,.7)}
+
 .suc-btn.sel{background:rgba(39,174,96,.25);border-color:#27ae60;box-shadow:0 0 0 3px rgba(39,174,96,.35)}
 
+/* V4: leyenda de envíos + mapa */
+
 .bv-envios-txt{color:rgba(255,255,255,.82);font-size:11px;font-family:Arial,sans-serif;
-  line-height:1.6;margin-bottom:10px;text-align:left}
+
+line-height:1.6;margin-bottom:10px;text-align:left}
 
 .bv-mapa-btn{display:inline-flex;align-items:center;gap:5px;color:#fff;
-  background:rgba(255,255,255,.28);border:2px solid rgba(255,255,255,.7);
-  padding:7px 18px;border-radius:20px;font-size:12px;font-family:Arial,sans-serif;
-  font-weight:700;cursor:pointer;transition:.2s;margin-bottom:14px;letter-spacing:.5px}
+
+background:rgba(255,255,255,.28);border:2px solid rgba(255,255,255,.7);
+
+padding:7px 18px;border-radius:20px;font-size:12px;font-family:Arial,sans-serif;
+
+font-weight:700;cursor:pointer;transition:.2s;margin-bottom:14px;letter-spacing:.5px}
+
 .bv-mapa-btn:hover{background:rgba(255,255,255,.45)}
 
 .btn-continuar{background:var(--rosa);color:var(--violeta);border:none;
-  padding:14px 36px;border-radius:30px;font-size:15px;font-weight:700;
-  cursor:pointer;width:100%;font-family:Georgia,serif;letter-spacing:1px;transition:.2s}
+
+padding:14px 36px;border-radius:30px;font-size:15px;font-weight:700;
+
+cursor:pointer;width:100%;font-family:Georgia,serif;letter-spacing:1px;transition:.2s}
+
 .btn-continuar:hover{background:#d9b3d9}
+
 .btn-continuar:disabled{opacity:.4;cursor:not-allowed}
 
 /* ── HERO ────────────────────────────────────────────────── */
+
 .hero{background:linear-gradient(135deg,var(--violeta) 0%,#6e3f6e 55%,#9c6f9c 100%);
-  padding:60px 24px 44px;text-align:center;position:relative;overflow:hidden}
+
+padding:60px 24px 44px;text-align:center;position:relative;overflow:hidden}
+
 .hero::before{content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 25% 50%,rgba(200,160,200,.15) 0%,transparent 60%)}
-.hero-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center}
+
+background:radial-gradient(ellipse at 25% 50%,rgba(200,160,200,.15) 0%,transparent 60%)}
+
+.hero-in{position:relative;z-index:1}
+
 .hero-logo{width:80px;height:80px;border-radius:50%;border:3px solid rgba(255,255,255,.4);
-  object-fit:cover;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto}
+
+object-fit:cover;margin:0 auto 14px;display:block}
+
 .hero-tag{display:inline-block;background:rgba(200,160,200,.2);color:var(--rosa);
-  border:1px solid rgba(200,160,200,.4);padding:4px 16px;border-radius:20px;
-  font-size:11px;font-family:Arial,sans-serif;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+
+border:1px solid rgba(200,160,200,.4);padding:4px 16px;border-radius:20px;
+
+font-size:11px;font-family:Arial,sans-serif;font-weight:700;
+
+letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+
 .hero h1{color:#fff;font-size:clamp(20px,5vw,40px);letter-spacing:4px}
+
 .hero h2{color:rgba(255,255,255,.75);font-size:clamp(13px,2.5vw,18px);font-weight:400;margin-top:8px}
+
 .hero-suc-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+
 .hero-suc{display:inline-block;background:rgba(255,255,255,.15);color:#fff;
-  padding:5px 18px;border-radius:20px;font-size:13px;font-family:Arial,sans-serif}
+
+padding:5px 18px;border-radius:20px;font-size:13px;font-family:Arial,sans-serif}
+
 .btn-wa{display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;
-  border:none;padding:6px 14px;border-radius:20px;font-size:13px;font-family:Arial,sans-serif;
-  font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.5px}
+
+border:none;padding:6px 14px;border-radius:20px;font-size:13px;font-family:Arial,sans-serif;
+
+font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.5px}
+
 .btn-wa:hover{background:#1da851;transform:translateY(-1px)}
+
 .wa-icon{width:16px;height:16px;fill:#fff;flex-shrink:0}
 
 /* ── SECCIÓN MÓDULOS ─────────────────────────────────────── */
+
 .sec-modulos{max-width:1200px;margin:0 auto;padding:40px 20px 20px}
+
 .sec-titulo{text-align:center;margin-bottom:28px}
+
 .sec-titulo h3{color:var(--viola);font-size:20px;letter-spacing:2px}
+
 .sec-titulo p{color:#999;font-size:13px;margin-top:5px;font-family:Arial,sans-serif}
+
 .mods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-@media(max-width:768px){.mods-grid{grid-template-columns:1fr}}
+
+@media(max-width:900px){.mods-grid{grid-template-columns:repeat(2,1fr)}} @media(max-width:600px){.mods-grid{grid-template-columns:1fr}}
 
 .mod-card{background:#fff;border:2px solid var(--gris);border-radius:var(--radio);
-  overflow:hidden;transition:.3s;display:flex;flex-direction:column;position:relative}
+
+overflow:hidden;transition:.3s;display:flex;flex-direction:column;position:relative}
+
 .mod-card:hover{border-color:var(--rosa);transform:translateY(-4px);
-  box-shadow:0 12px 40px rgba(200,160,200,.2)}
+
+box-shadow:0 12px 40px rgba(200,160,200,.2)}
+
 .mod-badge{position:absolute;top:14px;right:14px;z-index:2;
-  background:var(--viola);color:#fff;padding:4px 12px;
-  border-radius:20px;font-size:11px;font-weight:700;font-family:Arial,sans-serif;letter-spacing:1px}
-.mod-img-wrap{height:200px;overflow:hidden;background:var(--gris);position:relative;flex-shrink:0}
-.mod-img-wrap img{width:100%;height:100%;object-fit:cover;transition:.4s}
+
+background:var(--viola);color:#fff;padding:4px 12px;
+
+border-radius:20px;font-size:11px;font-weight:700;font-family:Arial,sans-serif;letter-spacing:1px}
+
+.mod-img-wrap{height:200px;overflow:hidden;background:linear-gradient(135deg,var(--violeta) 0%,#6e3f6e 55%,#9c6f9c 100%);position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+
+.mod-img-wrap img{width:100%;height:100%;object-fit:contain;background:linear-gradient(135deg,var(--violeta) 0%,#6e3f6e 55%,#9c6f9c 100%);transition:.4s;padding:10px}
+
 .mod-card:hover .mod-img-wrap img{transform:scale(1.05)}
+
 .mod-img-wrap::after{content:'';position:absolute;inset:0;
-  background:linear-gradient(to top,#fff,transparent 55%)}
+
+background:linear-gradient(to top,#fff,transparent 55%)}
+
 .mod-body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+
 .mod-nombre{color:var(--viola);font-size:20px;font-weight:700;letter-spacing:1px}
+
 .mod-desc{color:#888;font-size:13px;margin-top:5px;line-height:1.55;font-family:Arial,sans-serif}
+
 .mod-btn{width:100%;margin-top:16px;border:none;padding:13px;border-radius:10px;
-  font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;
-  transition:.2s;font-family:Georgia,serif}
+
+font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;
+
+transition:.2s;font-family:Georgia,serif}
+
 .mod-btn-violeta{background:linear-gradient(135deg,var(--violeta),var(--viola));color:#fff}
+
 .mod-btn-violeta:hover{opacity:.88;transform:translateY(-1px)}
+
 .mod-btn-rosa{background:linear-gradient(135deg,var(--viola),var(--rosa));color:#fff}
+
 .mod-btn-rosa:hover{opacity:.88;transform:translateY(-1px)}
 
 .panel-full-row{
-  grid-column:1 / -1;background:#fff;border:2px solid var(--rosa);
-  border-radius:var(--radio);overflow:hidden;display:none;
-  box-shadow:0 8px 32px rgba(200,160,200,.18);}
+
+grid-column:1 / -1;background:#fff;border:2px solid var(--rosa);
+
+border-radius:var(--radio);overflow:hidden;display:none;
+
+box-shadow:0 8px 32px rgba(200,160,200,.18);}
+
 .panel-full-row.open{display:block}
 
 /* ── FORMULARIO PERSONALIZADO ───────────────────────────── */
+
 .form-personal-wrap{padding:22px}
+
 .fp-item{margin-bottom:16px}
+
 .fp-item label{display:block;color:var(--viola);font-size:13px;
-  font-family:Arial,sans-serif;margin-bottom:6px;font-weight:bold;letter-spacing:.4px}
+
+font-family:Arial,sans-serif;margin-bottom:6px;font-weight:bold;letter-spacing:.4px}
+
 .fp-item select,.fp-item input[type=text],.fp-item input[type=date],.fp-item textarea{
-  width:100%;padding:10px 13px;border:1.5px solid var(--gris);border-radius:10px;
-  font-size:14px;font-family:Georgia,serif;color:var(--texto);background:#fff;transition:.2s}
+
+width:100%;padding:10px 13px;border:1.5px solid var(--gris);border-radius:10px;
+
+font-size:14px;font-family:Georgia,serif;color:var(--texto);background:#fff;transition:.2s}
+
 .fp-item select:focus,.fp-item input:focus,.fp-item textarea:focus{
-  outline:none;border-color:var(--rosa);box-shadow:0 0 0 3px rgba(200,160,200,.2)}
+
+outline:none;border-color:var(--rosa);box-shadow:0 0 0 3px rgba(200,160,200,.2)}
+
 .fp-guia{display:inline-flex;align-items:center;gap:5px;color:var(--viola);
-  font-size:12px;font-family:Arial,sans-serif;cursor:pointer;margin-top:5px;
-  background:var(--gris);padding:4px 12px;border-radius:20px;border:none;transition:.2s}
+
+font-size:12px;font-family:Arial,sans-serif;cursor:pointer;margin-top:5px;
+
+background:var(--gris);padding:4px 12px;border-radius:20px;border:none;transition:.2s}
+
 .fp-guia:hover{background:var(--rosa);color:#fff}
+
 .fp-img-upload{margin-top:8px;display:none}
+
 .fp-img-upload.show{display:block}
+
 .fp-img-upload input{width:100%;padding:8px;border:1.5px dashed var(--rosa);
-  border-radius:8px;font-size:13px;font-family:Arial,sans-serif}
+
+border-radius:8px;font-size:13px;font-family:Arial,sans-serif}
+
 .pi-card{background:var(--crema);border:1.5px solid var(--gris);border-radius:10px;
-  padding:16px;margin-bottom:12px;position:relative}
+
+padding:16px;margin-bottom:12px;position:relative}
+
 .pi-titulo{color:var(--viola);font-size:14px;font-weight:bold;margin-bottom:4px;
-  border-bottom:1px solid var(--gris);padding-bottom:6px}
+
+border-bottom:1px solid var(--gris);padding-bottom:6px}
+
+/* V4: leyenda autor junto al título */
+
 .pi-autor-txt{font-size:14px;color:#7b4f7b;font-family:Georgia,serif;
-  line-height:1.6;margin-bottom:14px;margin-top:6px;font-style:italic;font-weight:500}
+
+line-height:1.6;margin-bottom:14px;margin-top:6px;font-style:italic;font-weight:500}
+
 .pi-remove{position:absolute;top:10px;right:10px;background:none;border:none;
-  color:#ccc;font-size:18px;cursor:pointer}
+
+color:#ccc;font-size:18px;cursor:pointer}
+
 .pi-remove:hover{color:#e74c3c}
+
+/* V4: aviso anticipación ramos */
+
 .ramos-aviso{background:#fff8e1;border:1px solid #f0c040;border-radius:10px;
-  padding:10px 16px;margin:0 22px 16px;font-size:12px;color:#7a5c00;
-  font-family:Arial,sans-serif;text-align:center;font-weight:bold}
+
+padding:10px 16px;margin:0 22px 16px;font-size:12px;color:#7a5c00;
+
+font-family:Arial,sans-serif;text-align:center;font-weight:bold}
+
 .btn-add-personal{background:none;border:2px dashed var(--rosa);color:var(--viola);
-  padding:10px 20px;border-radius:30px;font-size:13px;cursor:pointer;
-  font-family:Georgia,serif;margin:14px 22px 0;transition:.2s;display:block}
+
+padding:10px 20px;border-radius:30px;font-size:13px;cursor:pointer;
+
+font-family:Georgia,serif;margin:14px 22px 0;transition:.2s;display:block}
+
 .btn-add-personal:hover{background:var(--crema);border-color:var(--viola)}
+
 .btn-add-carrito-p{background:linear-gradient(135deg,var(--violeta),var(--viola));
-  color:#fff;border:none;padding:13px 28px;border-radius:30px;font-size:14px;
-  cursor:pointer;font-family:Georgia,serif;margin:16px 22px 22px;
-  display:block;transition:.2s}
+
+color:#fff;border:none;padding:13px 28px;border-radius:30px;font-size:14px;
+
+cursor:pointer;font-family:Georgia,serif;margin:16px 22px 22px;
+
+display:block;transition:.2s}
+
 .btn-add-carrito-p:hover{opacity:.88}
 
 .panel-hdr{display:flex;align-items:center;justify-content:space-between;
-  padding:16px 22px;border-bottom:1px solid var(--gris);background:var(--crema)}
+
+padding:16px 22px;border-bottom:1px solid var(--gris);background:var(--crema)}
+
 .panel-hdr-titulo{color:var(--viola);font-size:16px;font-weight:700;letter-spacing:1px}
-.panel-close-btn{background:none;border:1.5px solid var(--gris);color:#555;
-  border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:Arial,sans-serif;transition:.2s}
+
+.panel-close-btn{background:none;border:1.5px solid var(--gris);color:#999;
+
+border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:Arial,sans-serif;transition:.2s}
+
 .panel-close-btn:hover{border-color:var(--rosa);color:var(--viola)}
 
 .subcats{display:flex;flex-wrap:wrap;gap:8px;padding:16px 22px 0}
+
 .subcat-btn{background:#fff;border:1.5px solid var(--gris);color:#888;
-  padding:6px 16px;border-radius:20px;font-size:12px;font-family:Arial,sans-serif;
-  cursor:pointer;transition:.2s}
+
+padding:6px 16px;border-radius:20px;font-size:12px;font-family:Arial,sans-serif;
+
+cursor:pointer;transition:.2s}
+
 .subcat-btn:hover{border-color:var(--rosa);color:var(--viola)}
+
 .subcat-btn.active{background:var(--rosa);border-color:var(--rosa);color:#fff;font-weight:700}
+
 .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:16px 22px 22px}
+
 @media(max-width:900px){.prod-grid{grid-template-columns:repeat(3,1fr)}}
+
 @media(max-width:600px){.prod-grid{grid-template-columns:repeat(2,1fr)}}
 
 .prod-card{background:#fff;border:2px solid var(--gris);border-radius:10px;
-  overflow:hidden;transition:.25s;display:flex;flex-direction:column;position:relative}
+
+overflow:hidden;transition:.25s;display:flex;flex-direction:column;position:relative}
+
 .prod-card:hover{border-color:var(--rosa);box-shadow:0 8px 28px rgba(200,160,200,.22)}
+
 .prod-card.confirmado{border-color:var(--verde);background:#f0fff4}
+
 .prod-card.confirmado .prod-check{display:flex}
+
 .prod-check{display:none;position:absolute;top:8px;right:8px;
-  background:var(--verde);color:#fff;border-radius:50%;
-  width:26px;height:26px;align-items:center;justify-content:center;
-  font-size:14px;font-weight:700;z-index:3}
+
+background:var(--verde);color:#fff;border-radius:50%;
+
+width:26px;height:26px;align-items:center;justify-content:center;
+
+font-size:14px;font-weight:700;z-index:3}
+
 .prod-img-w{height:150px;overflow:hidden;background:var(--gris);position:relative;flex-shrink:0}
+
 .prod-img-w img{width:100%;height:100%;object-fit:cover;transition:.35s}
+
 .prod-card:hover .prod-img-w img{transform:scale(1.06)}
+
 .prod-cat-b{position:absolute;bottom:6px;left:6px;background:rgba(74,44,74,.8);
-  color:#fff;font-size:9px;padding:2px 8px;border-radius:20px;
-  font-family:Arial,sans-serif;letter-spacing:1px}
+
+color:#fff;font-size:9px;padding:2px 8px;border-radius:20px;
+
+font-family:Arial,sans-serif;letter-spacing:1px}
+
 .prod-body{padding:10px 12px;flex:1;display:flex;flex-direction:column}
+
 .prod-desc{color:var(--texto);font-size:12px;flex:1;margin-bottom:5px;line-height:1.45}
+
 .prod-precio{color:var(--viola);font-size:15px;font-weight:700;margin-bottom:4px}
-.prod-precio-original{color:#aaa;font-size:12px;text-decoration:line-through;font-weight:400;display:block;line-height:1.2}
-.prod-precio-desc{color:#27ae60;font-size:16px;font-weight:900;display:block;line-height:1.3}
-.prod-badge-desc{display:inline-block;background:#27ae60;color:#fff;font-size:9px;font-family:Arial,sans-serif;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:2px;letter-spacing:1px}
+
+/* V4: stock badge */
+
 .prod-stock{font-size:10px;font-family:Arial,sans-serif;font-weight:700;
-  padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:6px}
+
+padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:6px}
+
 .prod-stock.disponible{background:#e8f5ee;color:#27ae60}
+
 .prod-stock.no-disponible{background:#fff3f3;color:#c0392b}
+
 .prod-opc-wrap{margin-bottom:8px}
+
 .prod-opc{margin-bottom:6px}
+
 .prod-opc-label-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+
 .prod-opc label{color:#888;font-size:10px;font-family:Arial,sans-serif;
-  text-transform:uppercase;letter-spacing:.5px}
+
+text-transform:uppercase;letter-spacing:.5px}
+
 .btn-ver-ref{background:none;border:1px solid var(--rosa);color:var(--viola);
-  border-radius:12px;padding:2px 8px;font-size:10px;font-family:Arial,sans-serif;cursor:pointer;transition:.2s}
+
+border-radius:12px;padding:2px 8px;font-size:10px;font-family:Arial,sans-serif;cursor:pointer;transition:.2s}
+
 .btn-ver-ref:hover{background:var(--rosa);color:#fff}
+
+/* V4: botón Expandir galería */
+
 .btn-expandir-foto{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
-  background:rgba(74,44,74,.82);color:#fff;border:none;padding:5px 13px;border-radius:20px;
-  font-size:11px;font-family:Arial,sans-serif;font-weight:700;cursor:pointer;
-  white-space:nowrap;transition:.2s;backdrop-filter:blur(4px);z-index:2}
+
+background:rgba(74,44,74,.82);color:#fff;border:none;padding:5px 13px;border-radius:20px;
+
+font-size:11px;font-family:Arial,sans-serif;font-weight:700;cursor:pointer;
+
+white-space:nowrap;transition:.2s;backdrop-filter:blur(4px);z-index:2}
+
 .btn-expandir-foto:hover{background:var(--viola);transform:translateX(-50%) scale(1.04)}
+
 .prod-opc input{width:100%;padding:6px 9px;border:1.5px solid var(--gris);
-  border-radius:7px;font-size:12px;font-family:Georgia,serif;color:var(--texto)}
+
+border-radius:7px;font-size:12px;font-family:Georgia,serif;color:var(--texto)}
+
 .prod-opc input:focus{outline:none;border-color:var(--rosa)}
+
 .prod-footer{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+
 .prod-qty-row{display:flex;align-items:center;gap:6px}
+
 .qty-wrap{display:flex;align-items:center;border:1.5px solid var(--gris);border-radius:7px;overflow:hidden;flex-shrink:0}
+
 .qty-btn{background:none;border:none;padding:5px 9px;font-size:15px;cursor:pointer;color:var(--viola);transition:.15s}
+
 .qty-btn:hover{background:var(--gris)}
+
 .qty-val{padding:0 7px;font-size:13px;min-width:24px;text-align:center}
+
 .prod-action-row{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+
 .btn-quitar-prod{background:var(--viola);color:#fff;border:none;padding:7px 4px;
-  border-radius:8px;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;
-  font-weight:700;transition:.2s;text-align:center}
+
+border-radius:8px;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;
+
+font-weight:700;transition:.2s;text-align:center}
+
 .btn-quitar-prod:hover{background:#5e3860}
+
 .btn-confirmar-prod{background:var(--viola);color:#fff;border:none;padding:7px 4px;
-  border-radius:8px;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;
-  font-weight:700;transition:.2s;display:flex;align-items:center;justify-content:center;gap:3px}
+
+border-radius:8px;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;
+
+font-weight:700;transition:.2s;display:flex;align-items:center;justify-content:center;gap:3px}
+
 .btn-confirmar-prod:hover{background:#9c6f9c}
 
 /* ── OVERLAY IMAGEN / GALERÍA ────────────────────────────── */
+
 .img-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;
-  display:none;align-items:center;justify-content:center;padding:20px;flex-direction:column}
+
+display:none;align-items:center;justify-content:center;padding:20px;flex-direction:column}
+
 .img-overlay.show{display:flex}
+
 .img-overlay-img-wrap{position:relative;display:flex;align-items:center;gap:14px}
+
 .img-overlay img{max-width:80vw;max-height:78vh;border-radius:12px;display:block}
+
 .img-overlay-close{position:absolute;top:16px;right:16px;color:#fff;font-size:30px;
-  cursor:pointer;background:rgba(0,0,0,.4);width:42px;height:42px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;z-index:2}
+
+cursor:pointer;background:rgba(0,0,0,.4);width:42px;height:42px;border-radius:50%;
+
+display:flex;align-items:center;justify-content:center;z-index:2}
+
 .gal-nav{background:rgba(255,255,255,.18);color:#fff;border:none;
-  width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+
+width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;
+
+display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+
 .gal-nav:hover{background:rgba(255,255,255,.35)}
+
 .gal-nav:disabled{opacity:.2;cursor:default}
+
 .gal-dots{display:flex;gap:8px;margin-top:12px}
+
 .gal-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);
-  cursor:pointer;transition:.2s}
+
+cursor:pointer;transition:.2s}
+
 .gal-dot.active{background:#fff}
 
 /* ── MODAL WHATSAPP ──────────────────────────────────────── */
+
 .wa-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;
-  display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+
+display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+
 .wa-modal-overlay.open{display:flex}
+
 .wa-modal{background:#fff;border-radius:18px;max-width:320px;width:100%;
-  overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.3)}
+
+overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.3)}
+
 .wa-modal-hdr{background:#25D366;padding:22px 20px;text-align:center}
+
 .wa-modal-hdr svg{width:48px;height:48px;fill:#fff;display:block;margin:0 auto 10px}
+
 .wa-modal-hdr p{color:#fff;font-size:13px;font-family:Arial,sans-serif;opacity:.9}
+
 .wa-modal-body{padding:22px 20px}
+
 .wa-modal-body h3{color:var(--violeta);font-size:16px;margin-bottom:8px;text-align:center}
+
 .wa-modal-body p{color:#666;font-size:13px;font-family:Arial,sans-serif;
-  text-align:center;line-height:1.5;margin-bottom:20px}
+
+text-align:center;line-height:1.5;margin-bottom:20px}
+
 .wa-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.wa-btn-cerrar{background:var(--gris);color:#444;border:none;padding:12px;
-  border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:Georgia,serif;transition:.2s}
+
+.wa-btn-cerrar{background:var(--gris);color:#888;border:none;padding:12px;
+
+border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:Georgia,serif;transition:.2s}
+
 .wa-btn-cerrar:hover{background:#e0d0e0;color:var(--viola)}
+
 .wa-btn-aceptar{background:#25D366;color:#fff;border:none;padding:12px;
-  border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:Georgia,serif;transition:.2s}
+
+border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:Georgia,serif;transition:.2s}
+
 .wa-btn-aceptar:hover{background:#1da851}
 
 /* ── CARRITO PANEL ───────────────────────────────────────── */
+
 .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none}
+
 .cart-overlay.open{display:block}
+
 .cart-panel{position:fixed;top:0;right:-460px;width:min(460px,100vw);height:100vh;
-  background:#fff;box-shadow:-6px 0 30px rgba(74,44,74,.18);z-index:301;
-  display:flex;flex-direction:column;transition:.35s}
+
+background:#fff;box-shadow:-6px 0 30px rgba(74,44,74,.18);z-index:301;
+
+display:flex;flex-direction:column;transition:.35s}
+
 .cart-panel.open{right:0}
+
 .cart-hdr{background:linear-gradient(135deg,var(--violeta),var(--viola));color:#fff;
-  padding:20px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+
+padding:20px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+
 .cart-hdr h3{font-size:17px;letter-spacing:1px}
+
 .cart-close{background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
+
 .cart-body{flex:1;overflow-y:auto;padding:14px}
+
 .cart-empty{text-align:center;padding:60px 20px;color:#ccc;font-family:Arial,sans-serif}
+
 .cart-empty .ce-ico{font-size:50px;margin-bottom:12px}
+
+/* V4: opción recoger en tienda en el carrito */
+
 .cart-recoger-row{padding:0 0 12px}
+
 .cart-recoger-opt{display:flex;align-items:center;gap:8px;background:var(--crema);
-  border:1.5px solid var(--gris);border-radius:10px;padding:10px 14px;cursor:pointer;
-  font-size:13px;font-family:Arial,sans-serif;transition:.2s}
+
+border:1.5px solid var(--gris);border-radius:10px;padding:10px 14px;cursor:pointer;
+
+font-size:13px;font-family:Arial,sans-serif;transition:.2s}
+
 .cart-recoger-opt:hover{border-color:var(--rosa)}
+
 .cart-recoger-opt.sel{border-color:var(--verde);background:#f0fff4;color:var(--verde);font-weight:700}
+
 .cart-recoger-opt input{accent-color:var(--verde)}
+
 .cart-item{display:flex;gap:10px;padding:13px 0;border-bottom:1px solid var(--gris)}
+
 .ci-img{width:58px;height:58px;object-fit:cover;border-radius:8px;flex-shrink:0;background:var(--gris)}
+
 .ci-info{flex:1}
+
 .ci-tipo{font-size:10px;color:var(--rosa);font-family:Arial,sans-serif;
-  text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+
+text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+
 .ci-desc{font-size:13px;color:var(--texto);margin-bottom:4px;line-height:1.4}
+
+/* V4: mostrar cantidad x precio en carrito */
+
 .ci-qty-precio{font-size:11px;color:#a06fa0;font-family:Arial,sans-serif;margin-bottom:3px}
+
 .ci-detalle{font-size:11px;color:#999;font-family:Arial,sans-serif;margin-bottom:5px;line-height:1.4}
+
 .ci-bottom{display:flex;align-items:center;justify-content:space-between}
+
 .ci-precio{color:var(--viola);font-weight:700;font-size:14px}
+
 .ci-remove{background:none;border:none;color:#ddd;font-size:17px;cursor:pointer;transition:.15s}
+
 .ci-remove:hover{color:#e74c3c}
+
 .cart-footer{background:var(--crema);border-top:2px solid var(--gris);padding:18px;flex-shrink:0}
+
 .cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+
 .cart-envio-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+
 .cart-total-label{font-size:13px;color:#888;font-family:Arial,sans-serif}
+
 .cart-envio-label{font-size:12px;color:#a06fa0;font-family:Arial,sans-serif;font-style:italic}
+
 .cart-total{font-size:20px;font-weight:700;color:var(--viola)}
+
 .cart-envio-val{font-size:12px;color:#a06fa0;font-family:Arial,sans-serif;font-weight:700}
+
 .btn-comprar{width:100%;background:linear-gradient(135deg,var(--violeta),var(--viola));
-  color:#fff;border:none;padding:14px;border-radius:12px;font-size:14px;
-  font-family:Georgia,serif;cursor:pointer;letter-spacing:1px;transition:.2s}
+
+color:#fff;border:none;padding:14px;border-radius:12px;font-size:14px;
+
+font-family:Georgia,serif;cursor:pointer;letter-spacing:1px;transition:.2s}
+
 .btn-comprar:hover{opacity:.9}
+
 .btn-comprar:disabled{opacity:.4;cursor:not-allowed}
 
 /* ── MODAL CHECKOUT ──────────────────────────────────────── */
+
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:400;
-  display:none;align-items:flex-start;justify-content:center;
-  padding:20px;overflow-y:auto;backdrop-filter:blur(4px)}
+
+display:none;align-items:flex-start;justify-content:center;
+
+padding:20px;overflow-y:auto;backdrop-filter:blur(4px)}
+
 .modal-overlay.open{display:flex}
+
 .modal-box{background:#fff;border-radius:20px;max-width:520px;width:100%;
-  margin:auto;box-shadow:0 20px 60px rgba(74,44,74,.3);position:relative}
+
+margin:auto;box-shadow:0 20px 60px rgba(74,44,74,.3);position:relative}
+
 .modal-hdr{background:linear-gradient(135deg,var(--violeta),var(--viola));color:#fff;
-  padding:22px 24px;border-radius:20px 20px 0 0;
-  display:flex;align-items:center;justify-content:space-between}
+
+padding:22px 24px;border-radius:20px 20px 0 0;
+
+display:flex;align-items:center;justify-content:space-between}
+
 .modal-hdr h3{font-size:17px;letter-spacing:1px}
+
 .modal-close{background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
+
 .modal-body{padding:24px}
 
 .fg{margin-bottom:13px}
+
 .fg label{display:block;color:var(--viola);font-size:11px;font-weight:700;
-  letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-family:Arial,sans-serif}
+
+letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-family:Arial,sans-serif}
+
 .fg input,.fg select,.fg textarea{width:100%;background:#fff;border:1.5px solid var(--gris);
-  border-radius:9px;padding:10px 12px;color:var(--texto);font-size:13px;
-  outline:none;transition:.2s;font-family:Georgia,serif}
+
+border-radius:9px;padding:10px 12px;color:var(--texto);font-size:13px;
+
+outline:none;transition:.2s;font-family:Georgia,serif}
+
 .fg textarea{min-height:80px;resize:vertical}
+
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--rosa);box-shadow:0 0 0 3px rgba(200,160,200,.2)}
+
 .fg input[readonly]{background:var(--crema);color:#888;cursor:default}
+
 .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
 @media(max-width:480px){.fg-row{grid-template-columns:1fr}}
+
 .fg-note{color:#aaa;font-size:11px;margin-top:3px;font-style:italic;font-family:Arial,sans-serif}
+
 .req{color:var(--rosa);margin-left:2px}
 
+/* V4: dirección de envío autoconcatenada */
+
 .dir-envio-wrap{position:relative}
+
 .dir-envio-wrap textarea{padding-right:8px;padding-bottom:38px}
+
 .btn-maps-directo{position:absolute;right:6px;bottom:6px;background:var(--viola);
-  color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;
-  cursor:pointer;transition:.2s;white-space:nowrap;font-family:Arial,sans-serif;font-weight:700}
+
+color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;
+
+cursor:pointer;transition:.2s;white-space:nowrap;font-family:Arial,sans-serif;font-weight:700}
+
 .btn-maps-directo:hover{background:#5e3860}
 
+/* V4: campo distancia */
+
 .distancia-badge{display:inline-flex;align-items:center;gap:5px;
-  background:var(--crema);border:1px solid var(--gris);border-radius:8px;
-  padding:7px 12px;font-size:12px;font-family:Arial,sans-serif;color:var(--viola);
-  margin-top:4px;font-weight:700}
+
+background:var(--crema);border:1px solid var(--gris);border-radius:8px;
+
+padding:7px 12px;font-size:12px;font-family:Arial,sans-serif;color:var(--viola);
+
+margin-top:4px;font-weight:700}
+
 .distancia-badge.calculando{color:#aaa}
 
+/* V6: envío por producto */
+
 .envio-prod-bloque{background:var(--crema);border:2px solid var(--gris);
-  border-radius:12px;margin-bottom:14px;overflow:hidden}
+
+border-radius:12px;margin-bottom:14px;overflow:hidden}
+
 .envio-prod-hdr{background:linear-gradient(135deg,var(--violeta),var(--viola));
-  color:#fff;padding:10px 16px;font-size:13px;font-family:Arial,sans-serif;
-  font-weight:700;display:flex;align-items:center;justify-content:space-between}
+
+color:#fff;padding:10px 16px;font-size:13px;font-family:Arial,sans-serif;
+
+font-weight:700;display:flex;align-items:center;justify-content:space-between}
+
 .envio-prod-body{padding:14px 16px}
+
 .btn-repetir{background:var(--verde);color:#fff;border:none;border-radius:8px;
-  padding:5px 12px;font-size:11px;font-family:Arial,sans-serif;font-weight:700;
-  cursor:pointer;transition:.2s;white-space:nowrap}
+
+padding:5px 12px;font-size:11px;font-family:Arial,sans-serif;font-weight:700;
+
+cursor:pointer;transition:.2s;white-space:nowrap}
+
 .btn-repetir:hover{background:#1a7a42}
+
 .btn-repetir:disabled{opacity:.4;cursor:default}
 
 .resumen-mini{background:var(--crema);border-radius:12px;padding:14px;margin-bottom:18px}
+
 .rm-titulo{color:var(--viola);font-size:12px;font-family:Arial,sans-serif;
-  font-weight:bold;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+
+font-weight:bold;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+
 .rm-item{display:flex;justify-content:space-between;font-size:12px;
-  color:var(--texto);padding:4px 0;border-bottom:1px solid var(--gris);font-family:Arial,sans-serif}
+
+color:var(--texto);padding:4px 0;border-bottom:1px solid var(--gris);font-family:Arial,sans-serif}
+
 .rm-envio{display:flex;justify-content:space-between;font-size:12px;
-  color:#a06fa0;padding:4px 0;font-family:Arial,sans-serif;font-style:italic}
+
+color:#a06fa0;padding:4px 0;font-family:Arial,sans-serif;font-style:italic}
+
 .rm-total{display:flex;justify-content:space-between;font-size:15px;
-  font-weight:700;color:var(--viola);margin-top:8px;padding-top:8px;border-top:2px solid var(--gris)}
+
+font-weight:700;color:var(--viola);margin-top:8px;padding-top:8px;border-top:2px solid var(--gris)}
 
 .pago-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+
+/* V4: 3 métodos de pago (3 columnas cuando recoger) */
+
 .pago-opts-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+
 @media(max-width:480px){.pago-opts-3{grid-template-columns:1fr 1fr}}
+
 .pago-opt{border:2px solid var(--gris);border-radius:10px;padding:12px;
-  font-size:13px;font-family:Georgia,serif;color:var(--texto);cursor:pointer;
-  text-align:center;transition:.2s;background:#fff}
+
+font-size:13px;font-family:Georgia,serif;color:var(--texto);cursor:pointer;
+
+text-align:center;transition:.2s;background:#fff}
+
 .pago-opt:hover{border-color:var(--rosa)}
+
 .pago-opt.sel{border-color:var(--verde);background:#f0fff4;color:#1a7a42;font-weight:700;box-shadow:0 0 0 2px rgba(39,174,96,.2)}
 
-/* ── MODAL PAGO INFO ──────────────────────────────────────── */
+/* V4: modal pago info (mercado pago / transferencia) */
+
 .pago-info-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:700;
-  display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+
+display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+
 .pago-info-overlay.open{display:flex}
-.pago-info-box{background:#fff;border-radius:18px;max-width:400px;width:100%;
-  padding:28px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.25);max-height:90vh;overflow-y:auto}
+
+.pago-info-box{background:#fff;border-radius:18px;max-width:360px;width:100%;
+
+padding:28px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.25)}
+
 .pago-info-box h3{color:var(--violeta);font-size:18px;margin-bottom:14px}
+
 .pago-info-box p{font-size:14px;color:#555;font-family:Arial,sans-serif;line-height:1.7;margin-bottom:8px}
+
 .pago-info-box a{color:var(--viola);font-weight:700;text-decoration:underline}
+
 .pago-info-box .clabe-block{background:var(--crema);border-radius:10px;padding:12px;
-  margin:10px 0;font-family:Arial,sans-serif;font-size:13px;color:var(--violeta);text-align:left}
+
+margin:10px 0;font-family:Arial,sans-serif;font-size:13px;color:var(--violeta)}
+
 .pago-info-box .btn-cerrar-pago{background:linear-gradient(135deg,var(--violeta),var(--viola));
-  color:#fff;border:none;padding:11px 28px;border-radius:20px;font-size:14px;
-  cursor:pointer;margin-top:14px;font-family:Georgia,serif}
+
+color:#fff;border:none;padding:11px 28px;border-radius:20px;font-size:14px;
+
+cursor:pointer;margin-top:14px;font-family:Georgia,serif}
 
 .btn-confirmar{width:100%;background:linear-gradient(135deg,var(--violeta),var(--viola));
-  color:#fff;border:none;padding:15px;border-radius:12px;font-size:15px;
-  font-family:Georgia,serif;cursor:pointer;margin-top:18px;letter-spacing:1px;transition:.2s}
+
+color:#fff;border:none;padding:15px;border-radius:12px;font-size:15px;
+
+font-family:Georgia,serif;cursor:pointer;margin-top:18px;letter-spacing:1px;transition:.2s}
+
 .btn-confirmar:hover{opacity:.9}
+
 .btn-back{width:100%;background:rgba(0,0,0,.04);border:1.5px solid var(--gris);
-  color:#444;padding:11px;border-radius:12px;font-size:13px;font-family:Georgia,serif;
-  cursor:pointer;margin-top:8px;transition:.2s}
+
+color:#888;padding:11px;border-radius:12px;font-size:13px;font-family:Georgia,serif;
+
+cursor:pointer;margin-top:8px;transition:.2s}
+
 .btn-back:hover{background:var(--gris);color:var(--viola)}
+
 .btn-limpiar{display:block;width:100%;margin-top:8px;background:transparent;
-  border:1px solid rgba(200,160,200,.5);color:#a06fa0;border-radius:8px;
-  padding:8px 18px;font-size:12px;cursor:pointer;transition:.2s;font-family:Arial,sans-serif}
+
+border:1px solid rgba(200,160,200,.5);color:#a06fa0;border-radius:8px;
+
+padding:8px 18px;font-size:12px;cursor:pointer;transition:.2s;font-family:Arial,sans-serif}
+
 .btn-limpiar:hover{border-color:var(--rosa);color:var(--viola);background:var(--crema)}
 
 .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;
-  display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+
+display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+
 .confirm-overlay.open{display:flex}
+
 .confirm-box{background:#fff;border-radius:16px;padding:28px;max-width:320px;
-  width:100%;text-align:center;box-shadow:0 14px 40px rgba(74,44,74,.25)}
+
+width:100%;text-align:center;box-shadow:0 14px 40px rgba(74,44,74,.25)}
+
 .confirm-box p{color:#666;font-size:14px;line-height:1.55;margin-bottom:20px;font-family:Arial,sans-serif}
+
 .confirm-box strong{color:var(--viola)}
+
 .confirm-btns{display:flex;gap:10px;justify-content:center}
+
 .confirm-btns button{flex:1;padding:11px;border-radius:10px;font-size:13px;
-  font-weight:700;cursor:pointer;border:none;transition:.2s;font-family:Georgia,serif}
-.btn-no{background:var(--gris);color:#444;font-weight:700}.btn-no:hover{background:#e0d0e0}
+
+font-weight:700;cursor:pointer;border:none;transition:.2s;font-family:Georgia,serif}
+
+.btn-no{background:var(--gris);color:#888}.btn-no:hover{background:#e0d0e0}
+
 .btn-si{background:linear-gradient(135deg,var(--violeta),var(--viola));color:#fff}.btn-si:hover{opacity:.9}
 
 .success-box{text-align:center;padding:44px 28px}
+
 .success-ico{font-size:60px;margin-bottom:14px}
+
 .success-titulo{font-size:22px;margin-bottom:8px}
+
 .success-titulo.verde{color:var(--verde)}.success-titulo.oro{color:var(--oro)}
+
 .success-sub{color:#888;font-size:13px;font-family:Arial,sans-serif;line-height:1.6;margin-bottom:6px}
+
 .success-id{background:var(--crema);border-radius:10px;padding:10px 18px;
-  display:inline-block;margin:12px 0;color:var(--viola);font-size:14px;
-  font-weight:bold;font-family:Arial,sans-serif;letter-spacing:1px;border:1px solid var(--gris)}
+
+display:inline-block;margin:12px 0;color:var(--viola);font-size:14px;
+
+font-weight:bold;font-family:Arial,sans-serif;letter-spacing:1px;border:1px solid var(--gris)}
+
 .btn-nuevo{background:linear-gradient(135deg,var(--violeta),var(--viola));
-  color:#fff;border:none;padding:13px 28px;border-radius:30px;font-size:14px;
-  font-family:Georgia,serif;cursor:pointer;margin-top:14px}
+
+color:#fff;border:none;padding:13px 28px;border-radius:30px;font-size:14px;
+
+font-family:Georgia,serif;cursor:pointer;margin-top:14px}
 
 .toast{position:fixed;bottom:22px;right:22px;background:var(--violeta);
-  border:1px solid var(--rosa);color:#fff;padding:12px 18px;border-radius:10px;
-  font-size:13px;z-index:900;transform:translateY(100px);opacity:0;transition:.3s;
-  max-width:300px;font-family:Arial,sans-serif}
+
+border:1px solid var(--rosa);color:#fff;padding:12px 18px;border-radius:10px;
+
+font-size:13px;z-index:900;transform:translateY(100px);opacity:0;transition:.3s;
+
+max-width:300px;font-family:Arial,sans-serif}
+
 .toast.show{transform:translateY(0);opacity:1}
+
 .toast.err{border-color:#e74c3c;background:#7b1c1c}
 
 .loader-overlay{position:fixed;inset:0;background:rgba(74,44,74,.75);z-index:999;
-  display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+
+display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+
 .loader-overlay.show{display:flex}
+
 .loader-spin{width:52px;height:52px;border:5px solid rgba(255,255,255,.3);
-  border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+
+border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+
 .loader-txt{color:#fff;font-family:Arial,sans-serif;font-size:14px;letter-spacing:1px}
+
 @keyframes spin{to{transform:rotate(360deg)}}
 
 footer{background:var(--violeta);color:rgba(255,255,255,.65);font-family:Arial,sans-serif;
-  font-size:12px;text-align:center;padding:20px;margin-top:40px}
+
+font-size:12px;text-align:center;padding:20px;margin-top:40px}
+
 footer a{color:var(--rosa);text-decoration:none}
+
 </style>
+
 </head>
+
 <body>
 
 <!-- ══ PANTALLA BIENVENIDA ══════════════════════════════════ -->
+
 <div id="pantalla-bienvenida">
-  <!-- CAMBIO: Logo actualizado -->
-  <img src="https://i.postimg.cc/g0n6hcKB/MAIA-BRAND.jpg" class="bv-logo" alt="MAIA">
-  <div class="bv-tag">🌷 Boutique · Flores y Globos 🎈</div>
-  <h1 class="bv-titulo maia-font">MAIA</h1>
-  <p class="bv-sub">📍 Tecámac · Ecatepec &nbsp;|&nbsp; 📱 55 7924 8882</p>
-  <div class="bv-box">
-    <!-- CAMBIO: ¡BIENVENIDO! -->
-    <h3>¡BIENVENIDO! Selecciona tu sucursal</h3>
-    <div class="suc-grid">
-      <button class="suc-btn" onclick="selSuc(this,'Tecámac')">
-        <div style="font-size:15px;font-weight:700;letter-spacing:1px;margin-bottom:6px">Tecámac</div>
-        <div style="font-size:10px;font-family:Arial,sans-serif;opacity:.9;line-height:1.5;text-align:left">
-          📍 Herradura y Nelson, Calz. de la Hacienda Mza. 74 Lt. 3-A,<br>Ojo de Agua, 55770, Méx.<br>
-          🕙 Lun–Sáb: 10:00 AM – 7:00 PM<br>
-          Dom: 10:00 AM – 5:00 PM
-        </div>
-      </button>
-      <button class="suc-btn" onclick="selSuc(this,'Ecatepec')">
-        <div style="font-size:15px;font-weight:700;letter-spacing:1px;margin-bottom:6px">Ecatepec</div>
-        <div style="font-size:10px;font-family:Arial,sans-serif;opacity:.9;line-height:1.5;text-align:left">
-          📍 Calle Donato Guerra 38, Galaxia Ecatepec,<br>Estado de México, 55025<br>
-          🕙 Lun–Sáb: 10:00 AM – 7:00 PM<br>
-          <span style="color:#ffd6e7">Dom: Solo entregas programadas</span>
-        </div>
-      </button>
-    </div>
-    <p class="bv-envios-txt">🚗 Envíos en Tecámac, Ecatepec y zonas aledañas.<br>
-      (Coacalco, Tultitlán, Tultepec, Del. Benito Juárez, comunícate con una asesora MAIA).</p>
-    <button class="bv-mapa-btn" onclick="verGuia('https://i.postimg.cc/FsSgpgt7/MAPA-DE-ENVIOS-MAIA-1.png')">
-      🗺️ Ver mapa de referencia
-    </button>
-    <button class="btn-continuar" id="btn-continuar" onclick="entrarTienda()" disabled>Continuar →</button>
-  </div>
+
+<img src="https://raw.githubusercontent.com/MAIA-Boutique-Floral/maia-assets/refs/heads/main/MAIA-BRAND.jpg" class="bv-logo" alt="MAIA">
+
+<div class="bv-tag">🌷 Boutique · Flores y Globos 🎈</div>
+
+<!-- V4: MAIA (sin _for you) -->
+
+<h1 class="bv-titulo maia-font">MAIA</h1>
+
+<p class="bv-sub">📍 Tecámac · Ecatepec &nbsp;|&nbsp; 📱 55 7924 8882</p>
+
+<div class="bv-box">
+
+<h3>¡BIENVENIDO! Selecciona tu sucursal</h3>
+
+<!-- V6: 2 sucursales con dirección y horario -->
+
+<div class="suc-grid">
+
+<button class="suc-btn" onclick="selSuc(this,'Tecámac')">
+
+<div style="font-size:15px;font-weight:700;letter-spacing:1px;margin-bottom:6px">Tecámac</div>
+
+<div style="font-size:10px;font-family:Arial,sans-serif;opacity:.9;line-height:1.5;text-align:left">
+
+📍 Herradura y Nelson, Calz. de la Hacienda Mza. 74 Lt. 3-A,<br>Ojo de Agua, 55770, Méx.<br>
+
+🕙 Lun–Sáb: 10:00 AM – 7:00 PM<br>
+
+Dom: 10:00 AM – 5:00 PM
+
+</div>
+
+</button>
+
+<button class="suc-btn" onclick="selSuc(this,'Ecatepec')">
+
+<div style="font-size:15px;font-weight:700;letter-spacing:1px;margin-bottom:6px">Ecatepec</div>
+
+<div style="font-size:10px;font-family:Arial,sans-serif;opacity:.9;line-height:1.5;text-align:left">
+
+📍 Calle Donato Guerra 38, Galaxia Ecatepec,<br>Estado de México, 55025<br>
+
+🕙 Lun–Sáb: 10:00 AM – 7:00 PM<br>
+
+<span style="color:#ffd6e7">Dom: Solo entregas programadas</span>
+
+</div>
+
+</button>
+
+</div>
+
+<!-- V4: leyenda de envíos -->
+
+<p class="bv-envios-txt">🚗 Envíos en Tecámac, Ecatepec y zonas aledañas.<br>
+
+(Coacalco, Tultitlán, Tultepec, Del. Benito Juárez, comunícate con una asesora MAIA).</p>
+
+<!-- V4: Ver mapa de referencia -->
+
+<button class="bv-mapa-btn" onclick="verGuia('https://i.postimg.cc/FsSgpgt7/MAPA-DE-ENVIOS-MAIA-1.png')">
+
+🗺️ Ver mapa de referencia
+
+</button>
+
+<button class="btn-continuar" id="btn-continuar" onclick="entrarTienda()" disabled>Continuar →</button>
+
+</div>
+
 </div>
 
 <!-- ══ TIENDA ════════════════════════════════════════════════ -->
+
 <div id="tienda" style="display:none">
-  <nav class="navbar">
-    <div class="nb-left">
-      <!-- CAMBIO: Logo actualizado en navbar -->
-      <img src="https://i.postimg.cc/g0n6hcKB/MAIA-BRAND.jpg" alt="MAIA">
-      <span class="nb-brand maia-font" style="font-size:17px">MAIA</span>
-    </div>
-    <button class="cart-btn" onclick="abrirCarrito()">
-      🌸 Mi pedido <span class="cart-count" id="cart-count">0</span>
-    </button>
-  </nav>
 
-  <div class="hero">
-    <div class="hero-in">
-      <!-- CAMBIO: Logo actualizado en hero -->
-      <img src="https://i.postimg.cc/g0n6hcKB/MAIA-BRAND.jpg" class="hero-logo" alt="MAIA">
-      <div class="hero-tag">🌷 Boutique Flores y Globos 🎈</div>
-      <h1 class="maia-font">MAIA</h1>
-      <h2>Regala detalles con un toque elegante ✨</h2>
-      <div class="hero-suc-row">
-        <div class="hero-suc">📍 Sucursal: <strong id="hero-suc-txt"></strong></div>
-        <button class="btn-wa" onclick="abrirWA()">
-          <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp
-        </button>
-      </div>
-    </div>
-  </div>
+<nav class="navbar">
 
-  <div class="sec-modulos">
-    <div class="sec-titulo">
-      <h3>ELIGE TU OPCIÓN</h3>
-      <p>Puedes combinar varias opciones en un mismo pedido</p>
-    </div>
-    <div class="mods-grid" id="mods-grid"></div>
-  </div>
+<div class="nb-left">
 
-  <!-- V7.1: Botones redes sociales -->
-  <div style="background:linear-gradient(135deg,#4a2c4a,#7b4f7b);padding:18px 20px;text-align:center">
-    <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
-      <a href="https://marsrprogramacion-design.github.io/maia-whatsapp/?src=bio" target="_blank" rel="noopener" title="WhatsApp"
-         style="display:inline-flex;align-items:center;justify-content:center;
-         background:linear-gradient(135deg,#d4699a,#e8a0b4);
-         color:#fff;text-decoration:none;width:46px;height:46px;border-radius:50%;
-         transition:.2s;box-shadow:0 4px 14px rgba(212,105,154,.4)">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
-      <a href="https://www.instagram.com/p/DQ0Syz1DnZh/" target="_blank" rel="noopener" title="Instagram"
-         style="display:inline-flex;align-items:center;justify-content:center;
-         background:linear-gradient(135deg,#c8507a,#e8a0b4);
-         color:#fff;text-decoration:none;width:46px;height:46px;border-radius:50%;
-         transition:.2s;box-shadow:0 4px 14px rgba(200,80,122,.4)">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=100077443549425" target="_blank" rel="noopener" title="Facebook"
-         style="display:inline-flex;align-items:center;justify-content:center;
-         background:linear-gradient(135deg,#b05080,#d4699a);
-         color:#fff;text-decoration:none;width:46px;height:46px;border-radius:50%;
-         transition:.2s;box-shadow:0 4px 14px rgba(176,80,128,.4)">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      </a>
-      <a href="https://www.tiktok.com/@maia_foryou" target="_blank" rel="noopener" title="TikTok"
-         style="display:inline-flex;align-items:center;justify-content:center;
-         background:linear-gradient(135deg,#e8a0b4,#c8507a);
-         color:#fff;text-decoration:none;width:46px;height:46px;border-radius:50%;
-         transition:.2s;box-shadow:0 4px 14px rgba(200,80,122,.4)">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
-      </a>
-    </div>
-  </div>
+<img src="https://raw.githubusercontent.com/MAIA-Boutique-Floral/maia-assets/refs/heads/main/MAIA-BRAND.jpg" alt="MAIA">
 
-  <footer>
-    contacto.maiaeve@gmail.com &nbsp;|&nbsp;
-    Todos los derechos reservados por © 2026 MAIA &nbsp;|&nbsp;
-    <a href="#" onclick="abrirAviso();return false;">Aviso de privacidad</a>
-  </footer>
+<!-- V4: MAIA -->
+
+<span class="nb-brand maia-font" style="font-size:17px">MAIA</span>
+
+</div>
+
+<button class="cart-btn" onclick="abrirCarrito()">
+
+🌸 Mi pedido <span class="cart-count" id="cart-count">0</span>
+
+</button>
+
+</nav>
+
+<div class="hero">
+
+<div class="hero-in">
+
+<img src="https://raw.githubusercontent.com/MAIA-Boutique-Floral/maia-assets/refs/heads/main/MAIA-BRAND.jpg" class="hero-logo" alt="MAIA">
+
+<div class="hero-tag">🌷 Boutique Flores y Globos 🎈</div>
+
+<!-- V4: MAIA -->
+
+<h1 class="maia-font">MAIA</h1>
+
+<h2>Regala detalles con un toque elegante ✨</h2>
+
+<div class="hero-suc-row">
+
+<div class="hero-suc">📍 Sucursal: <strong id="hero-suc-txt"></strong></div>
+
+<button class="btn-wa" onclick="abrirWA()">
+
+<svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+
+WhatsApp
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- V5: CINTA PROMOCIONAL -->
+
+<div style="background:linear-gradient(135deg,#7b4f7b,#c8a0c8);color:#fff;text-align:center;
+
+padding:10px 20px;font-family:Georgia,serif;font-size:14px;letter-spacing:1px;
+
+position:relative;overflow:hidden;border-bottom:3px solid #d4a017">
+
+<span style="font-size:18px">✨</span>
+
+&nbsp;<strong>Ordena del 1 al 3 de mayo de 2026 y te damos 15% de descuento en tu ramo o arreglo floral</strong>&nbsp;
+
+<span style="font-size:18px">✨</span>
+
+</div>
+
+<div class="sec-modulos">
+
+<div class="sec-titulo">
+
+<h3>ELIGE TU OPCIÓN</h3>
+
+<p>Puedes combinar varias opciones en un mismo pedido</p>
+
+</div>
+
+<div class="mods-grid" id="mods-grid"></div>
+
+</div>
+
+<!-- V7.1: Botones redes sociales — solo iconos, sin texto, sin leyenda -->
+
+<div style="background:linear-gradient(135deg,#4a2c4a,#7b4f7b);padding:18px 20px;text-align:center">
+
+<div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
+
+<a href="https://marsrprogramacion-design.github.io/maia-whatsapp/?src=bio" target="_blank" rel="noopener" title="WhatsApp"
+
+style="display:inline-flex;align-items:center;justify-content:center;
+
+background:linear-gradient(135deg,#d4699a,#e8a0b4);
+
+color:#fff;text-decoration:none;width:46px;height:46px;border-radius:50%;
+
+transition:.2s;box-shadow:0 4px 14px rgba(212,105,154,.4)">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+
+</a>
+
+<a href="https://www.instagram.com/p/DQ0Syz1DnZh/" target="_blank" rel="noopener" title="Instagram"
+
+style="display:inline-flex;align-items:center;justify-content:center;
+
+background:linear-gradient(135deg,#c8507a,#e8a0b4);
+
+color:#fff;text-decoration:none;width:46px;height:46px;border-radius:50%;
+
+transition:.2s;box-shadow:0 4px 14px rgba(200,80,122,.4)">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+
+</a>
+
+<a href="https://www.facebook.com/profile.php?id=100077443549425" target="_blank" rel="noopener" title="Facebook"
+
+style="display:inline-flex;align-items:center;justify-content:center;
+
+background:linear-gradient(135deg,#b05080,#d4699a);
+
+color:#fff;text-decoration:none;width:46px;height:46px;border-radius:50%;
+
+transition:.2s;box-shadow:0 4px 14px rgba(176,80,128,.4)">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+
+</a>
+
+<a href="https://www.tiktok.com/@maia_foryou" target="_blank" rel="noopener" title="TikTok"
+
+style="display:inline-flex;align-items:center;justify-content:center;
+
+background:linear-gradient(135deg,#e8a0b4,#c8507a);
+
+color:#fff;text-decoration:none;width:46px;height:46px;border-radius:50%;
+
+transition:.2s;box-shadow:0 4px 14px rgba(200,80,122,.4)">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+contacto.maiaeve@gmail.com &nbsp;|&nbsp;
+
+Todos los derechos reservados por © 2026 MAIA &nbsp;|&nbsp;
+
+<a href="#" onclick="abrirAviso();return false;">Aviso de privacidad</a>
+
+</footer>
+
 </div>
 
 <!-- ══ OVERLAY IMAGEN / GALERÍA ══════════════════════════════ -->
+
 <div class="img-overlay" id="img-overlay">
-  <div class="img-overlay-close" onclick="cerrarImgOverlay()">✕</div>
-  <div class="img-overlay-img-wrap">
-    <button class="gal-nav" id="gal-prev" onclick="galNav(-1)">‹</button>
-    <img id="img-overlay-img" src="" alt="">
-    <button class="gal-nav" id="gal-next" onclick="galNav(1)">›</button>
-  </div>
-  <div class="gal-dots" id="gal-dots"></div>
+
+<div class="img-overlay-close" onclick="cerrarImgOverlay()">✕</div>
+
+<div class="img-overlay-img-wrap">
+
+<button class="gal-nav" id="gal-prev" onclick="galNav(-1)">‹</button>
+
+<img id="img-overlay-img" src="" alt="">
+
+<button class="gal-nav" id="gal-next" onclick="galNav(1)">›</button>
+
+</div>
+
+<div class="gal-dots" id="gal-dots"></div>
+
 </div>
 
 <!-- ══ MODAL WHATSAPP ════════════════════════════════════════ -->
+
 <div class="wa-modal-overlay" id="wa-modal">
-  <div class="wa-modal">
-    <div class="wa-modal-hdr">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      <p>Contáctanos directo por WhatsApp 💬</p>
-    </div>
-    <div class="wa-modal-body">
-      <h3>¿Deseas contactarnos por WhatsApp?</h3>
-      <p>Te redirigiremos a WhatsApp donde podrás enviarnos un mensaje directo sobre tu arreglo de flores o globos 🌷🎈</p>
-      <div class="wa-btns">
-        <button class="wa-btn-cerrar" onclick="cerrarWA()">Cerrar</button>
-        <button class="wa-btn-aceptar" onclick="aceptarWA()">Aceptar ✓</button>
-      </div>
-    </div>
-  </div>
+
+<div class="wa-modal">
+
+<div class="wa-modal-hdr">
+
+<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+
+<p>Contáctanos directo por WhatsApp 💬</p>
+
+</div>
+
+<div class="wa-modal-body">
+
+<h3>¿Deseas contactarnos por WhatsApp?</h3>
+
+<p>Te redirigiremos a WhatsApp donde podrás enviarnos un mensaje directo sobre tu arreglo de flores o globos 🌷🎈</p>
+
+<div class="wa-btns">
+
+<button class="wa-btn-cerrar" onclick="cerrarWA()">Cerrar</button>
+
+<button class="wa-btn-aceptar" onclick="aceptarWA()">Aceptar ✓</button>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 <!-- ══ CARRITO PANEL ═════════════════════════════════════════ -->
+
 <div class="cart-overlay" id="cart-overlay" onclick="cerrarCarrito()"></div>
+
 <div class="cart-panel" id="cart-panel">
-  <div class="cart-hdr">
-    <h3>🌸 Mi pedido</h3>
-    <button class="cart-close" onclick="cerrarCarrito()">✕</button>
-  </div>
-  <div class="cart-body" id="cart-body"></div>
-  <div class="cart-footer">
-    <div style="background:#faf5fb;border:1.5px solid var(--gris);border-radius:10px;
-      padding:10px 13px;margin-bottom:10px">
-      <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-family:Arial,sans-serif;font-size:11px;color:#666;line-height:1.5">
-        <input type="checkbox" id="chk-acepta" onchange="toggleAcepta()" style="margin-top:3px;flex-shrink:0;accent-color:var(--viola)">
-        <span style="text-align:justify;display:block">Al dar click en esta casilla, usted acepta y comprende que, debido a la naturaleza de las flores y su disponibilidad estacional, los colores y variedades de los arreglos pueden presentar ligeras variaciones respecto a las imágenes mostradas. Nos comprometemos a mantener la esencia, calidad y diseño del arreglo seleccionado, asegurando que cada creación conserve la armonía y belleza esperadas.</span>
-      </label>
-    </div>
-    <div class="cart-recoger-row">
-      <label class="cart-recoger-opt" id="opt-recoger">
-        <input type="checkbox" id="chk-recoger" onchange="toggleRecoger()">
-        🏪 Recoger en tienda (Envío $0)
-      </label>
-    </div>
-    <div class="cart-total-row">
-      <span class="cart-total-label">Total estimado:</span>
-      <span class="cart-total" id="cart-total">$0.00</span>
-    </div>
-    <div class="cart-envio-row">
-      <span class="cart-envio-label">🚗 Costo de envío</span>
-      <span class="cart-envio-val" id="cart-envio-val">A confirmar</span>
-    </div>
-    <button class="btn-comprar" id="btn-comprar" onclick="abrirCheckout()" disabled>
-      Continuar con mi pedido →
-    </button>
-    <p id="acepta-nota" style="font-size:11px;color:var(--rosa);font-family:Arial,sans-serif;text-align:center;margin-top:6px;display:none">
-      ☝️ Acepta los términos para continuar
-    </p>
-  </div>
+
+<div class="cart-hdr">
+
+<h3>🌸 Mi pedido</h3>
+
+<button class="cart-close" onclick="cerrarCarrito()">✕</button>
+
+</div>
+
+<div class="cart-body" id="cart-body"></div>
+
+<div class="cart-footer">
+
+<!-- V4: opción recoger en tienda -->
+
+<!-- V7: leyenda de aceptación -->
+
+<div style="background:#faf5fb;border:1.5px solid var(--gris);border-radius:10px;
+
+padding:10px 13px;margin-bottom:10px">
+
+<label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-family:Arial,sans-serif;font-size:11px;color:#666;line-height:1.5">
+
+<input type="checkbox" id="chk-acepta" onchange="toggleAcepta()" style="margin-top:3px;flex-shrink:0;accent-color:var(--viola)">
+
+<span style="text-align:justify;display:block">Al dar click en esta casilla, usted acepta y comprende que, debido a la naturaleza de las flores y su disponibilidad estacional, los colores y variedades de los arreglos pueden presentar ligeras variaciones respecto a las imágenes mostradas. Nos comprometemos a mantener la esencia, calidad y diseño del arreglo seleccionado, asegurando que cada creación conserve la armonía y belleza esperadas.</span>
+
+</label>
+
+</div>
+
+<div class="cart-recoger-row">
+
+<label class="cart-recoger-opt" id="opt-recoger">
+
+<input type="checkbox" id="chk-recoger" onchange="toggleRecoger()">
+
+🏪 Recoger en tienda (Envío $0)
+
+</label>
+
+</div>
+
+<div class="cart-total-row">
+
+<span class="cart-total-label">Total estimado:</span>
+
+<span class="cart-total" id="cart-total">$0.00</span>
+
+</div>
+
+<div class="cart-envio-row">
+
+<span class="cart-envio-label">🚗 Costo de envío</span>
+
+<span class="cart-envio-val" id="cart-envio-val">A confirmar</span>
+
+</div>
+
+<button class="btn-comprar" id="btn-comprar" onclick="abrirCheckout()" disabled>
+
+Continuar con mi pedido →
+
+</button>
+
+<p id="acepta-nota" style="font-size:11px;color:var(--rosa);font-family:Arial,sans-serif;text-align:center;margin-top:6px;display:none">
+
+☝️ Acepta los términos para continuar
+
+</p>
+
+</div>
+
 </div>
 
 <!-- ══ MODAL CHECKOUT ════════════════════════════════════════ -->
+
 <div class="modal-overlay" id="modal-checkout">
-  <div class="modal-box">
-    <div class="modal-hdr">
-      <h3>Confirmar pedido 🌸</h3>
-      <button class="modal-close" onclick="cerrarCheckout()">✕</button>
-    </div>
-    <div class="modal-body" id="modal-body"></div>
-  </div>
+
+<div class="modal-box">
+
+<div class="modal-hdr">
+
+<h3>Confirmar pedido 🌸</h3>
+
+<button class="modal-close" onclick="cerrarCheckout()">✕</button>
+
+</div>
+
+<div class="modal-body" id="modal-body"></div>
+
+</div>
+
 </div>
 
 <!-- ══ MODAL CONFIRMAR LIMPIAR ═══════════════════════════════ -->
+
 <div class="confirm-overlay" id="confirm-limpiar-ovl">
-  <div class="confirm-box">
-    <p>¿Deseas <strong>limpiar todos los campos</strong> de dirección?<br>Esta acción no se puede deshacer.</p>
-    <div class="confirm-btns">
-      <button class="btn-no" onclick="document.getElementById('confirm-limpiar-ovl').classList.remove('open')">Cancelar</button>
-      <button class="btn-si" onclick="ejecutarLimpiar()">Sí, limpiar</button>
-    </div>
-  </div>
+
+<div class="confirm-box">
+
+<p>¿Deseas <strong>limpiar todos los campos</strong> de dirección?<br>Esta acción no se puede deshacer.</p>
+
+<div class="confirm-btns">
+
+<button class="btn-no" onclick="document.getElementById('confirm-limpiar-ovl').classList.remove('open')">Cancelar</button>
+
+<button class="btn-si" onclick="ejecutarLimpiar()">Sí, limpiar</button>
+
+</div>
+
+</div>
+
 </div>
 
 <!-- ══ MODAL PAGO INFO ════════════════════════════════════════ -->
+
 <div class="pago-info-overlay" id="pago-info-overlay">
-  <div class="pago-info-box" id="pago-info-box">
-    <!-- contenido dinámico -->
-  </div>
+
+<div class="pago-info-box" id="pago-info-box">
+
+<!-- contenido dinámico -->
+
+</div>
+
 </div>
 
 <!-- ══ MODAL AVISO DE PRIVACIDAD ════════════════════════════ -->
+
 <div class="modal-overlay" id="modal-aviso" style="z-index:800">
-  <div class="modal-box" style="max-width:620px">
-    <div class="modal-hdr">
-      <h3>Aviso de Privacidad 🌸</h3>
-      <button class="modal-close" onclick="cerrarAviso()">✕</button>
-    </div>
-    <div class="modal-body" style="max-height:70vh;overflow-y:auto;font-family:Arial,sans-serif;font-size:13px;line-height:1.7;color:#4a2c4a">
-      <p style="font-size:14px;font-weight:bold;margin-bottom:12px;color:#7b4f7b">AVISO DE PRIVACIDAD</p>
-      <p style="margin-bottom:12px"><strong>MAIA</strong>, con domicilio en Herradura y Nelson, Calz. de la Hacienda Manzana 74 Lote 3-A, Ojo de Agua, 55770, Méx. es responsable del uso y protección de sus datos personales, y al respecto le informa lo siguiente, en cumplimiento con la <strong>Ley Federal de Protección de Datos Personales en Posesión de los Particulares</strong>.</p>
-      <p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">1. Datos personales que se recaban</p>
-      <p style="margin-bottom:6px">A través de este sitio web, puede recabar los siguientes datos personales:</p>
-      <ul style="margin-left:20px;margin-bottom:12px">
-        <li>Nombre completo</li><li>Teléfono</li><li>Correo electrónico</li>
-        <li>Datos fiscales (RFC, razón social, domicilio fiscal), en caso de contratación</li>
-        <li>Cualquier otra información que el usuario proporcione voluntariamente mediante formularios de contacto</li>
-      </ul>
-      <p style="margin-bottom:12px">No se recaban datos personales sensibles a través de este sitio web.</p>
-      <p style="margin-bottom:12px">En cumplimiento del acta federal de 1998 para la privacidad on-line y la protección de niños (COPPA), no pediremos conscientemente información personal de ninguna persona menor a trece (13) años sin el consentimiento de sus padres.</p>
-      <p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">2. Finalidades del tratamiento</p>
-      <p style="margin-bottom:6px">Los datos personales recabados serán utilizados para las siguientes <strong>finalidades primarias</strong>:</p>
-      <ul style="margin-left:20px;margin-bottom:8px">
-        <li>Atender solicitudes de información y contacto</li><li>Proporcionar cotizaciones y servicios</li>
-        <li>Dar seguimiento a relaciones comerciales</li><li>Cumplir con obligaciones legales y fiscales</li>
-      </ul>
-      <p style="margin-bottom:6px">De manera adicional, sus datos podrán ser utilizados para las siguientes <strong>finalidades secundarias</strong>:</p>
-      <ul style="margin-left:20px;margin-bottom:8px">
-        <li>Envío de información comercial, promociones o publicidad</li><li>Evaluación de calidad del servicio</li>
-      </ul>
-      <p style="margin-bottom:12px">Si no desea que sus datos personales sean tratados para estas finalidades secundarias, puede manifestarlo enviando un correo a <a href="mailto:contacto.maiaeve@gmail.com" style="color:#7b4f7b">contacto.maiaeve@gmail.com</a></p>
-      <p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">3. Transferencia de datos personales</p>
-      <p style="margin-bottom:12px"><strong>MAIA no comparte ni transfiere sus datos personales a terceros</strong>, salvo cuando sea necesario para cumplir con obligaciones legales o requerimientos de autoridad competente.</p>
-      <p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">4. Derechos ARCO</p>
-      <p style="margin-bottom:6px">Usted tiene derecho a <strong>Acceder, Rectificar, Cancelar u Oponerse</strong> al tratamiento de sus datos personales (Derechos ARCO).</p>
-      <p style="margin-bottom:6px">Para ejercerlos, deberá enviar una solicitud al correo electrónico <a href="mailto:contacto.maiaeve@gmail.com" style="color:#7b4f7b">contacto.maiaeve@gmail.com</a>, incluyendo:</p>
-      <ul style="margin-left:20px;margin-bottom:8px">
-        <li>Nombre del titular</li><li>Derecho que desea ejercer</li>
-        <li>Descripción clara de los datos personales</li><li>Copia de una identificación oficial</li>
-      </ul>
-      <p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">5. Uso de cookies y tecnologías de rastreo</p>
-      <p style="margin-bottom:12px">Este sitio web puede utilizar <strong>cookies y otras tecnologías</strong> para mejorar la experiencia del usuario, analizar el tráfico y optimizar el contenido.</p>
-      <p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">6. Cambios al aviso de privacidad</p>
-      <p style="margin-bottom:12px"><strong>MAIA</strong> se reserva el derecho de realizar modificaciones o actualizaciones al presente Aviso de Privacidad.</p>
-      <p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">7. Consentimiento</p>
-      <p style="margin-bottom:16px">Al utilizar este sitio web y proporcionar sus datos personales, el usuario manifiesta su consentimiento para el tratamiento de los mismos conforme a este Aviso de Privacidad.</p>
-      <div style="text-align:center">
-        <button onclick="cerrarAviso()" style="background:linear-gradient(135deg,#7b4f7b,#c8a0c8);color:#fff;border:none;padding:10px 28px;border-radius:20px;font-size:13px;cursor:pointer;font-family:Georgia,serif">Cerrar ✕</button>
-      </div>
-    </div>
-  </div>
+
+<div class="modal-box" style="max-width:620px">
+
+<div class="modal-hdr">
+
+<h3>Aviso de Privacidad 🌸</h3>
+
+<button class="modal-close" onclick="cerrarAviso()">✕</button>
+
+</div>
+
+<div class="modal-body" style="max-height:70vh;overflow-y:auto;font-family:Arial,sans-serif;font-size:13px;line-height:1.7;color:#4a2c4a">
+
+<!-- V4: Aviso actualizado con domicilio Ojo de Agua y nombre MAIA -->
+
+<p style="font-size:14px;font-weight:bold;margin-bottom:12px;color:#7b4f7b">AVISO DE PRIVACIDAD</p>
+
+<p style="margin-bottom:12px"><strong>MAIA</strong>, con domicilio en Herradura y Nelson, Calz. de la Hacienda Manzana 74 Lote 3-A, Ojo de Agua, 55770, Méx. es responsable del uso y protección de sus datos personales, y al respecto le informa lo siguiente, en cumplimiento con la <strong>Ley Federal de Protección de Datos Personales en Posesión de los Particulares</strong>.</p>
+
+<p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">1. Datos personales que se recaban</p>
+
+<p style="margin-bottom:6px">A través de este sitio web, puede recabar los siguientes datos personales:</p>
+
+<ul style="margin-left:20px;margin-bottom:12px">
+
+<li>Nombre completo</li><li>Teléfono</li><li>Correo electrónico</li>
+
+<li>Datos fiscales (RFC, razón social, domicilio fiscal), en caso de contratación</li>
+
+<li>Cualquier otra información que el usuario proporcione voluntariamente mediante formularios de contacto</li>
+
+</ul>
+
+<p style="margin-bottom:12px">No se recaban datos personales sensibles a través de este sitio web.</p>
+
+<p style="margin-bottom:12px">En cumplimiento del acta federal de 1998 para la privacidad on-line y la protección de niños (COPPA), no pediremos conscientemente información personal de ninguna persona menor a trece (13) años sin el consentimiento de sus padres. Cualquier persona que nos proporciona este tipo de información representa que tiene 13 o más años de edad.</p>
+
+<p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">2. Finalidades del tratamiento</p>
+
+<p style="margin-bottom:6px">Los datos personales recabados serán utilizados para las siguientes <strong>finalidades primarias</strong>:</p>
+
+<ul style="margin-left:20px;margin-bottom:8px">
+
+<li>Atender solicitudes de información y contacto</li><li>Proporcionar cotizaciones y servicios</li>
+
+<li>Dar seguimiento a relaciones comerciales</li><li>Cumplir con obligaciones legales y fiscales</li>
+
+</ul>
+
+<p style="margin-bottom:6px">De manera adicional, sus datos podrán ser utilizados para las siguientes <strong>finalidades secundarias</strong>:</p>
+
+<ul style="margin-left:20px;margin-bottom:8px">
+
+<li>Envío de información comercial, promociones o publicidad</li><li>Evaluación de calidad del servicio</li>
+
+</ul>
+
+<p style="margin-bottom:12px">Si no desea que sus datos personales sean tratados para estas finalidades secundarias, puede manifestarlo enviando un correo a <a href="mailto:contacto.maiaeve@gmail.com" style="color:#7b4f7b">contacto.maiaeve@gmail.com</a></p>
+
+<p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">3. Transferencia de datos personales</p>
+
+<p style="margin-bottom:12px"><strong>MAIA no comparte ni transfiere sus datos personales a terceros</strong>, salvo cuando sea necesario para cumplir con obligaciones legales o requerimientos de autoridad competente.</p>
+
+<p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">4. Derechos ARCO</p>
+
+<p style="margin-bottom:6px">Usted tiene derecho a <strong>Acceder, Rectificar, Cancelar u Oponerse</strong> al tratamiento de sus datos personales (Derechos ARCO).</p>
+
+<p style="margin-bottom:6px">Para ejercerlos, deberá enviar una solicitud al correo electrónico <a href="mailto:contacto.maiaeve@gmail.com" style="color:#7b4f7b">contacto.maiaeve@gmail.com</a>, incluyendo:</p>
+
+<ul style="margin-left:20px;margin-bottom:8px">
+
+<li>Nombre del titular</li><li>Derecho que desea ejercer</li>
+
+<li>Descripción clara de los datos personales</li><li>Copia de una identificación oficial</li>
+
+</ul>
+
+<p style="margin-bottom:12px">La solicitud será atendida conforme a los plazos establecidos por la ley.</p>
+
+<p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">5. Uso de cookies y tecnologías de rastreo</p>
+
+<p style="margin-bottom:12px">Este sitio web puede utilizar <strong>cookies y otras tecnologías</strong> para mejorar la experiencia del usuario, analizar el tráfico y optimizar el contenido. El usuario puede deshabilitar las cookies directamente desde la configuración de su navegador.</p>
+
+<p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">6. Cambios al aviso de privacidad</p>
+
+<p style="margin-bottom:12px"><strong>MAIA</strong> se reserva el derecho de realizar modificaciones o actualizaciones al presente Aviso de Privacidad. Cualquier cambio será publicado en este mismo sitio web.</p>
+
+<p style="font-weight:bold;margin-bottom:6px;color:#7b4f7b">7. Consentimiento</p>
+
+<p style="margin-bottom:16px">Al utilizar este sitio web y proporcionar sus datos personales, el usuario manifiesta su consentimiento para el tratamiento de los mismos conforme a este Aviso de Privacidad.</p>
+
+<div style="text-align:center">
+
+<button onclick="cerrarAviso()" style="background:linear-gradient(135deg,#7b4f7b,#c8a0c8);color:#fff;border:none;padding:10px 28px;border-radius:20px;font-size:13px;cursor:pointer;font-family:Georgia,serif">Cerrar ✕</button>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 <!-- ══ LOADER ════════════════════════════════════════════════ -->
+
 <div class="loader-overlay" id="loader">
-  <div class="loader-spin"></div>
-  <div class="loader-txt">Procesando tu pedido... 🌸</div>
+
+<div class="loader-spin"></div>
+
+<div class="loader-txt">Procesando tu pedido... 🌸</div>
+
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
+
 // ═══════════════════════════════════════════════════════════
+
 //  DATOS DEL SERVIDOR
+
 // ═══════════════════════════════════════════════════════════
+
 // ══════════════════════════════════════════════════════════════════
-// URL DE APPS SCRIPT — CAMBIA ESTA URL CADA VEZ QUE REPUBLIQUES
+
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOslNErR258VuPOMkAJ-bshGwSvltl9FyAdsiBPeZ10Hz0LVHWRW8bdhy1Fr5M5hs/exec';
+
 // ══════════════════════════════════════════════════════════════════
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwEhT4MEVY50ADdFCmx7OblcqBxzn6a9VAjL9OAxWoOvepfsNtHHl2lTi30XjQxMQo/exec';
-// ══════════════════════════════════════════════════════════════════
+
 var PRODUCTOS        = [];
+
 var CATEGORIAS       = [];
-var _datosListos     = false;
+
+var _datosListos     = false;   // bandera: true cuando getDatos terminó OK
+
 // ── Bloquear botón Continuar hasta tener datos ──────────────────
+
 document.addEventListener('DOMContentLoaded', function() {
+
 var btnCont = document.getElementById('btn-continuar');
+
 if (btnCont) {
+
 btnCont.disabled = true;
+
 btnCont.setAttribute('data-loading', '1');
+
 }
+
+// Mostrar indicador de carga en pantalla bienvenida
+
 var bvBox = document.querySelector('.bv-box');
+
 if (bvBox) {
+
 var ind = document.createElement('div');
+
 ind.id  = 'datos-cargando';
+
 ind.style.cssText = 'font-size:12px;color:rgba(255,255,255,.7);font-family:Arial,sans-serif;margin-top:10px;text-align:center';
-ind.textContent = 'Cargando catálogo...';
+
+ind.textContent = '⏳ Cargando catálogo...';
+
 bvBox.appendChild(ind);
+
 }
+
 cargarDatos();
+
 });
+
 function cargarDatos() {
-  // Patron JSONP identico al de Lini Intranet que funciona:
-  // appendChild se hace ANTES de asignar .src — critico para algunos browsers
-  var cbName = '_maia' + Date.now() + Math.floor(Math.random() * 9999);
-  var url    = APPS_SCRIPT_URL + '?action=datos&callback=' + cbName;
-  var script = document.createElement('script');
-  var timer  = setTimeout(function() {
-    cleanup();
-    var ind = document.getElementById('datos-cargando');
-    if (ind) { ind.style.color = '#ff9999'; ind.textContent = 'Sin respuesta del servidor. Recarga la pagina.'; }
-  }, 25000);
-  window[cbName] = function(d) {
-    cleanup();
-    PRODUCTOS    = d.productos  || [];
-    CATEGORIAS   = d.categorias || [];
-    _datosListos = true;
-    var ind = document.getElementById('datos-cargando');
-    if (ind) ind.remove();
-    var btnCont = document.getElementById('btn-continuar');
-    if (btnCont) {
-      btnCont.removeAttribute('data-loading');
-      if (document.querySelector('.suc-btn.sel')) btnCont.disabled = false;
-    }
-  };
-  function cleanup() {
-    clearTimeout(timer);
-    delete window[cbName];
-    try { if (script.parentNode) document.head.removeChild(script); } catch(e) {}
-  }
-  script.onerror = function() {
-    cleanup();
-    var ind = document.getElementById('datos-cargando');
-    if (ind) { ind.style.color = '#ff9999'; ind.textContent = 'No se pudo cargar el catalogo. Recarga la pagina.'; }
-  };
-  document.head.appendChild(script); // appendChild ANTES de asignar src — patron Lini
-  script.src = url;
+
+// JSONP: único método que evita CORS desde GitHub Pages hacia Apps Script
+
+var cbName = 'maiaCallback_' + Date.now();
+
+var timeout = setTimeout(function() {
+
+var ind = document.getElementById('datos-cargando');
+
+if (ind) { ind.style.color = '#ff9999'; ind.textContent = '❌ Error al cargar catálogo. Recarga la página.'; }
+
+if (window[cbName]) delete window[cbName];
+
+}, 12000);
+
+window[cbName] = function(d) {
+
+clearTimeout(timeout);
+
+delete window[cbName];
+
+PRODUCTOS  = d.productos  || [];
+
+CATEGORIAS = d.categorias || [];
+
+_datosListos = true;
+
+var ind = document.getElementById('datos-cargando');
+
+if (ind) ind.remove();
+
+var btnCont = document.getElementById('btn-continuar');
+
+if (btnCont) {
+
+btnCont.removeAttribute('data-loading');
+
+if (document.querySelector('.suc-btn.sel')) btnCont.disabled = false;
+
+}
+
+};
+
+var s = document.createElement('script');
+
+s.src = APPS_SCRIPT_URL + '?action=datos&callback=' + cbName;
+
+s.onerror = function() {
+
+clearTimeout(timeout);
+
+var ind = document.getElementById('datos-cargando');
+
+if (ind) { ind.style.color = '#ff9999'; ind.textContent = '❌ Error al cargar catálogo. Recarga la página.'; }
+
+};
+
+document.head.appendChild(s);
+
 }
 
 // ═══════════════════════════════════════════════════════════
+
 //  ESTADO GLOBAL
+
 // ═══════════════════════════════════════════════════════════
+
 var sucursal     = '';
+
 var carrito      = [];
+
 var tipoPagoSel  = '';
+
 var personalIdx  = 0;
+
 var _datosDir    = {};
+
 var recogerEnTienda = false;
+
+// V6: mapa de galerías por id de producto
+
 var _galeriasProd = {};
+
+// V4: galería
+
 var _galImgs  = [];
+
 var _galIdx   = 0;
+
+// V4: coordenadas de sucursales para cálculo de distancia
+
 var SUC_COORDS = {
-  'Ecatepec': { lat: 19.6094, lng: -99.0350 },
-  'Tecámac':  { lat: 19.7143, lng: -98.9716 }
+
+'Ecatepec': { lat: 19.6094, lng: -99.0350 },
+
+'Tecámac':  { lat: 19.7143, lng: -98.9716 }
+
 };
+
 // ═══════════════════════════════════════════════════════════
+
 //  BIENVENIDA
+
 // ═══════════════════════════════════════════════════════════
+
 function selSuc(btn, suc) {
+
 document.querySelectorAll('.suc-btn').forEach(function(b){ b.classList.remove('sel'); });
+
 btn.classList.add('sel');
+
 sucursal = suc;
-var btnCont = document.getElementById('btn-continuar');
-if (btnCont && !btnCont.getAttribute('data-loading')) {
-btnCont.disabled = false;
+
+document.getElementById('btn-continuar').disabled = false;
+
 }
-}
+
 function entrarTienda() {
+
+// V4: actualizar stock según sucursal antes de mostrar tienda
+
 actualizarStockEnServidor();
+
 document.getElementById('pantalla-bienvenida').style.display = 'none';
+
 document.getElementById('tienda').style.display = 'block';
+
 document.getElementById('hero-suc-txt').textContent = sucursal;
+
 construirModulos();
+
 renderCarrito();
+
 }
+
+// V4: actualizar stock en servidor al elegir sucursal
+
 function actualizarStockEnServidor() {
-  try {
-    var cbName = '_maiaStock' + Date.now() + Math.floor(Math.random()*9999);
-    var url    = APPS_SCRIPT_URL + '?action=stock&sucursal=' + encodeURIComponent(sucursal) + '&callback=' + cbName;
-    var script = document.createElement('script');
-    window[cbName] = function(res) {
-      try { if (script.parentNode) document.head.removeChild(script); } catch(e) {}
-      delete window[cbName];
-      try {
-        if (res && res.productos) {
-          res.productos.forEach(function(p) {
-            var prod = PRODUCTOS.find(function(pr){ return pr.id == p.id; });
-            if (prod) { prod.stockSuc1 = p.stockSuc1; prod.stockSuc2 = p.stockSuc2; }
-          });
-          document.querySelectorAll('.prod-stock').forEach(function(el){
-            var id = el.dataset.prodid;
-            var prod = PRODUCTOS.find(function(pr){ return pr.id == parseInt(id); });
-            if (prod) actualizarBadgeStock(id, prod);
-          });
-        }
-      } catch(e){}
-    };
-    document.head.appendChild(script); // appendChild ANTES de asignar src
-    script.src = url;
-  } catch(e) {}
+
+try {
+
+var cbName = 'maiaStockCb_' + Date.now();
+
+window[cbName] = function(res) {
+
+delete window[cbName];
+
+try {
+
+if (res && res.productos) {
+
+res.productos.forEach(function(p) {
+
+var prod = PRODUCTOS.find(function(pr){ return pr.id == p.id; });
+
+if (prod) { prod.stockSuc1 = p.stockSuc1; prod.stockSuc2 = p.stockSuc2; }
+
+});
+
+document.querySelectorAll('.prod-stock').forEach(function(el){
+
+var id = el.dataset.prodid;
+
+var prod = PRODUCTOS.find(function(pr){ return pr.id == parseInt(id); });
+
+if (prod) actualizarBadgeStock(id, prod);
+
+});
+
 }
+
+} catch(e){}
+
+};
+
+var s = document.createElement('script');
+
+s.src = APPS_SCRIPT_URL + '?action=stock&sucursal=' + encodeURIComponent(sucursal) + '&callback=' + cbName;
+
+document.head.appendChild(s);
+
+} catch(e) {}
+
+}
+
 function actualizarBadgeStock(id, prod) {
-  var el = document.getElementById('stock-'+id);
-  if (!el) return;
-  var stock = sucursal === 'Ecatepec' ? (prod.stockSuc1||0) : (prod.stockSuc2||0);
-  if (stock > 0) {
-    el.textContent = '✅ ¡De entrega inmediata! (' + stock + ' disponible' + (stock > 1 ? 's' : '') + ')';
-    el.className = 'prod-stock disponible';
-  } else {
-    el.textContent = '⏳ No disponible en sucursal, ¡Solicitalo y programa su entrega!';
-    el.className = 'prod-stock no-disponible';
-  }
+
+var el = document.getElementById('stock-'+id);
+
+if (!el) return;
+
+var stock = sucursal === 'Ecatepec' ? (prod.stockSuc1||0) : (prod.stockSuc2||0);
+
+if (stock > 0) {
+
+el.textContent = '✅ ¡De entrega inmediata! (' + stock + ' disponible' + (stock > 1 ? 's' : '') + ')';
+
+el.className = 'prod-stock disponible';
+
+} else {
+
+el.textContent = '⏳ No disponible en sucursal, ¡Solicitalo y programa su entrega!';
+
+el.className = 'prod-stock no-disponible';
+
 }
+
+}
+
 // ═══════════════════════════════════════════════════════════
+
 //  WHATSAPP
+
 // ═══════════════════════════════════════════════════════════
+
 function abrirWA() { document.getElementById('wa-modal').classList.add('open'); }
+
 function cerrarWA() { document.getElementById('wa-modal').classList.remove('open'); }
+
 function aceptarWA() {
-  fetch(APPS_SCRIPT_URL, {
-  method: 'POST',
-  mode: 'no-cors',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ sucursal: sucursal, notas: 'Contacto via WhatsApp desde tienda' })
+
+var d = JSON.stringify({ sucursal: sucursal, notas: 'Contacto via WhatsApp desde tienda' });
+
+fetch(APPS_SCRIPT_URL, {
+
+method: 'POST',
+
+mode: 'no-cors',
+
+headers: { 'Content-Type': 'application/json' },
+
+body: d
+
 }).catch(function(){});
-  cerrarWA();
-  window.open('https://api.whatsapp.com/send?phone=5215579248882&text=Hola!!%20Estoy%20interesada%20en%20un%20arreglo%20de%20flores%F0%9F%92%90y%2Fo%20globos%F0%9F%8E%88%E2%80%A6','_blank');
+
+cerrarWA();
+
+window.open('https://api.whatsapp.com/send?phone=5215579248882&text=Hola!!%20Estoy%20interesada%20en%20un%20arreglo%20de%20flores%F0%9F%92%90y%2Fo%20globos%F0%9F%8E%88%E2%80%A6','_blank');
+
 }
+
 // ═══════════════════════════════════════════════════════════
-//  GALERÍA (overlay con ESC)
+
+//  GALERÍA (overlay con 3 fotos y ESC)
+
 // ═══════════════════════════════════════════════════════════
+
 function abrirGaleriaProd(prodId) {
-  var imgs = _galeriasProd[prodId] || [];
-  if (imgs.length) abrirGaleria(imgs);
+
+var imgs = _galeriasProd[prodId] || [];
+
+if (imgs.length) abrirGaleria(imgs);
+
 }
+
 function abrirGaleria(imgs) {
-  _galImgs = imgs.filter(Boolean);
-  _galIdx  = 0;
-  renderGal();
-  document.getElementById('img-overlay').classList.add('show');
+
+_galImgs = imgs.filter(Boolean);
+
+_galIdx  = 0;
+
+renderGal();
+
+document.getElementById('img-overlay').classList.add('show');
+
 }
+
 function renderGal() {
-  document.getElementById('img-overlay-img').src = _galImgs[_galIdx] || '';
-  document.getElementById('gal-prev').disabled = _galIdx === 0;
-  document.getElementById('gal-next').disabled = _galIdx === _galImgs.length - 1;
-  var dots = document.getElementById('gal-dots');
-  dots.innerHTML = _galImgs.map(function(_, i) {
-    return '<div class="gal-dot'+(i===_galIdx?' active':'')+'\" onclick="galNav('+(i-_galIdx)+')"></div>';
-  }).join('');
+
+document.getElementById('img-overlay-img').src = _galImgs[_galIdx] || '';
+
+document.getElementById('gal-prev').disabled = _galIdx === 0;
+
+document.getElementById('gal-next').disabled = _galIdx === _galImgs.length - 1;
+
+var dots = document.getElementById('gal-dots');
+
+dots.innerHTML = _galImgs.map(function(_, i) {
+
+return '<div class="gal-dot'+(i===_galIdx?' active':'')+'" onclick="galNav('+(i-_galIdx)+')"></div>';
+
+}).join('');
+
 }
+
 function galNav(delta) {
-  _galIdx = Math.max(0, Math.min(_galImgs.length-1, _galIdx+delta));
-  renderGal();
+
+_galIdx = Math.max(0, Math.min(_galImgs.length-1, _galIdx+delta));
+
+renderGal();
+
 }
+
 function cerrarImgOverlay() { document.getElementById('img-overlay').classList.remove('show'); }
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    cerrarImgOverlay();
-    // CAMBIO: cerrar modales de pago con ESC
-    cerrarInfoPago();
-  }
-  if (document.getElementById('img-overlay').classList.contains('show')) {
-    if (e.key === 'ArrowLeft') galNav(-1);
-    if (e.key === 'ArrowRight') galNav(1);
-  }
+
+if (e.key === 'Escape') cerrarImgOverlay();
+
+if (document.getElementById('img-overlay').classList.contains('show')) {
+
+if (e.key === 'ArrowLeft') galNav(-1);
+
+if (e.key === 'ArrowRight') galNav(1);
+
+}
+
 });
+
 document.getElementById('img-overlay').addEventListener('click', function(e) {
-  if (e.target === this) cerrarImgOverlay();
+
+if (e.target === this) cerrarImgOverlay();
+
 });
+
 function verGuia(url) { abrirGaleria([url]); }
 
 // ═══════════════════════════════════════════════════════════
+
 //  CONSTRUIR MÓDULOS
+
 // ═══════════════════════════════════════════════════════════
+
 function construirModulos() {
-  var grid = document.getElementById('mods-grid');
-  grid.innerHTML = '';
-  var imgs   = ['https://i.postimg.cc/8zL8DB99/MAIA.jpg','https://i.postimg.cc/8zL8DB99/MAIA.jpg','https://i.postimg.cc/8zL8DB99/MAIA.jpg'];
-  var badges = ['✨ PERSONALIZADO','⭐ MÁS VENDIDOS','🎁 OCASIONES'];
-  var clases = ['mod-btn mod-btn-violeta','mod-btn mod-btn-rosa','mod-btn mod-btn-rosa'];
-  var textos = ['🌸 Quiero un Arreglo Personalizado','🌷 Elegir Ramos más vendidos','🎁 Ver Ocasiones especiales'];
-  CATEGORIAS.forEach(function(cat, idx) {
-    var card = document.createElement('div');
-    card.className = 'mod-card'; card.id = 'mod-'+idx;
-    card.innerHTML =
-      '<div class="mod-badge">'+(badges[idx]||cat.nombre)+'</div>'+
-      '<div class="mod-img-wrap"><img src="'+(imgs[idx]||imgs[0])+'" alt="'+cat.nombre+'" onerror="this.src=\'https://i.postimg.cc/8zL8DB99/MAIA.jpg\'"></div>'+
-      '<div class="mod-body">'+
-        '<div class="mod-nombre">'+cat.nombre+'</div>'+
-        '<div class="mod-desc">'+(cat.frase||cat.nombre)+'</div>'+
-        '<button class="'+(clases[idx]||clases[0])+'" onclick="togglePanel('+idx+')">'+( textos[idx]||('Ver '+cat.nombre))+'</button>'+
-      '</div>';
-    grid.appendChild(card);
-  });
-  CATEGORIAS.forEach(function(cat, idx) {
-    var panelRow = document.createElement('div');
-    panelRow.className = 'panel-full-row'; panelRow.id = 'panel-'+idx;
-    panelRow.innerHTML =
-      '<div class="panel-hdr">'+
-        '<span class="panel-hdr-titulo">'+cat.nombre+'</span>'+
-        '<button class="panel-close-btn" onclick="cerrarPanel('+idx+')">✕ Cerrar</button>'+
-      '</div>'+
-      buildPanelContenido(cat, idx);
-    grid.appendChild(panelRow);
-  });
+
+var grid = document.getElementById('mods-grid');
+
+grid.innerHTML = '';
+
+// V9: 3 módulos fijos — Ramos Personalizados, Ramos más vendidos y Ocasiones
+
+var MODULOS = [
+
+{
+
+nombre:  'Ramos Personalizados',
+
+badge:   '✨ PERSONALIZADO',
+
+img:     'https://i.postimg.cc/8zL8DB99/MAIA.jpg',
+
+frase:   'Diseña tu arreglo único con la florista Yetlanezi Solis',
+
+clase:   'mod-btn mod-btn-violeta',
+
+btnTxt:  '🌸 Quiero un Arreglo Personalizado',
+
+esPersonalizado: true
+
+},
+
+{
+
+nombre:  'Ramos más vendidos',
+
+badge:   '⭐ MÁS VENDIDOS',
+
+img:     'https://i.postimg.cc/8zL8DB99/MAIA.jpg',
+
+frase:   'Ramos más vendidos',
+
+clase:   'mod-btn mod-btn-rosa',
+
+btnTxt:  '💐 Elegir Ramos más vendidos',
+
+esPersonalizado: false
+
+},
+
+{
+
+nombre:  'Ocasiones',
+
+badge:   '🎁 OCASIONES',
+
+img:     'https://i.postimg.cc/8zL8DB99/MAIA.jpg',
+
+frase:   'Ocasiones',
+
+clase:   'mod-btn mod-btn-rosa',
+
+btnTxt:  '🎁 Ver Ocasiones especiales',
+
+esPersonalizado: false
+
 }
+
+];
+
+MODULOS.forEach(function(mod, idx) {
+
+var card = document.createElement('div');
+
+card.className = 'mod-card'; card.id = 'mod-'+idx;
+
+card.innerHTML =
+
+'<div class="mod-badge">'+mod.badge+'</div>'+
+
+'<div class="mod-img-wrap"><img src="'+mod.img+'" alt="'+mod.nombre+'" onerror="this.src=\'https://i.postimg.cc/8zL8DB99/MAIA.jpg\'"></div>'+
+
+'<div class="mod-body">'+
+
+'<div class="mod-nombre">'+mod.nombre+'</div>'+
+
+'<div class="mod-desc">'+mod.frase+'</div>'+
+
+'<button class="'+mod.clase+'" onclick="togglePanel('+idx+')">'+mod.btnTxt+'</button>'+
+
+'</div>';
+
+grid.appendChild(card);
+
+});
+
+MODULOS.forEach(function(mod, idx) {
+
+var panelRow = document.createElement('div');
+
+panelRow.className = 'panel-full-row'; panelRow.id = 'panel-'+idx;
+
+// Ramos Personalizados usa el formulario; el otro usa productos de la hoja
+
+var contenido = mod.esPersonalizado
+
+? buildFormPersonalizado()
+
+: buildPanelProductos(mod.nombre, idx);
+
+panelRow.innerHTML =
+
+'<div class="panel-hdr">'+
+
+'<span class="panel-hdr-titulo">'+mod.nombre+'</span>'+
+
+'<button class="panel-close-btn" onclick="cerrarPanel('+idx+')">✕ Cerrar</button>'+
+
+'</div>'+
+
+contenido;
+
+grid.appendChild(panelRow);
+
+});
+
+}
+
 function togglePanel(idx) {
-  var panel = document.getElementById('panel-'+idx);
-  var yaAbierto = panel.classList.contains('open');
-  document.querySelectorAll('.panel-full-row').forEach(function(p){ p.classList.remove('open'); });
-  if (!yaAbierto) {
-    panel.classList.add('open');
-    actualizarStockEnServidor();
-    setTimeout(function(){
-      carrito.forEach(function(item){
-        if (item._prodId) {
-          var qEl = document.getElementById('qty-'+item._prodId);
-          if (qEl) qEl.textContent = item.cantidad || 1;
-          var card = document.getElementById('prodcard-'+item._prodId);
-          if (card) card.classList.add('confirmado');
-        }
-      });
-      panel.scrollIntoView({ behavior:'smooth', block:'start' });
-    }, 80);
-  }
+
+var panel = document.getElementById('panel-'+idx);
+
+var yaAbierto = panel.classList.contains('open');
+
+document.querySelectorAll('.panel-full-row').forEach(function(p){ p.classList.remove('open'); });
+
+if (!yaAbierto) {
+
+panel.classList.add('open');
+
+actualizarStockEnServidor();
+
+// V4.1: sincronizar qty mostrada con el carrito actual
+
+setTimeout(function(){
+
+carrito.forEach(function(item){
+
+if (item._prodId) {
+
+var qEl = document.getElementById('qty-'+item._prodId);
+
+if (qEl) qEl.textContent = item.cantidad || 1;
+
+var card = document.getElementById('prodcard-'+item._prodId);
+
+if (card) card.classList.add('confirmado');
+
 }
+
+});
+
+panel.scrollIntoView({ behavior:'smooth', block:'start' });
+
+}, 80);
+
+}
+
+}
+
 function cerrarPanel(idx) { document.getElementById('panel-'+idx).classList.remove('open'); }
+
 function buildPanelContenido(cat, idx) {
-  if (cat.nombre === 'Ramos Personalizados') return buildFormPersonalizado();
-  return buildPanelProductos(cat.nombre, idx);
+
+if (cat.nombre === 'Ramos Personalizados') return buildFormPersonalizado();
+
+return buildPanelProductos(cat.nombre, idx);
+
 }
+
+// V9: cada módulo usa MODULO_PAGINA de hoja 7 con su nombre correspondiente
+
+// Los productos se filtran por MODULO_PAGINA = mod.nombre
+
 // ═══════════════════════════════════════════════════════════
+
 //  PANEL PERSONALIZADO
+
 // ═══════════════════════════════════════════════════════════
+
 function buildFormPersonalizado() {
-  return '<div class="ramos-aviso">📅 Importante: Pedidos con 2 o 3 días de anticipación</div>'+
-    '<div class="form-personal-wrap" id="personal-wrap">'+
-    '<div id="personal-items-wrap">'+buildItemPersonal(0)+'</div>'+
-    '<button class="btn-add-personal" onclick="addItemPersonal()">+ Agregar otro arreglo</button>'+
-    '<button class="btn-add-carrito-p" onclick="addPersonalAlCarrito()">Agregar al pedido 🌷</button>'+
-    '</div>';
+
+return '<div class="ramos-aviso">📅 Importante: Pedidos con 2 o 3 días de anticipación</div>'+
+
+'<div class="form-personal-wrap" id="personal-wrap">'+
+
+'<div id="personal-items-wrap">'+buildItemPersonal(0)+'</div>'+
+
+'<button class="btn-add-personal" onclick="addItemPersonal()">+ Agregar otro arreglo</button>'+
+
+'<button class="btn-add-carrito-p" onclick="addPersonalAlCarrito()">Agregar al pedido 🌷</button>'+
+
+'</div>';
+
 }
+
 function buildItemPersonal(n) {
-  return '<div class="pi-card" id="pi-card-'+n+'">'+
-    (n>0?'<button class="pi-remove" onclick="removeItemPersonal('+n+')">✕</button>':'')+
-    '<div class="pi-titulo">'+(n===0?'Tu arreglo personalizado 🌸':'Arreglo #'+(n+1))+'</div>'+
-    '<div class="pi-autor-txt">Al elegir esta opción tu ramo o arreglo es de diseño de Autor, de acuerdo al estilo de la Florista Yetlanezi Solis, un diseño único de acuerdo a las características que proporcionaste.</div>'+
-    '<div class="fp-item"><label>¿Ya tienes una idea?</label>'+
-    '<select id="pi'+n+'-idea" onchange="toggleImgUpload('+n+')">'+
-    '<option value="">Selecciona...</option><option value="Sí">Sí, tengo una idea</option><option value="No">No, sorpréndeme</option>'+
-    '</select><div class="fp-img-upload" id="pi'+n+'-imgwrap">'+
-    '<label style="color:#aaa;font-size:12px;font-family:Arial,sans-serif;display:block;margin-bottom:4px">Link de imagen de referencia:</label>'+
-    '<input type="text" id="pi'+n+'-imgurl" placeholder="Pega aquí el link de tu imagen..."></div></div>'+
-    '<div class="fp-item"><label>¿Cuál es la ocasión?</label><input type="text" id="pi'+n+'-ocasion" placeholder="Ej: Cumpleaños, Aniversario..."></div>'+
-    '<div class="fp-item"><label>¿Para qué persona es?</label>'+
-    '<select id="pi'+n+'-persona"><option value="">Selecciona...</option><option>Mujer</option><option>Hombre</option><option>Neutro / Sin género</option></select></div>'+
-    '<div class="fp-item"><label>¿Sabes sus colores favoritos?</label><input type="text" id="pi'+n+'-colores" placeholder="Ej: Rosa, blanco, lila..."></div>'+
-    '<div class="fp-item"><label>¿Qué tipo de flores te gustarían?</label>'+
-    '<input type="text" id="pi'+n+'-flores" placeholder="Ej: Rosas, girasoles, hortensias...">'+
-    // CAMBIO: imagen actualizada del guía de flores
-    '<button class="fp-guia" onclick="verGuia(\'https://i.postimg.cc/9XP4SG3x/TIPO-DE-FLORES-MAIA-1.png\')">🌸 Ver guía de flores</button></div>'+
-    '<div class="fp-item"><label>¿Quieres fotos de inspiración?</label>'+
-    '<input type="text" id="pi'+n+'-inspiracion" placeholder="Describe el estilo que imaginas...">'+
-    '<button class="fp-guia" onclick="verGuia(\'https://i.postimg.cc/0yZ73hZ8/INSPIRACION.png\')">💐 Ver inspiraciones</button></div>'+
-    '<div class="fp-item"><label>¿Qué presupuesto tienes en mente?</label>'+
-    '<input type="text" id="pi'+n+'-presupuesto" placeholder="" '+
-    'oninput="formatPresupuesto(this)" inputmode="numeric" style="font-family:Arial,sans-serif">'+
-    '<small style="font-family:Arial,sans-serif;font-size:10px;color:#aaa;margin-top:2px;display:block">Ingresa el monto en MXN (ej: 500)</small>'+
-    '</div>'+
-    '<div class="fp-item"><label>¿Te gustaría agregar un regalo complementario?</label>'+
-    '<input type="text" id="pi'+n+'-regalo" placeholder="Ej: Globo, chocolates, tarjeta..."></div>'+
-    '<div class="fp-item"><label>📅 Fecha de entrega deseada</label>'+
-    '<input type="date" id="pi'+n+'-fecha"></div>'+
-    '</div>';
+
+return '<div class="pi-card" id="pi-card-'+n+'">'+
+
+(n>0?'<button class="pi-remove" onclick="removeItemPersonal('+n+')">✕</button>':'')+
+
+'<div class="pi-titulo">'+(n===0?'Tu arreglo personalizado 🌸':'Arreglo #'+(n+1))+'</div>'+
+
+// V4: leyenda autor
+
+'<div class="pi-autor-txt">Al elegir esta opción tu ramo o arreglo es de diseño de Autor, de acuerdo al estilo de la Florista Yetlanezi Solis, un diseño único de acuerdo a las características que proporcionaste.</div>'+
+
+'<div class="fp-item"><label>¿Ya tienes una idea?</label>'+
+
+'<select id="pi'+n+'-idea" onchange="toggleImgUpload('+n+')">'+
+
+'<option value="">Selecciona...</option><option value="Sí">Sí, tengo una idea</option><option value="No">No, sorpréndeme</option>'+
+
+'</select><div class="fp-img-upload" id="pi'+n+'-imgwrap">'+
+
+'<label style="color:#aaa;font-size:12px;font-family:Arial,sans-serif;display:block;margin-bottom:4px">Link de imagen de referencia:</label>'+
+
+'<input type="text" id="pi'+n+'-imgurl" placeholder="Pega aquí el link de tu imagen..."></div></div>'+
+
+'<div class="fp-item"><label>¿Cuál es la ocasión?</label><input type="text" id="pi'+n+'-ocasion" placeholder="Ej: Cumpleaños, Aniversario..."></div>'+
+
+'<div class="fp-item"><label>¿Para qué persona es?</label>'+
+
+'<select id="pi'+n+'-persona"><option value="">Selecciona...</option><option>Mujer</option><option>Hombre</option><option>Neutro / Sin género</option></select></div>'+
+
+'<div class="fp-item"><label>¿Sabes sus colores favoritos?</label><input type="text" id="pi'+n+'-colores" placeholder="Ej: Rosa, blanco, lila..."></div>'+
+
+'<div class="fp-item"><label>¿Qué tipo de flores te gustarían?</label>'+
+
+'<input type="text" id="pi'+n+'-flores" placeholder="Ej: Rosas, girasoles, hortensias...">'+
+
+'<button class="fp-guia" onclick="verGuia(\'https://i.postimg.cc/9XP4SG3x/TIPO-DE-FLORES-MAIA-1.png\')">🌸 Ver guía de flores</button></div>'+
+
+'<div class="fp-item"><label>¿Quieres fotos de inspiración?</label>'+
+
+'<input type="text" id="pi'+n+'-inspiracion" placeholder="Describe el estilo que imaginas...">'+
+
+'<button class="fp-guia" onclick="verGuia(\'https://i.postimg.cc/0yZ73hZ8/INSPIRACION.png\')">💐 Ver inspiraciones</button></div>'+
+
+'<div class="fp-item"><label>¿Qué presupuesto tienes en mente?</label>'+
+
+'<input type="text" id="pi'+n+'-presupuesto" placeholder="" '+
+
+'oninput="formatPresupuesto(this)" inputmode="numeric" style="font-family:Arial,sans-serif">'+
+
+'<small style="font-family:Arial,sans-serif;font-size:10px;color:#aaa;margin-top:2px;display:block">Ingresa el monto en MXN (ej: 500)</small>'+
+
+'</div>'+
+
+'<div class="fp-item"><label>¿Te gustaría agregar un regalo complementario?</label>'+
+
+'<input type="text" id="pi'+n+'-regalo" placeholder="Ej: Globo, chocolates, tarjeta..."></div>'+
+
+'<div class="fp-item"><label>📅 Fecha de entrega deseada</label>'+
+
+'<input type="date" id="pi'+n+'-fecha"></div>'+
+
+'</div>';
+
 }
+
 function toggleImgUpload(n) {
-  var wrap = document.getElementById('pi'+n+'-imgwrap');
-  if (wrap) wrap.classList.toggle('show', document.getElementById('pi'+n+'-idea').value==='Sí');
+
+var wrap = document.getElementById('pi'+n+'-imgwrap');
+
+if (wrap) wrap.classList.toggle('show', document.getElementById('pi'+n+'-idea').value==='Sí');
+
 }
+
 function addItemPersonal() {
-  personalIdx++;
-  var wrap = document.createElement('div');
-  wrap.innerHTML = buildItemPersonal(personalIdx);
-  document.getElementById('personal-items-wrap').appendChild(wrap.firstChild);
+
+personalIdx++;
+
+var wrap = document.createElement('div');
+
+wrap.innerHTML = buildItemPersonal(personalIdx);
+
+document.getElementById('personal-items-wrap').appendChild(wrap.firstChild);
+
 }
+
 function removeItemPersonal(n) { var c=document.getElementById('pi-card-'+n); if(c) c.remove(); }
+
 function getPersonalData(n) {
-  function g(id){ var el=document.getElementById('pi'+n+'-'+id); return el?el.value.trim():''; }
-  return { tieneIdea:g('idea'), imagenUrl:g('imgurl'), ocasion:g('ocasion'),
-           persona:g('persona'), colores:g('colores'), flores:g('flores'),
-           inspiracion:g('inspiracion'), presupuesto:g('presupuesto'),
-           regalo:g('regalo'), fechaEntrega:g('fecha') };
+
+function g(id){ var el=document.getElementById('pi'+n+'-'+id); return el?el.value.trim():''; }
+
+return { tieneIdea:g('idea'), imagenUrl:g('imgurl'), ocasion:g('ocasion'),
+
+persona:g('persona'), colores:g('colores'), flores:g('flores'),
+
+inspiracion:g('inspiracion'), presupuesto:g('presupuesto'),
+
+regalo:g('regalo'), fechaEntrega:g('fecha') };
+
 }
+
 function addPersonalAlCarrito() {
-  var cards = document.querySelectorAll('#personal-items-wrap .pi-card');
-  if (!cards.length) { showToast('No hay arreglos para agregar', true); return; }
-  cards.forEach(function(card) {
-    var n = parseInt(card.id.replace('pi-card-',''));
-    var p = getPersonalData(n);
-    var parts = [p.tieneIdea,p.ocasion,p.persona,p.flores,p.presupuesto].filter(Boolean);
-    carrito.push({ tipo:'Ramos Personalizados',
-      descripcion:'Ramo Personalizado — '+(parts.join(' · ')||'Arreglo personalizado'),
-      precio:0, precioUnit:0, cantidad:1,
-      imagen:'https://i.postimg.cc/8zL8DB99/MAIA.jpg',
-      personalizacion:p, opcionesElegidas:[] });
-  });
-  renderCarrito(); abrirCarrito();
-  showToast('✅ Arreglo(s) personalizado(s) agregado(s)');
+
+var cards = document.querySelectorAll('#personal-items-wrap .pi-card');
+
+if (!cards.length) { showToast('No hay arreglos para agregar', true); return; }
+
+cards.forEach(function(card) {
+
+var n = parseInt(card.id.replace('pi-card-',''));
+
+var p = getPersonalData(n);
+
+var parts = [p.tieneIdea,p.ocasion,p.persona,p.flores,p.presupuesto].filter(Boolean);
+
+carrito.push({ tipo:'Ramos Personalizados',
+
+descripcion:'Ramo Personalizado — '+(parts.join(' · ')||'Arreglo personalizado'),
+
+precio:0, precioUnit:0, cantidad:1,
+
+imagen:'https://i.postimg.cc/8zL8DB99/MAIA.jpg',
+
+personalizacion:p, opcionesElegidas:[] });
+
+});
+
+renderCarrito(); abrirCarrito();
+
+showToast('✅ Arreglo(s) personalizado(s) agregado(s)');
+
 }
+
 // ═══════════════════════════════════════════════════════════
+
 //  PANEL PRODUCTOS
+
 // ═══════════════════════════════════════════════════════════
+
 function buildPanelProductos(catNombre, catIdx) {
-  var prods = PRODUCTOS.filter(function(p){ return p.modulo === catNombre; });
-  var subcats = ['Todas'];
-  prods.forEach(function(p){ if(p.categoria && subcats.indexOf(p.categoria)<0) subcats.push(p.categoria); });
-  var subHtml = '<div class="subcats" id="subcats-'+catIdx+'">'+
-    subcats.map(function(s){
-      return '<button class="subcat-btn'+(s==='Todas'?' active':'')+'" onclick="filtrarSubcat(this,'+catIdx+',\''+s+'\')">'+s+'</button>';
-    }).join('')+'</div>';
-  var cards = prods.map(function(p){ return buildProdCard(p, catNombre, catIdx); }).join('');
-  return subHtml+'<div class="prod-grid" id="prod-grid-'+catIdx+'">'+
-    (cards||'<p style="padding:20px;color:#aaa;font-family:Arial,sans-serif;text-align:center">No hay productos disponibles aún.</p>')+
-    '</div>';
+
+var prods = PRODUCTOS.filter(function(p){ return p.modulo === catNombre; });
+
+var subcats = ['Todas'];
+
+prods.forEach(function(p){ if(p.categoria && subcats.indexOf(p.categoria)<0) subcats.push(p.categoria); });
+
+var subHtml = '<div class="subcats" id="subcats-'+catIdx+'">'+
+
+subcats.map(function(s){
+
+return '<button class="subcat-btn'+(s==='Todas'?' active':'')+'" onclick="filtrarSubcat(this,'+catIdx+',\''+s+'\')">'+s+'</button>';
+
+}).join('')+'</div>';
+
+var cards = prods.map(function(p){ return buildProdCard(p, catNombre, catIdx); }).join('');
+
+return subHtml+'<div class="prod-grid" id="prod-grid-'+catIdx+'">'+
+
+(cards||'<p style="padding:20px;color:#aaa;font-family:Arial,sans-serif;text-align:center">No hay productos disponibles aún.</p>')+
+
+'</div>';
+
 }
+
 function buildProdCard(p, catNombre) {
-  var img    = p.imagen || 'https://i.postimg.cc/8zL8DB99/MAIA.jpg';
-  // Cambio 3: precio con descuento
-  var precioHtml;
-  if (p.tieneDescuento && p.precioConDesc > 0) {
-    precioHtml = '<span class="prod-precio-original">$' + Number(p.precio).toFixed(2) + '</span>' +
-                 '<span class="prod-precio-desc">$' + Number(p.precioConDesc).toFixed(2) + '</span>' +
-                 '<span class="prod-badge-desc">✓ Con descuento</span>';
-  } else {
-    precioHtml = p.precio > 0 ? '$' + Number(p.precio).toFixed(2) : 'Por cotizar';
-  }
-  var esOcasion = catNombre === 'Ocasiones';
-  var stockVal = sucursal === 'Ecatepec' ? (p.stockSuc1||0) : (p.stockSuc2||0);
-  var stockTxt = stockVal > 0
-    ? '✅ ¡De entrega inmediata! (' + stockVal + ' disponible' + (stockVal > 1 ? 's' : '') + ')'
-    : '⏳ No disponible en sucursal, ¡Solicitalo y programa su entrega!';
-  var stockHtml = '<span class="prod-stock '+(stockVal>0?'disponible':'no-disponible')+'" id="stock-'+p.id+'" data-prodid="'+p.id+'">'+stockTxt+'</span>';
-  var opcsHtml = '';
-  if (esOcasion && p.numOpciones > 0 && p.opciones) {
-    var opts = p.opciones.split(',').map(function(o){ return o.trim(); }).filter(Boolean);
-    opcsHtml = '<div class="prod-opc-wrap">';
-    opts.forEach(function(opt, i) {
-      var refBtn = p.imagenRef ? '<button class="btn-ver-ref" onclick="verGuia(\''+p.imagenRef+'\')">Ver referencia</button>' : '';
-      opcsHtml += '<div class="prod-opc"><div class="prod-opc-label-row"><label>'+opt+'</label>'+refBtn+'</div>'+
-        '<input type="text" id="opc-'+p.id+'-'+i+'" placeholder="'+opt+'..."></div>';
-    });
-    opcsHtml += '</div>';
-  }
-  var galImgs6 = [p.imagen, p.imagenRef, p.imagenRef2, p.imagenRef3].filter(Boolean);
-  _galeriasProd[p.id] = galImgs6;
-  var expandirBtn = galImgs6.length
-    ? '<button class="btn-expandir-foto" onclick="abrirGaleriaProd('+p.id+')">&#128269; Expandir</button>'
-    : '';
-  return '<div class="prod-card" data-cat="'+p.categoria+'" data-id="'+p.id+'" id="prodcard-'+p.id+'">'+
-    '<div class="prod-check">✓</div>'+
-    '<div class="prod-img-w">'+
-      '<img src="'+img+'" alt="'+p.descripcion+'" loading="lazy" onerror="this.src=\'https://i.postimg.cc/8zL8DB99/MAIA.jpg\'">'+
-      '<span class="prod-cat-b">'+(p.categoria||catNombre)+'</span>'+
-      expandirBtn+
-    '</div>'+
-    '<div class="prod-body">'+
-      '<div class="prod-desc">'+p.descripcion+'</div>'+
-      '<div class="prod-precio">'+precioHtml+'</div>'+
-      stockHtml+
-      opcsHtml+
-      '<div class="prod-footer">'+
-        '<div class="prod-qty-row">'+
-          '<div class="qty-wrap">'+
-            '<button class="qty-btn" onclick="changeQty('+p.id+',-1)">−</button>'+
-            '<span class="qty-val" id="qty-'+p.id+'">1</span>'+
-            '<button class="qty-btn" onclick="changeQty('+p.id+',1)">+</button>'+
-          '</div>'+
-        '</div>'+
-        '<div class="prod-action-row">'+
-          '<button class="btn-quitar-prod" onclick="quitarProd('+p.id+')">− Quitar</button>'+
-          '<button class="btn-confirmar-prod" onclick="confirmarProd('+p.id+',\''+catNombre.replace(/'/g,"\\'")+'\',' + (p.numOpciones||0) + ',\''+p.opciones.replace(/'/g,"\\'")+'\')">✓ Agregar</button>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-  '</div>';
+
+var img    = p.imagen || 'https://i.postimg.cc/8zL8DB99/MAIA.jpg';
+
+var precio = p.precio > 0 ? '$' + p.precio.toFixed(2) : 'Por cotizar';
+
+// V8: opciones disponibles para cualquier módulo que las tenga en hoja 7
+
+var esOcasion = p.numOpciones > 0;
+
+// V4: stock según sucursal
+
+var stockVal = sucursal === 'Ecatepec' ? (p.stockSuc1||0) : (p.stockSuc2||0);
+
+// V4.1: mostrar cantidad exacta de stock disponible
+
+var stockTxt = stockVal > 0
+
+? '✅ ¡De entrega inmediata! (' + stockVal + ' disponible' + (stockVal > 1 ? 's' : '') + ')'
+
+: '⏳ No disponible en sucursal, ¡Solicitalo y programa su entrega!';
+
+var stockHtml = '<span class="prod-stock '+(stockVal>0?'disponible':'no-disponible')+'" id="stock-'+p.id+'" data-prodid="'+p.id+'">'+stockTxt+'</span>';
+
+// Opciones para Ocasiones
+
+var opcsHtml = '';
+
+if (esOcasion && p.opciones) {
+
+var opts = p.opciones.split(',').map(function(o){ return o.trim(); }).filter(Boolean);
+
+opcsHtml = '<div class="prod-opc-wrap">';
+
+opts.forEach(function(opt, i) {
+
+var refBtn = p.imagenRef ? '<button class="btn-ver-ref" onclick="verGuia(\''+p.imagenRef+'\')">Ver referencia</button>' : '';
+
+opcsHtml += '<div class="prod-opc"><div class="prod-opc-label-row"><label>'+opt+'</label>'+refBtn+'</div>'+
+
+'<input type="text" id="opc-'+p.id+'-'+i+'" placeholder="'+opt+'..."></div>';
+
+});
+
+opcsHtml += '</div>';
+
 }
+
+// V6: galería — se registra con id para evitar problemas de escapado
+
+var galImgs6 = [p.imagen, p.imagenRef, p.imagenRef2, p.imagenRef3].filter(Boolean);
+
+_galeriasProd[p.id] = galImgs6;
+
+var expandirBtn = galImgs6.length
+
+? '<button class="btn-expandir-foto" onclick="abrirGaleriaProd('+p.id+')">&#128269; Expandir</button>'
+
+: '';
+
+return '<div class="prod-card" data-cat="'+p.categoria+'" data-id="'+p.id+'" id="prodcard-'+p.id+'">'+
+
+'<div class="prod-check">✓</div>'+
+
+'<div class="prod-img-w">'+
+
+'<img src="'+img+'" alt="'+p.descripcion+'" loading="lazy" onerror="this.src=\'https://i.postimg.cc/8zL8DB99/MAIA.jpg\'">'+
+
+'<span class="prod-cat-b">'+(p.categoria||catNombre)+'</span>'+
+
+expandirBtn+
+
+'</div>'+
+
+'<div class="prod-body">'+
+
+'<div class="prod-desc">'+p.descripcion+'</div>'+
+
+'<div class="prod-precio">'+precio+'</div>'+
+
+stockHtml+
+
+opcsHtml+
+
+'<div class="prod-footer">'+
+
+'<div class="prod-qty-row">'+
+
+'<div class="qty-wrap">'+
+
+'<button class="qty-btn" onclick="changeQty('+p.id+',-1)">−</button>'+
+
+'<span class="qty-val" id="qty-'+p.id+'">1</span>'+
+
+'<button class="qty-btn" onclick="changeQty('+p.id+',1)">+</button>'+
+
+'</div>'+
+
+'</div>'+
+
+'<div class="prod-action-row">'+
+
+'<button class="btn-quitar-prod" onclick="quitarProd('+p.id+')">− Quitar</button>'+
+
+'<button class="btn-confirmar-prod" onclick="confirmarProd('+p.id+',\''+catNombre.replace(/'/g,"\\'")+'\','+( p.numOpciones||0)+',\''+p.opciones.replace(/'/g,"\\'")+'\')">✓ Agregar</button>'+
+
+'</div>'+
+
+'</div>'+
+
+'</div>'+
+
+'</div>';
+
+}
+
 function filtrarSubcat(btn, catIdx, sub) {
-  document.querySelectorAll('#subcats-'+catIdx+' .subcat-btn').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  document.querySelectorAll('#prod-grid-'+catIdx+' .prod-card').forEach(function(card) {
-    card.style.display = (!sub||sub==='Todas'||card.dataset.cat===sub) ? '' : 'none';
-  });
+
+document.querySelectorAll('#subcats-'+catIdx+' .subcat-btn').forEach(function(b){ b.classList.remove('active'); });
+
+btn.classList.add('active');
+
+document.querySelectorAll('#prod-grid-'+catIdx+' .prod-card').forEach(function(card) {
+
+card.style.display = (!sub||sub==='Todas'||card.dataset.cat===sub) ? '' : 'none';
+
+});
+
 }
+
 function changeQty(id, delta) {
-  var el = document.getElementById('qty-'+id); if(!el) return;
-  var curr = parseInt(el.textContent) || 1;
-  var nuevo = Math.max(1, curr + delta);
-  el.textContent = nuevo;
-  var idx = carrito.findIndex(function(it){ return it._prodId == id; });
-  if (idx >= 0) {
-    var p = PRODUCTOS.find(function(pr){ return pr.id == id; });
-    carrito[idx].cantidad = nuevo;
-    var pFinal = (p && p.tieneDescuento && p.precioConDesc > 0) ? p.precioConDesc : (p ? p.precio : 0);
-    carrito[idx].precio   = pFinal > 0 ? pFinal * nuevo : 0;
-    renderCarrito();
-  }
+
+var el = document.getElementById('qty-'+id); if(!el) return;
+
+var curr = parseInt(el.textContent) || 1;
+
+var nuevo = Math.max(1, curr + delta);
+
+el.textContent = nuevo;
+
+// V4.1: si ya está en carrito, sincronizar cantidad inmediatamente
+
+var idx = carrito.findIndex(function(it){ return it._prodId == id; });
+
+if (idx >= 0) {
+
+var p = PRODUCTOS.find(function(pr){ return pr.id == id; });
+
+carrito[idx].cantidad = nuevo;
+
+carrito[idx].precio   = p && p.precio > 0 ? p.precio * nuevo : 0;
+
+renderCarrito();
+
 }
+
+}
+
 function quitarProd(id) {
-  var qEl = document.getElementById('qty-'+id); if (!qEl) return;
-  var qty = parseInt(qEl.textContent) || 1;
-  if (qty > 1) {
-    qEl.textContent = qty - 1;
-    var idx = carrito.findIndex(function(it){ return it._prodId == id; });
-    if (idx >= 0) {
-      var p = PRODUCTOS.find(function(pr){ return pr.id == id; });
-      carrito[idx].cantidad = qty - 1;
-      var pFinalQ = (p && p.tieneDescuento && p.precioConDesc > 0) ? p.precioConDesc : (p ? p.precio : 0);
-      carrito[idx].precio   = pFinalQ > 0 ? pFinalQ * (qty - 1) : 0;
-      renderCarrito();
-    }
-    return;
-  }
-  var card = document.getElementById('prodcard-'+id);
-  if (card) card.classList.remove('confirmado');
-  qEl.textContent = '1';
-  carrito = carrito.filter(function(it){ return !(it._prodId == id); });
-  renderCarrito();
+
+var qEl = document.getElementById('qty-'+id); if (!qEl) return;
+
+var qty = parseInt(qEl.textContent) || 1;
+
+if (qty > 1) {
+
+qEl.textContent = qty - 1;
+
+var idx = carrito.findIndex(function(it){ return it._prodId == id; });
+
+if (idx >= 0) {
+
+var p = PRODUCTOS.find(function(pr){ return pr.id == id; });
+
+carrito[idx].cantidad = qty - 1;
+
+carrito[idx].precio   = p && p.precio > 0 ? p.precio * (qty - 1) : 0;
+
+renderCarrito();
+
 }
+
+return;
+
+}
+
+var card = document.getElementById('prodcard-'+id);
+
+if (card) card.classList.remove('confirmado');
+
+qEl.textContent = '1';
+
+carrito = carrito.filter(function(it){ return !(it._prodId == id); });
+
+renderCarrito();
+
+}
+
 function confirmarProd(id, catNombre, numOpc, opcionesStr) {
-  var p = PRODUCTOS.find(function(pr){ return pr.id == id; }); if (!p) return;
-  var qty = parseInt(document.getElementById('qty-'+id).textContent) || 1;
-  var opcsElegidas = [];
-  if (numOpc > 0 && opcionesStr) {
-    var opts = opcionesStr.split(',').map(function(o){ return o.trim(); }).filter(Boolean);
-    opts.forEach(function(opt, i) {
-      var el = document.getElementById('opc-'+id+'-'+i);
-      if (el && el.value.trim()) opcsElegidas.push(opt+': '+el.value.trim());
-    });
-  }
-  var existe = carrito.findIndex(function(it){ return it._prodId == id; });
-  // Cambio 3: incluir datos de descuento en el ítem del carrito
-  var precioFinal = (p.tieneDescuento && p.precioConDesc > 0) ? p.precioConDesc : p.precio;
-  var item = { _prodId:id, tipo:catNombre, descripcion:p.descripcion,
-    precio: precioFinal>0 ? precioFinal*qty : 0,
-    precioUnit: precioFinal, precioOriginal: p.precio,
-    tieneDescuento: p.tieneDescuento || false,
-    precioConDesc: p.precioConDesc || 0,
-    cantidad:qty,
-    imagen:p.imagen, personalizacion:null, opcionesElegidas:opcsElegidas };
-  if (existe >= 0) carrito[existe] = item; else carrito.push(item);
-  var card = document.getElementById('prodcard-'+id);
-  if (card) card.classList.add('confirmado');
-  renderCarrito();
-  showToast('✅ '+p.descripcion+' agregado (x'+qty+')');
+
+var p = PRODUCTOS.find(function(pr){ return pr.id == id; }); if (!p) return;
+
+var qty = parseInt(document.getElementById('qty-'+id).textContent) || 1;
+
+var opcsElegidas = [];
+
+if (numOpc > 0 && opcionesStr) {
+
+var opts = opcionesStr.split(',').map(function(o){ return o.trim(); }).filter(Boolean);
+
+opts.forEach(function(opt, i) {
+
+var el = document.getElementById('opc-'+id+'-'+i);
+
+if (el && el.value.trim()) opcsElegidas.push(opt+': '+el.value.trim());
+
+});
+
 }
+
+var existe = carrito.findIndex(function(it){ return it._prodId == id; });
+
+var item = { _prodId:id, tipo:catNombre, descripcion:p.descripcion,
+
+precio: p.precio>0?p.precio*qty:0, precioUnit:p.precio, cantidad:qty,
+
+imagen:p.imagen, personalizacion:null, opcionesElegidas:opcsElegidas };
+
+if (existe >= 0) carrito[existe] = item; else carrito.push(item);
+
+var card = document.getElementById('prodcard-'+id);
+
+if (card) card.classList.add('confirmado');
+
+renderCarrito();
+
+showToast('✅ '+p.descripcion+' agregado (x'+qty+')');
+
+}
+
 // ═══════════════════════════════════════════════════════════
+
 //  CARRITO
+
 // ═══════════════════════════════════════════════════════════
+
+// V4: recoger en tienda
+
 function toggleAcepta() {
-  var acepta = document.getElementById('chk-acepta').checked;
-  var nota   = document.getElementById('acepta-nota');
-  var hayItems = carrito.length > 0;
-  document.getElementById('btn-comprar').disabled = !(acepta && hayItems);
-  if (nota) nota.style.display = (!acepta && hayItems) ? 'block' : 'none';
+
+var acepta = document.getElementById('chk-acepta').checked;
+
+var nota   = document.getElementById('acepta-nota');
+
+// El botón continuar se habilita solo si hay productos Y aceptó términos
+
+var hayItems = carrito.length > 0;
+
+document.getElementById('btn-comprar').disabled = !(acepta && hayItems);
+
+if (nota) nota.style.display = (!acepta && hayItems) ? 'block' : 'none';
+
 }
+
 function toggleRecoger() {
-  recogerEnTienda = document.getElementById('chk-recoger').checked;
-  var opt = document.getElementById('opt-recoger');
-  opt.classList.toggle('sel', recogerEnTienda);
-  document.getElementById('cart-envio-val').textContent = recogerEnTienda ? '$0.00' : 'A confirmar';
-  renderCarrito();
+
+recogerEnTienda = document.getElementById('chk-recoger').checked;
+
+var opt = document.getElementById('opt-recoger');
+
+opt.classList.toggle('sel', recogerEnTienda);
+
+document.getElementById('cart-envio-val').textContent = recogerEnTienda ? '$0.00' : 'A confirmar';
+
+renderCarrito();
+
 }
+
 function renderCarrito() {
-  var body  = document.getElementById('cart-body');
-  var count = document.getElementById('cart-count');
-  var total = document.getElementById('cart-total');
-  var btnC  = document.getElementById('btn-comprar');
-  if (!carrito.length) {
-    body.innerHTML = '<div class="cart-empty"><div class="ce-ico">🌷</div><p>Tu pedido está vacío.<br>¡Elige algo especial!</p></div>';
-    count.textContent = '0'; total.textContent = '$0.00'; btnC.disabled = true;
-    return;
-  }
-  var sum = carrito.reduce(function(s,i){ return s+(i.precio||0); }, 0);
-  var totalUnidades = carrito.reduce(function(s,i){ return s+(i.cantidad||1); }, 0);
-  count.textContent = totalUnidades;
-  total.textContent = sum>0 ? '$'+sum.toFixed(2) : 'Por cotizar';
-  var chkAcepta = document.getElementById('chk-acepta');
-  btnC.disabled = !(chkAcepta && chkAcepta.checked);
-  var nota = document.getElementById('acepta-nota');
-  if (nota) nota.style.display = (chkAcepta && !chkAcepta.checked) ? 'block' : 'none';
-  body.innerHTML = carrito.map(function(item, idx) {
-    var det = '';
-    if (item.tipo==='Ramos Personalizados' && item.personalizacion) {
-      var p=item.personalizacion, pts=[];
-      if(p.tieneIdea) pts.push('Idea: '+p.tieneIdea);
-      if(p.ocasion)   pts.push('Ocasión: '+p.ocasion);
-      if(p.persona)   pts.push('Para: '+p.persona);
-      if(p.flores)    pts.push('Flores: '+p.flores);
-      if(p.presupuesto) pts.push('Presupuesto: '+p.presupuesto);
-      if(p.fechaEntrega) pts.push('Entrega: '+p.fechaEntrega);
-      if(pts.length) det='<div class="ci-detalle">'+pts.join(' · ')+'</div>';
-    }
-    if(item.opcionesElegidas && item.opcionesElegidas.length)
-      det+='<div class="ci-detalle">'+item.opcionesElegidas.join(' | ')+'</div>';
-    // Cambio 3: mostrar descuento en carrito
-    var pTxt = item.precio>0?'$'+item.precio.toFixed(2):'Por cotizar';
-    var qtyPrecio = '';
-    if (item.tieneDescuento && item.precioConDesc > 0) {
-      qtyPrecio = '<div class="ci-qty-precio">x'+item.cantidad+' × <span style="text-decoration:line-through;color:#bbb">$'+Number(item.precioOriginal).toFixed(2)+'</span> <span style="color:#27ae60;font-weight:700">$'+Number(item.precioConDesc).toFixed(2)+'</span></div>';
-    } else if (item.precioUnit > 0) {
-      qtyPrecio = '<div class="ci-qty-precio">x'+item.cantidad+' × $'+Number(item.precioUnit).toFixed(2)+'</div>';
-    }
-    return '<div class="cart-item">'+
-      '<img class="ci-img" src="'+(item.imagen||'')+'" alt="" onerror="this.src=\'https://i.postimg.cc/8zL8DB99/MAIA.jpg\'">'+
-      '<div class="ci-info"><div class="ci-tipo">'+item.tipo+'</div>'+
-      '<div class="ci-desc">'+item.descripcion+'</div>'+qtyPrecio+det+
-      '<div class="ci-bottom"><div class="ci-precio">'+pTxt+'</div>'+
-      '<button class="ci-remove" onclick="removeCarrito('+idx+')">✕</button>'+
-      '</div></div></div>';
-  }).join('');
+
+var body  = document.getElementById('cart-body');
+
+var count = document.getElementById('cart-count');
+
+var total = document.getElementById('cart-total');
+
+var btnC  = document.getElementById('btn-comprar');
+
+if (!carrito.length) {
+
+body.innerHTML = '<div class="cart-empty"><div class="ce-ico">🌷</div><p>Tu pedido está vacío.<br>¡Elige algo especial!</p></div>';
+
+count.textContent = '0'; total.textContent = '$0.00'; btnC.disabled = true;
+
+return;
+
 }
+
+var sum = carrito.reduce(function(s,i){ return s+(i.precio||0); }, 0);
+
+var totalUnidades = carrito.reduce(function(s,i){ return s+(i.cantidad||1); }, 0);
+
+count.textContent = totalUnidades;
+
+total.textContent = sum>0 ? '$'+sum.toFixed(2) : 'Por cotizar';
+
+// V7: respetar aceptación de términos
+
+var chkAcepta = document.getElementById('chk-acepta');
+
+btnC.disabled = !(chkAcepta && chkAcepta.checked);
+
+var nota = document.getElementById('acepta-nota');
+
+if (nota) nota.style.display = (chkAcepta && !chkAcepta.checked) ? 'block' : 'none';
+
+body.innerHTML = carrito.map(function(item, idx) {
+
+var det = '';
+
+if (item.tipo==='Ramos Personalizados' && item.personalizacion) {
+
+var p=item.personalizacion, pts=[];
+
+if(p.tieneIdea) pts.push('Idea: '+p.tieneIdea);
+
+if(p.ocasion)   pts.push('Ocasión: '+p.ocasion);
+
+if(p.persona)   pts.push('Para: '+p.persona);
+
+if(p.flores)    pts.push('Flores: '+p.flores);
+
+if(p.presupuesto) pts.push('Presupuesto: '+p.presupuesto);
+
+if(p.fechaEntrega) pts.push('Entrega: '+p.fechaEntrega);
+
+if(pts.length) det='<div class="ci-detalle">'+pts.join(' · ')+'</div>';
+
+}
+
+if(item.opcionesElegidas && item.opcionesElegidas.length)
+
+det+='<div class="ci-detalle">'+item.opcionesElegidas.join(' | ')+'</div>';
+
+var pTxt = item.precio>0?'$'+item.precio.toFixed(2):'Por cotizar';
+
+// V4: mostrar cantidad x precio unitario
+
+var qtyPrecio = item.precioUnit>0 ? '<div class="ci-qty-precio">x'+item.cantidad+' × $'+item.precioUnit.toFixed(2)+'</div>' : '';
+
+return '<div class="cart-item">'+
+
+'<img class="ci-img" src="'+(item.imagen||'')+'" alt="" onerror="this.src=\'https://i.postimg.cc/8zL8DB99/MAIA.jpg\'">'+
+
+'<div class="ci-info"><div class="ci-tipo">'+item.tipo+'</div>'+
+
+'<div class="ci-desc">'+item.descripcion+'</div>'+qtyPrecio+det+
+
+'<div class="ci-bottom"><div class="ci-precio">'+pTxt+'</div>'+
+
+'<button class="ci-remove" onclick="removeCarrito('+idx+')">✕</button>'+
+
+'</div></div></div>';
+
+}).join('');
+
+}
+
 function removeCarrito(idx) {
-  var item = carrito[idx]; carrito.splice(idx,1);
-  if (item && item._prodId) {
-    var card = document.getElementById('prodcard-'+item._prodId);
-    if (card) card.classList.remove('confirmado');
-  }
-  renderCarrito();
+
+var item = carrito[idx]; carrito.splice(idx,1);
+
+if (item && item._prodId) {
+
+var card = document.getElementById('prodcard-'+item._prodId);
+
+if (card) card.classList.remove('confirmado');
+
 }
+
+renderCarrito();
+
+}
+
 function abrirCarrito() {
-  renderCarrito();
-  document.getElementById('cart-overlay').classList.add('open');
-  document.getElementById('cart-panel').classList.add('open');
+
+renderCarrito();
+
+document.getElementById('cart-overlay').classList.add('open');
+
+document.getElementById('cart-panel').classList.add('open');
+
 }
+
 function cerrarCarrito() {
-  document.getElementById('cart-overlay').classList.remove('open');
-  document.getElementById('cart-panel').classList.remove('open');
+
+document.getElementById('cart-overlay').classList.remove('open');
+
+document.getElementById('cart-panel').classList.remove('open');
+
 }
+
 // ═══════════════════════════════════════════════════════════
+
 //  CHECKOUT
+
 // ═══════════════════════════════════════════════════════════
+
 function abrirCheckout() {
-  cerrarCarrito();
-  var sub    = carrito.reduce(function(s,i){ return s+(i.precio||0); }, 0);
-  var tieneP = carrito.some(function(i){ return i.tipo==='Ramos Personalizados'; });
-  var g = _datosDir;
-  var resumen = carrito.map(function(it) {
-    var pTxt = it.precio>0?'$'+it.precio.toFixed(2):'Por cotizar';
-    return '<div class="rm-item"><span>'+it.descripcion.substring(0,36)+(it.descripcion.length>36?'...':'')+' (x'+it.cantidad+')</span><span>'+pTxt+'</span></div>';
-  }).join('');
-  var pagoHtml = '<div class="fg"><label>Método de pago<span class="req">*</span></label>'+
-    '<div class="pago-opts-3">'+
-      (recogerEnTienda ? '<div class="pago-opt'+(tipoPagoSel==='Efectivo'?' sel':'')+'" onclick="selPago(this,\'Efectivo\')">💵 Efectivo</div>' : '')+
-      '<div class="pago-opt'+(tipoPagoSel==='Transferencia'?' sel':'')+'" onclick="selPago(this,\'Transferencia\')">🏦 Transferencia</div>'+
-      '<div class="pago-opt'+(tipoPagoSel==='Link Mercado Pago'?' sel':'')+'" onclick="selPago(this,\'Link Mercado Pago\')">💳 Link Mercado Pago</div>'+
-    '</div></div>';
-  var dirEnvioHtml = '';
-  if (!recogerEnTienda) {
-    dirEnvioHtml =
-      '<div class="fg-row">'+
-        '<div class="fg"><label>Estado<span class="req">*</span></label><input type="text" id="ch-estado" placeholder="MEX." value="'+(g.estado||'MEX.')+'" oninput="actualizarDirEnvio()"></div>'+
-        '<div class="fg"><label>Municipio<span class="req">*</span></label><input type="text" id="ch-municipio" placeholder="Municipio / Alcaldía" value="'+(g.municipio||'')+'" oninput="actualizarDirEnvio()"></div>'+
-      '</div>'+
-      '<div class="fg"><label>Colonia<span class="req">*</span></label><input type="text" id="ch-colonia" placeholder="Colonia" value="'+(g.colonia||'')+'" oninput="actualizarDirEnvio()"></div>'+
-      '<div class="fg-row">'+
-        '<div class="fg"><label>Calle<span class="req">*</span></label><input type="text" id="ch-calle" placeholder="Nombre de la calle" value="'+(g.calle||'')+'" oninput="actualizarDirEnvio()"></div>'+
-        '<div class="fg-row">'+
-          '<div class="fg"><label>No. Ext</label><input type="text" id="ch-no-ext" placeholder="Ext." value="'+(g.noExt||'')+'" oninput="actualizarDirEnvio()"></div>'+
-          '<div class="fg"><label>No. Int</label><input type="text" id="ch-no-int" placeholder="Int." value="'+(g.noInt||'')+'" oninput="actualizarDirEnvio()"></div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="fg"><label>Código postal<span class="req">*</span></label><input type="text" id="ch-cp" placeholder="Ej. 55000" maxlength="5" value="'+(g.cp||'')+'" oninput="actualizarDirEnvio()"></div>'+
-      '<div class="fg"><label>Referencias adicionales</label><input type="text" id="ch-referencias" placeholder="Color de fachada, entre calles, etc." value="'+(g.referencias||'')+'"></div>'+
-      '<div class="fg"><label>Dirección de envío</label>'+
-        '<div class="dir-envio-wrap">'+
-          '<textarea id="ch-dir-envio" readonly style="min-height:60px;background:var(--crema);color:#888;cursor:default" placeholder="Se completará automáticamente con los campos de arriba..."></textarea>'+
-          '<button class="btn-maps-directo" onclick="abrirMapsConDireccion()" title="Ver en Google Maps" style="font-size:11px;padding:5px 8px;right:5px;top:5px">📍 Ver en Google Maps</button>'+
-        '</div>'+
-      '</div>'+
-      '<div class="fg"><label>Distancia del envío</label>'+
-        '<div class="distancia-badge calculando" id="distancia-badge">📏 No disponible en este momento — se te contactará para calcular el costo de envío</div>'+
-      '</div>'+
-      '<div class="fg"><label>¿Deseas dejar el link de Maps con la ubicación? <small style="font-weight:400;text-transform:none;color:#aaa">(opcional)</small></label>'+
-        '<input type="text" id="ch-link-maps" placeholder="Pega aquí tu link de Google Maps..." value="'+(g.linkMaps||'')+'"></div>';
-  }
-  var enviosProdHtml = '';
-  if (!recogerEnTienda) {
-    enviosProdHtml = '<div style="background:var(--viola);color:#fff;padding:8px 14px;'+
-      'border-radius:10px;margin-bottom:14px;font-size:13px;font-family:Arial,sans-serif;font-weight:700">'+
-      '📦 Datos de envío por producto</div>';
-    carrito.forEach(function(item, idx) {
-      var desc = item.descripcion.substring(0,44)+(item.descripcion.length>44?'...':'');
-      var ep = (g.enviosPorProducto && g.enviosPorProducto[idx]) ? g.enviosPorProducto[idx] : {};
-      enviosProdHtml +=
-        '<div class="envio-prod-bloque">'+
-          '<div class="envio-prod-hdr">'+
-            '<span>🌸 Producto '+(idx+1)+': '+desc+'</span>'+
-            (idx>0?'<button class="btn-repetir" onclick="repetirDatosEnvio('+idx+')">Repetir datos del producto anterior</button>':'<span style="font-size:10px;opacity:.7">Primer producto</span>')+
-          '</div>'+
-          '<div class="envio-prod-body">'+
-            '<div class="fg-row">'+
-              '<div class="fg"><label>Nombre de quien recibe<span class="req">*</span></label>'+
-                '<input type="text" id="ep-nombre-'+idx+'" placeholder="Nombre completo" value="'+(ep.nombre||'')+'"></div>'+
-              '<div class="fg"><label>Teléfono de quien recibe<span class="req">*</span></label>'+
-                '<input type="text" id="ep-tel-'+idx+'" placeholder="10 dígitos" value="'+(ep.tel||'')+'"></div>'+
-            '</div>'+
-            '<div class="fg"><label>Dedicatoria <small style="font-weight:400;text-transform:none;color:#aaa">(opcional)</small></label>'+
-              '<textarea id="ep-ded-'+idx+'" placeholder="Dedicatoria para este producto..." style="min-height:55px">'+(ep.dedicatoria||'')+'</textarea></div>'+
-            '<div class="fg"><label>Fecha de entrega deseada</label>'+
-              '<input type="date" id="ep-fecha-'+idx+'" value="'+(ep.fecha||'')+'"></div>'+
-            '<div class="fg-row">'+
-              '<div class="fg"><label>Estado<span class="req">*</span></label>'+
-                '<input type="text" id="ep-estado-'+idx+'" placeholder="MEX." value="'+(ep.estado||'MEX.')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
-              '<div class="fg"><label>Municipio<span class="req">*</span></label>'+
-                '<input type="text" id="ep-municipio-'+idx+'" placeholder="Municipio/Alcaldía" value="'+(ep.municipio||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
-            '</div>'+
-            '<div class="fg"><label>Colonia<span class="req">*</span></label>'+
-              '<input type="text" id="ep-colonia-'+idx+'" placeholder="Colonia" value="'+(ep.colonia||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
-            '<div class="fg-row">'+
-              '<div class="fg"><label>Calle<span class="req">*</span></label>'+
-                '<input type="text" id="ep-calle-'+idx+'" placeholder="Calle" value="'+(ep.calle||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
-              '<div class="fg-row">'+
-                '<div class="fg"><label>No. Ext</label><input type="text" id="ep-ext-'+idx+'" placeholder="Ext." value="'+(ep.ext||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
-                '<div class="fg"><label>No. Int</label><input type="text" id="ep-int-'+idx+'" placeholder="Int." value="'+(ep.int||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
-              '</div>'+
-            '</div>'+
-            '<div class="fg"><label>Código postal<span class="req">*</span></label>'+
-              '<input type="text" id="ep-cp-'+idx+'" placeholder="55000" maxlength="5" value="'+(ep.cp||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
-            '<div class="fg"><label>Referencias adicionales</label>'+
-              '<input type="text" id="ep-ref-'+idx+'" placeholder="Color de fachada, entre calles..." value="'+(ep.referencias||'')+'"></div>'+
-            '<div class="fg"><label>Dirección de envío</label>'+
-              '<div class="dir-envio-wrap">'+
-                '<textarea id="ep-dir-'+idx+'" readonly style="min-height:55px;background:var(--crema);color:#888" placeholder="Se autocompleta..."></textarea>'+
-                '<button class="btn-maps-directo" onclick="abrirMapsConDireccionProd('+idx+')" title="Ver en Google Maps" style="font-size:11px;padding:5px 8px;right:5px;top:5px">📍 Ver en Google Maps</button>'+
-              '</div></div>'+
-            '<div class="fg"><label>Distancia del envío</label>'+
-              '<div class="distancia-badge calculando" id="ep-dist-'+idx+'">📏 No disponible — se te contactará para calcular el costo de envío</div></div>'+
-            '<div class="fg"><label>¿Deseas dejar el link de Maps? <small style="font-weight:400;text-transform:none;color:#aaa">(opcional)</small></label>'+
-              '<input type="text" id="ep-maps-'+idx+'" placeholder="Pega aquí tu link de Google Maps..." value="'+(ep.linkMaps||'')+'"></div>'+
-          '</div>'+
-        '</div>';
-    });
-  } else {
-    enviosProdHtml = '<div class="fg"><label>📅 Fecha de recolección en sucursal</label>'+
-      '<input type="date" id="ch-fecha-entrega" value="'+(g.fechaEntrega||'')+'"></div>';
-    carrito.forEach(function(item, idx){
-      var desc=item.descripcion.substring(0,40)+(item.descripcion.length>40?'...':'');
-      var ep=(g.enviosPorProducto&&g.enviosPorProducto[idx])?g.enviosPorProducto[idx]:{};
-      enviosProdHtml+='<div class="fg"><label>Dedicatoria — '+desc+' <small style="font-weight:400;color:#aaa">(opcional)</small></label>'+
-        '<textarea id="ep-ded-'+idx+'" style="min-height:55px">'+(ep.dedicatoria||'')+'</textarea></div>';
-    });
-  }
-  document.getElementById('modal-body').innerHTML =
-    '<div class="resumen-mini"><div class="rm-titulo">Resumen del pedido</div>'+resumen+
-    '<div class="rm-envio"><span>'+(recogerEnTienda?'🏪 Recoger en tienda':'🚗 Costo de envío')+'</span><span>'+(recogerEnTienda?'$0.00':'A confirmar')+'</span></div>'+
-    (sub>0?'<div class="rm-total"><span>Subtotal estimado</span><span>$'+sub.toFixed(2)+' MXN</span></div>':'')+
-    '</div>'+
-    '<div class="fg-row">'+
-      '<div class="fg"><label>Tu nombre completo<span class="req">*</span></label><input type="text" id="ch-nombre" placeholder="Quien realiza el pedido" value="'+(g.nombre||'')+'"></div>'+
-      '<div class="fg"><label>Tu teléfono<span class="req">*</span></label><input type="text" id="ch-telefono" placeholder="10 dígitos" value="'+(g.telefono||'')+'"><div class="fg-note">Te contactaremos para confirmar</div></div>'+
-    '</div>'+
-    '<div class="fg"><label>Tu correo electrónico<span class="req">*</span></label><input type="text" id="ch-email" placeholder="tucorreo@ejemplo.com" value="'+(g.email||'')+'"></div>'+
-    enviosProdHtml+
-    pagoHtml+
-    '<button class="btn-confirmar" onclick="confirmarPedido()">🌸 '+(tieneP?'Enviar solicitud de cotización':'Confirmar pedido')+'</button>'+
-    '<button class="btn-back" onclick="cerrarCheckout();abrirCarrito()">← Regresar a Mi pedido</button>'+
-    (recogerEnTienda?'':'<button class="btn-limpiar" onclick="pedirConfirmLimpiar()">Limpiar datos de envío</button>');
-  document.getElementById('modal-checkout').classList.add('open');
-  setTimeout(function(){
-    carrito.forEach(function(_, idx){ actualizarDirEnvioProd(idx); });
-    // CAMBIO: pre-llenar fechas desde Ramos Personalizados si el usuario las llenó
-    carrito.forEach(function(item, idx) {
-      if (item.tipo === 'Ramos Personalizados' && item.personalizacion && item.personalizacion.fechaEntrega) {
-        var fecha = item.personalizacion.fechaEntrega;
-        // Campo recoger en sucursal
-        var elRecoger = document.getElementById('ch-fecha-entrega');
-        if (elRecoger && !elRecoger.value) elRecoger.value = fecha;
-        // Campo fecha de entrega por producto (envío)
-        var elEp = document.getElementById('ep-fecha-' + idx);
-        if (elEp && !elEp.value) elEp.value = fecha;
-      }
-    });
-  }, 120);
+
+cerrarCarrito();
+
+var sub    = carrito.reduce(function(s,i){ return s+(i.precio||0); }, 0);
+
+var tieneP = carrito.some(function(i){ return i.tipo==='Ramos Personalizados'; });
+
+var g = _datosDir;
+
+var resumen = carrito.map(function(it) {
+
+var pTxt = it.precio>0?'$'+it.precio.toFixed(2):'Por cotizar';
+
+return '<div class="rm-item"><span>'+it.descripcion.substring(0,36)+(it.descripcion.length>36?'...':'')+' (x'+it.cantidad+')</span><span>'+pTxt+'</span></div>';
+
+}).join('');
+
+// V4.1: Efectivo solo si recoger en tienda; sin Efectivo si es envío a domicilio
+
+var pagoHtml = '<div class="fg"><label>Método de pago<span class="req">*</span></label>'+
+
+'<div class="pago-opts-3">'+
+
+(recogerEnTienda ? '<div class="pago-opt'+(tipoPagoSel==='Efectivo'?' sel':'')+'" onclick="selPago(this,\'Efectivo\')">💵 Efectivo</div>' : '')+
+
+'<div class="pago-opt'+(tipoPagoSel==='Transferencia'?' sel':'')+'" onclick="selPago(this,\'Transferencia\')">🏦 Transferencia</div>'+
+
+'<div class="pago-opt'+(tipoPagoSel==='Link Mercado Pago'?' sel':'')+'" onclick="selPago(this,\'Link Mercado Pago\')">💳 Link Mercado Pago</div>'+
+
+'</div></div>';
+
+// V4: campo dirección de envío autoconcatenada (solo si no recoger)
+
+var dirEnvioHtml = '';
+
+if (!recogerEnTienda) {
+
+dirEnvioHtml =
+
+'<div class="fg-row">'+
+
+'<div class="fg"><label>Estado<span class="req">*</span></label><input type="text" id="ch-estado" placeholder="MEX." value="'+(g.estado||'MEX.')+'" oninput="actualizarDirEnvio()"></div>'+
+
+'<div class="fg"><label>Municipio<span class="req">*</span></label><input type="text" id="ch-municipio" placeholder="Municipio / Alcaldía" value="'+(g.municipio||'')+'" oninput="actualizarDirEnvio()"></div>'+
+
+'</div>'+
+
+'<div class="fg"><label>Colonia<span class="req">*</span></label><input type="text" id="ch-colonia" placeholder="Colonia" value="'+(g.colonia||'')+'" oninput="actualizarDirEnvio()"></div>'+
+
+'<div class="fg-row">'+
+
+'<div class="fg"><label>Calle<span class="req">*</span></label><input type="text" id="ch-calle" placeholder="Nombre de la calle" value="'+(g.calle||'')+'" oninput="actualizarDirEnvio()"></div>'+
+
+'<div class="fg-row">'+
+
+'<div class="fg"><label>No. Ext</label><input type="text" id="ch-no-ext" placeholder="Ext." value="'+(g.noExt||'')+'" oninput="actualizarDirEnvio()"></div>'+
+
+'<div class="fg"><label>No. Int</label><input type="text" id="ch-no-int" placeholder="Int." value="'+(g.noInt||'')+'" oninput="actualizarDirEnvio()"></div>'+
+
+'</div>'+
+
+'</div>'+
+
+'<div class="fg"><label>Código postal<span class="req">*</span></label><input type="text" id="ch-cp" placeholder="Ej. 55000" maxlength="5" value="'+(g.cp||'')+'" oninput="actualizarDirEnvio()"></div>'+
+
+'<div class="fg"><label>Referencias adicionales</label><input type="text" id="ch-referencias" placeholder="Color de fachada, entre calles, etc." value="'+(g.referencias||'')+'"></div>'+
+
+// V4: DIRECCIÓN DE ENVÍO concatenada + botón Maps
+
+'<div class="fg"><label>Dirección de envío</label>'+
+
+'<div class="dir-envio-wrap">'+
+
+'<textarea id="ch-dir-envio" readonly style="min-height:60px;background:var(--crema);color:#888;cursor:default" placeholder="Se completará automáticamente con los campos de arriba..."></textarea>'+
+
+'<button class="btn-maps-directo" onclick="abrirMapsConDireccion()" title="Ver en Google Maps" style="font-size:11px;padding:5px 8px;right:5px;top:5px">📍 Ver en Google Maps</button>'+
+
+'</div>'+
+
+'</div>'+
+
+// V4: campo distancia
+
+'<div class="fg"><label>Distancia del envío</label>'+
+
+'<div class="distancia-badge calculando" id="distancia-badge">📏 No disponible en este momento — se te contactará para calcular el costo de envío</div>'+
+
+'</div>'+
+
+'<div class="fg"><label>¿Deseas dejar el link de Maps con la ubicación? <small style="font-weight:400;text-transform:none;color:#aaa">(opcional)</small></label>'+
+
+'<input type="text" id="ch-link-maps" placeholder="Pega aquí tu link de Google Maps..." value="'+(g.linkMaps||'')+'"></div>';
+
 }
+
+// V6: construir bloques de envío individuales por producto
+
+var enviosProdHtml = '';
+
+if (!recogerEnTienda) {
+
+enviosProdHtml = '<div style="background:var(--viola);color:#fff;padding:8px 14px;'+
+
+'border-radius:10px;margin-bottom:14px;font-size:13px;font-family:Arial,sans-serif;font-weight:700">'+
+
+'📦 Datos de envío por producto</div>';
+
+carrito.forEach(function(item, idx) {
+
+var desc = item.descripcion.substring(0,44)+(item.descripcion.length>44?'...':'');
+
+var ep = (g.enviosPorProducto && g.enviosPorProducto[idx]) ? g.enviosPorProducto[idx] : {};
+
+enviosProdHtml +=
+
+'<div class="envio-prod-bloque">'+
+
+'<div class="envio-prod-hdr">'+
+
+'<span>🌸 Producto '+(idx+1)+': '+desc+'</span>'+
+
+(idx>0?'<button class="btn-repetir" onclick="repetirDatosEnvio('+idx+')">Repetir datos del producto anterior</button>':'<span style="font-size:10px;opacity:.7">Primer producto</span>')+
+
+'</div>'+
+
+'<div class="envio-prod-body">'+
+
+'<div class="fg-row">'+
+
+'<div class="fg"><label>Nombre de quien recibe<span class="req">*</span></label>'+
+
+'<input type="text" id="ep-nombre-'+idx+'" placeholder="Nombre completo" value="'+(ep.nombre||'')+'"></div>'+
+
+'<div class="fg"><label>Teléfono de quien recibe<span class="req">*</span></label>'+
+
+'<input type="text" id="ep-tel-'+idx+'" placeholder="10 dígitos" value="'+(ep.tel||'')+'"></div>'+
+
+'</div>'+
+
+'<div class="fg"><label>Dedicatoria <small style="font-weight:400;text-transform:none;color:#aaa">(opcional)</small></label>'+
+
+'<textarea id="ep-ded-'+idx+'" placeholder="Dedicatoria para este producto..." style="min-height:55px">'+(ep.dedicatoria||'')+'</textarea></div>'+
+
+'<div class="fg"><label>Fecha de entrega deseada</label>'+
+
+'<input type="date" id="ep-fecha-'+idx+'" value="'+(ep.fecha||'')+'"></div>'+
+
+'<div class="fg-row">'+
+
+'<div class="fg"><label>Estado<span class="req">*</span></label>'+
+
+'<input type="text" id="ep-estado-'+idx+'" placeholder="MEX." value="'+(ep.estado||'MEX.')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
+
+'<div class="fg"><label>Municipio<span class="req">*</span></label>'+
+
+'<input type="text" id="ep-municipio-'+idx+'" placeholder="Municipio/Alcaldía" value="'+(ep.municipio||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
+
+'</div>'+
+
+'<div class="fg"><label>Colonia<span class="req">*</span></label>'+
+
+'<input type="text" id="ep-colonia-'+idx+'" placeholder="Colonia" value="'+(ep.colonia||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
+
+'<div class="fg-row">'+
+
+'<div class="fg"><label>Calle<span class="req">*</span></label>'+
+
+'<input type="text" id="ep-calle-'+idx+'" placeholder="Calle" value="'+(ep.calle||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
+
+'<div class="fg-row">'+
+
+'<div class="fg"><label>No. Ext</label><input type="text" id="ep-ext-'+idx+'" placeholder="Ext." value="'+(ep.ext||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
+
+'<div class="fg"><label>No. Int</label><input type="text" id="ep-int-'+idx+'" placeholder="Int." value="'+(ep.int||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
+
+'</div>'+
+
+'</div>'+
+
+'<div class="fg"><label>Código postal<span class="req">*</span></label>'+
+
+'<input type="text" id="ep-cp-'+idx+'" placeholder="55000" maxlength="5" value="'+(ep.cp||'')+'" oninput="actualizarDirEnvioProd('+idx+')"></div>'+
+
+'<div class="fg"><label>Referencias adicionales</label>'+
+
+'<input type="text" id="ep-ref-'+idx+'" placeholder="Color de fachada, entre calles..." value="'+(ep.referencias||'')+'"></div>'+
+
+'<div class="fg"><label>Dirección de envío</label>'+
+
+'<div class="dir-envio-wrap">'+
+
+'<textarea id="ep-dir-'+idx+'" readonly style="min-height:55px;background:var(--crema);color:#888" placeholder="Se autocompleta..."></textarea>'+
+
+'<button class="btn-maps-directo" onclick="abrirMapsConDireccionProd('+idx+')" title="Ver en Google Maps" style="font-size:11px;padding:5px 8px;right:5px;top:5px">📍 Ver en Google Maps</button>'+
+
+'</div></div>'+
+
+'<div class="fg"><label>Distancia del envío</label>'+
+
+'<div class="distancia-badge calculando" id="ep-dist-'+idx+'">📏 No disponible — se te contactará para calcular el costo de envío</div></div>'+
+
+'<div class="fg"><label>¿Deseas dejar el link de Maps? <small style="font-weight:400;text-transform:none;color:#aaa">(opcional)</small></label>'+
+
+'<input type="text" id="ep-maps-'+idx+'" placeholder="Pega aquí tu link de Google Maps..." value="'+(ep.linkMaps||'')+'"></div>'+
+
+'</div>'+
+
+'</div>';
+
+});
+
+} else {
+
+// Recoger: solo fecha, dedicatoria por producto
+
+enviosProdHtml = '<div class="fg"><label>📅 Fecha de recolección en sucursal</label>'+
+
+'<input type="date" id="ch-fecha-entrega" value="'+(g.fechaEntrega||'')+'"></div>';
+
+carrito.forEach(function(item, idx){
+
+var desc=item.descripcion.substring(0,40)+(item.descripcion.length>40?'...':'');
+
+var ep=(g.enviosPorProducto&&g.enviosPorProducto[idx])?g.enviosPorProducto[idx]:{};
+
+enviosProdHtml+='<div class="fg"><label>Dedicatoria — '+desc+' <small style="font-weight:400;color:#aaa">(opcional)</small></label>'+
+
+'<textarea id="ep-ded-'+idx+'" style="min-height:55px">'+(ep.dedicatoria||'')+'</textarea></div>';
+
+});
+
+}
+
+document.getElementById('modal-body').innerHTML =
+
+'<div class="resumen-mini"><div class="rm-titulo">Resumen del pedido</div>'+resumen+
+
+'<div class="rm-envio"><span>'+(recogerEnTienda?'🏪 Recoger en tienda':'🚗 Costo de envío')+'</span><span>'+(recogerEnTienda?'$0.00':'A confirmar')+'</span></div>'+
+
+(sub>0?'<div class="rm-total"><span>Subtotal estimado</span><span>$'+sub.toFixed(2)+' MXN</span></div>':'')+
+
+'</div>'+
+
+'<div class="fg-row">'+
+
+'<div class="fg"><label>Tu nombre completo<span class="req">*</span></label><input type="text" id="ch-nombre" placeholder="Quien realiza el pedido" value="'+(g.nombre||'')+'"></div>'+
+
+'<div class="fg"><label>Tu teléfono<span class="req">*</span></label><input type="text" id="ch-telefono" placeholder="10 dígitos" value="'+(g.telefono||'')+'"><div class="fg-note">Te contactaremos para confirmar</div></div>'+
+
+'</div>'+
+
+'<div class="fg"><label>Tu correo electrónico<span class="req">*</span></label><input type="text" id="ch-email" placeholder="tucorreo@ejemplo.com" value="'+(g.email||'')+'"></div>'+
+
+enviosProdHtml+
+
+pagoHtml+
+
+'<button class="btn-confirmar" onclick="confirmarPedido()">🌸 '+(tieneP?'Enviar solicitud de cotización':'Confirmar pedido')+'</button>'+
+
+'<button class="btn-back" onclick="cerrarCheckout();abrirCarrito()">← Regresar a Mi pedido</button>'+
+
+(recogerEnTienda?'':'<button class="btn-limpiar" onclick="pedirConfirmLimpiar()">Limpiar datos de envío</button>');
+
+document.getElementById('modal-checkout').classList.add('open');
+
+setTimeout(function(){ carrito.forEach(function(_,idx){ actualizarDirEnvioProd(idx); }); }, 120);
+
+}
+
+// V6: dirección por producto individual
+
 function actualizarDirEnvioProd(idx) {
-  var get = function(id){ var e=document.getElementById(id); return e?e.value.trim():''; };
-  var calle   = get('ep-calle-'+idx);
-  var ext     = get('ep-ext-'+idx);
-  var int_    = get('ep-int-'+idx);
-  var colonia = get('ep-colonia-'+idx);
-  var mun     = get('ep-municipio-'+idx);
-  var estado  = get('ep-estado-'+idx);
-  var cp      = get('ep-cp-'+idx);
-  var partes  = [];
-  if (calle)   partes.push(calle + (ext?' '+ext:'') + (int_?' Int.'+int_:''));
-  if (colonia) partes.push('Col. '+colonia);
-  if (mun)     partes.push(mun);
-  if (estado)  partes.push(estado);
-  if (cp)      partes.push('CP '+cp);
-  var dir = partes.join(', ');
-  var elDir = document.getElementById('ep-dir-'+idx);
-  if (elDir) elDir.value = dir;
+
+var get = function(id){ var e=document.getElementById(id); return e?e.value.trim():''; };
+
+var calle   = get('ep-calle-'+idx);
+
+var ext     = get('ep-ext-'+idx);
+
+var int_    = get('ep-int-'+idx);
+
+var colonia = get('ep-colonia-'+idx);
+
+var mun     = get('ep-municipio-'+idx);
+
+var estado  = get('ep-estado-'+idx);
+
+var cp      = get('ep-cp-'+idx);
+
+var partes  = [];
+
+if (calle)   partes.push(calle + (ext?' '+ext:'') + (int_?' Int.'+int_:''));
+
+if (colonia) partes.push('Col. '+colonia);
+
+if (mun)     partes.push(mun);
+
+if (estado)  partes.push(estado);
+
+if (cp)      partes.push('CP '+cp);
+
+var dir = partes.join(', ');
+
+var elDir = document.getElementById('ep-dir-'+idx);
+
+if (elDir) elDir.value = dir;
+
 }
+
 function abrirMapsConDireccionProd(idx) {
-  var el = document.getElementById('ep-dir-'+idx);
-  var dir = el ? el.value : '';
-  if (!dir) { showToast('Ingresa primero la direccion',true); return; }
-  window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(dir),'_blank');
+
+var el = document.getElementById('ep-dir-'+idx);
+
+var dir = el ? el.value : '';
+
+if (!dir) { showToast('Ingresa primero la direccion',true); return; }
+
+window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(dir),'_blank');
+
 }
+
 function repetirDatosEnvio(idx) {
-  var prev = idx - 1;
-  if (prev < 0) return;
-  var campos = ['nombre','tel','estado','municipio','colonia','calle','ext','int','cp','ref','maps','fecha'];
-  campos.forEach(function(campo) {
-    var src = document.getElementById('ep-'+campo+'-'+prev);
-    var dst = document.getElementById('ep-'+campo+'-'+idx);
-    if (src && dst) dst.value = src.value;
-  });
-  var srcDed = document.getElementById('ep-ded-'+prev);
-  var dstDed = document.getElementById('ep-ded-'+idx);
-  if (srcDed && dstDed) dstDed.value = srcDed.value;
-  actualizarDirEnvioProd(idx);
-  showToast('Datos copiados del producto anterior');
+
+var prev = idx - 1;
+
+if (prev < 0) return;
+
+var campos = ['nombre','tel','estado','municipio','colonia','calle','ext','int','cp','ref','maps','fecha'];
+
+campos.forEach(function(campo) {
+
+var src = document.getElementById('ep-'+campo+'-'+prev);
+
+var dst = document.getElementById('ep-'+campo+'-'+idx);
+
+if (src && dst) dst.value = src.value;
+
+});
+
+var srcDed = document.getElementById('ep-ded-'+prev);
+
+var dstDed = document.getElementById('ep-ded-'+idx);
+
+if (srcDed && dstDed) dstDed.value = srcDed.value;
+
+actualizarDirEnvioProd(idx);
+
+showToast('Datos copiados del producto anterior');
+
 }
+
 function leerEnviosPorProducto() {
-  return carrito.map(function(item, idx) {
-    var get = function(id){ var e=document.getElementById(id); return e?e.value.trim():''; };
-    return {
-      productoDesc: item.descripcion,
-      nombre:      get('ep-nombre-'+idx),
-      tel:         get('ep-tel-'+idx),
-      dedicatoria: get('ep-ded-'+idx),
-      fecha:       get('ep-fecha-'+idx) || get('ch-fecha-entrega'),
-      estado:      get('ep-estado-'+idx),
-      municipio:   get('ep-municipio-'+idx),
-      colonia:     get('ep-colonia-'+idx),
-      calle:       get('ep-calle-'+idx),
-      ext:         get('ep-ext-'+idx),
-      int:         get('ep-int-'+idx),
-      cp:          get('ep-cp-'+idx),
-      referencias: get('ep-ref-'+idx),
-      dirEnvio:    get('ep-dir-'+idx),
-      linkMaps:    get('ep-maps-'+idx)
-    };
-  });
+
+return carrito.map(function(item, idx) {
+
+var get = function(id){ var e=document.getElementById(id); return e?e.value.trim():''; };
+
+return {
+
+productoDesc: item.descripcion,
+
+nombre:      get('ep-nombre-'+idx),
+
+tel:         get('ep-tel-'+idx),
+
+dedicatoria: get('ep-ded-'+idx),
+
+fecha:       get('ep-fecha-'+idx) || get('ch-fecha-entrega'),
+
+estado:      get('ep-estado-'+idx),
+
+municipio:   get('ep-municipio-'+idx),
+
+colonia:     get('ep-colonia-'+idx),
+
+calle:       get('ep-calle-'+idx),
+
+ext:         get('ep-ext-'+idx),
+
+int:         get('ep-int-'+idx),
+
+cp:          get('ep-cp-'+idx),
+
+referencias: get('ep-ref-'+idx),
+
+dirEnvio:    get('ep-dir-'+idx),
+
+linkMaps:    get('ep-maps-'+idx)
+
+};
+
+});
+
 }
+
+// V4: concatenar direccion y calcular distancia
+
 function actualizarDirEnvio() {
-  var calle   = v('ch-calle')     || '';
-  var noExt   = v('ch-no-ext')    || '';
-  var noInt   = v('ch-no-int')    || '';
-  var colonia = v('ch-colonia')   || '';
-  var mun     = v('ch-municipio') || '';
-  var estado  = v('ch-estado')    || '';
-  var cp      = v('ch-cp')        || '';
-  var partes = [];
-  if (calle)   partes.push(calle + (noExt?' '+noExt:'') + (noInt?' Int.'+noInt:''));
-  if (colonia) partes.push('Col. '+colonia);
-  if (mun)     partes.push(mun);
-  if (estado)  partes.push(estado);
-  if (cp)      partes.push('CP '+cp);
-  var dir = partes.join(', ');
-  var el = document.getElementById('ch-dir-envio');
-  if (el) el.value = dir;
-  if (dir.length > 10) calcularDistancia(dir);
+
+var calle   = v('ch-calle')     || '';
+
+var noExt   = v('ch-no-ext')    || '';
+
+var noInt   = v('ch-no-int')    || '';
+
+var colonia = v('ch-colonia')   || '';
+
+var mun     = v('ch-municipio') || '';
+
+var estado  = v('ch-estado')    || '';
+
+var cp      = v('ch-cp')        || '';
+
+var partes = [];
+
+if (calle)   partes.push(calle + (noExt?' '+noExt:'') + (noInt?' Int.'+noInt:''));
+
+if (colonia) partes.push('Col. '+colonia);
+
+if (mun)     partes.push(mun);
+
+if (estado)  partes.push(estado);
+
+if (cp)      partes.push('CP '+cp);
+
+var dir = partes.join(', ');
+
+var el = document.getElementById('ch-dir-envio');
+
+if (el) el.value = dir;
+
+// calcular distancia estimada usando Nominatim + fórmula Haversine
+
+if (dir.length > 10) calcularDistancia(dir);
+
 }
+
 function abrirMapsConDireccion() {
-  var el = document.getElementById('ch-dir-envio');
-  var dir = el ? el.value : '';
-  if (!dir) { showToast('Ingresa primero tu dirección',true); return; }
-  window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(dir), '_blank');
+
+var el = document.getElementById('ch-dir-envio');
+
+var dir = el ? el.value : '';
+
+if (!dir) { showToast('Ingresa primero tu dirección',true); return; }
+
+window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(dir), '_blank');
+
 }
+
+// V4: calcular distancia aproximada con Nominatim geocoding + Haversine
+
 function calcularDistancia(dir) {
-  var badge = document.getElementById('distancia-badge');
-  if (!badge) return;
-  badge.textContent = '📏 Calculando...';
-  badge.className = 'distancia-badge calculando';
-  var sucCoords = SUC_COORDS[sucursal];
-  if (!sucCoords) { badge.textContent = '📏 Selecciona una sucursal'; return; }
-  fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(dir+', México'), {
-    headers: { 'Accept-Language': 'es' }
-  }).then(function(r){ return r.json(); })
-  .then(function(data) {
-    if (!data || !data.length) {
-      badge.textContent = '📏 No se pudo calcular — verifica la dirección';
-      badge.className = 'distancia-badge calculando';
-      return;
-    }
-    var lat2 = parseFloat(data[0].lat);
-    var lon2 = parseFloat(data[0].lon);
-    var km = haversine(sucCoords.lat, sucCoords.lng, lat2, lon2);
-    badge.textContent = '📏 Aprox. '+km.toFixed(1)+' km desde Sucursal '+sucursal;
-    badge.className = 'distancia-badge';
-    badge.dataset.km = km.toFixed(1);
-  }).catch(function(){
-    badge.textContent = '📏 No disponible en este momento';
-    badge.className = 'distancia-badge calculando';
-  });
+
+var badge = document.getElementById('distancia-badge');
+
+if (!badge) return;
+
+badge.textContent = '📏 Calculando...';
+
+badge.className = 'distancia-badge calculando';
+
+var sucCoords = SUC_COORDS[sucursal];
+
+if (!sucCoords) { badge.textContent = '📏 Selecciona una sucursal'; return; }
+
+fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(dir+', México'), {
+
+headers: { 'Accept-Language': 'es' }
+
+}).then(function(r){ return r.json(); })
+
+.then(function(data) {
+
+if (!data || !data.length) {
+
+badge.textContent = '📏 No se pudo calcular — verifica la dirección';
+
+badge.className = 'distancia-badge calculando';
+
+return;
+
 }
+
+var lat2 = parseFloat(data[0].lat);
+
+var lon2 = parseFloat(data[0].lon);
+
+var km = haversine(sucCoords.lat, sucCoords.lng, lat2, lon2);
+
+badge.textContent = '📏 Aprox. '+km.toFixed(1)+' km desde Sucursal '+sucursal;
+
+badge.className = 'distancia-badge';
+
+badge.dataset.km = km.toFixed(1);
+
+}).catch(function(){
+
+badge.textContent = '📏 No disponible en este momento';
+
+badge.className = 'distancia-badge calculando';
+
+});
+
+}
+
 function haversine(lat1, lon1, lat2, lon2) {
-  var R = 6371;
-  var dLat = (lat2-lat1)*Math.PI/180;
-  var dLon = (lon2-lon1)*Math.PI/180;
-  var a = Math.sin(dLat/2)*Math.sin(dLat/2)+
-          Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
-          Math.sin(dLon/2)*Math.sin(dLon/2);
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+var R = 6371;
+
+var dLat = (lat2-lat1)*Math.PI/180;
+
+var dLon = (lon2-lon1)*Math.PI/180;
+
+var a = Math.sin(dLat/2)*Math.sin(dLat/2)+
+
+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
+
+Math.sin(dLon/2)*Math.sin(dLon/2);
+
+return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
 }
+
 function cerrarCheckout() { document.getElementById('modal-checkout').classList.remove('open'); }
+
 function v(id){ var e=document.getElementById(id); return e?e.value.trim():''; }
+
 function selPago(el, tipo) {
-  document.querySelectorAll('.pago-opt').forEach(function(e){ e.classList.remove('sel'); });
-  el.classList.add('sel'); tipoPagoSel = tipo;
+
+document.querySelectorAll('.pago-opt').forEach(function(e){ e.classList.remove('sel'); });
+
+el.classList.add('sel'); tipoPagoSel = tipo;
+
 }
+
 function pedirConfirmLimpiar() { document.getElementById('confirm-limpiar-ovl').classList.add('open'); }
+
 function ejecutarLimpiar() {
-  ['ch-cp','ch-estado','ch-municipio','ch-colonia','ch-calle','ch-no-ext','ch-no-int',
-   'ch-referencias','ch-link-maps','ch-dir-envio'].forEach(function(id){
-    var el=document.getElementById(id); if(el) el.value='';
-  });
-  _datosDir = {};
-  document.getElementById('confirm-limpiar-ovl').classList.remove('open');
-  showToast('✅ Campos de dirección limpiados');
+
+['ch-cp','ch-estado','ch-municipio','ch-colonia','ch-calle','ch-no-ext','ch-no-int',
+
+'ch-referencias','ch-link-maps','ch-dir-envio'].forEach(function(id){
+
+var el=document.getElementById(id); if(el) el.value='';
+
+});
+
+_datosDir = {};
+
+document.getElementById('confirm-limpiar-ovl').classList.remove('open');
+
+showToast('✅ Campos de dirección limpiados');
+
 }
+
 function guardarDatosDir() {
-  var enviosProd = leerEnviosPorProducto();
-  var deds = enviosProd.map(function(ep){ return ep.dedicatoria; });
-  _datosDir = { nombre:v('ch-nombre'), telefono:v('ch-telefono'), email:v('ch-email'),
-    fechaEntrega:v('ch-fecha-entrega'),
-    dedicatoria: deds.filter(Boolean).join(' | '),
-    dedicatorias: deds,
-    enviosPorProducto: enviosProd
-  };
+
+var enviosProd = leerEnviosPorProducto();
+
+var deds = enviosProd.map(function(ep){ return ep.dedicatoria; });
+
+_datosDir = { nombre:v('ch-nombre'), telefono:v('ch-telefono'), email:v('ch-email'),
+
+fechaEntrega:v('ch-fecha-entrega'),
+
+dedicatoria: deds.filter(Boolean).join(' | '),
+
+dedicatorias: deds,
+
+enviosPorProducto: enviosProd
+
+};
+
 }
+
 // ═══════════════════════════════════════════════════════════
+
 //  CONFIRMAR PEDIDO
+
 // ═══════════════════════════════════════════════════════════
+
 function confirmarPedido() {
-  var nombre   = v('ch-nombre');
-  var telefono = v('ch-telefono');
-  var email    = v('ch-email');
-  if(!nombre)    { showToast('⚠️ Ingresa tu nombre completo',true); return; }
-  if(!telefono)  { showToast('⚠️ Ingresa tu teléfono',true); return; }
-  if(!email)     { showToast('⚠️ Ingresa tu correo electrónico',true); return; }
-  if(!recogerEnTienda) {
-    for (var vi=0; vi<carrito.length; vi++) {
-      var vget = function(id){ var e=document.getElementById(id); return e?e.value.trim():''; };
-      if(!vget('ep-nombre-'+vi))    { showToast('Producto '+(vi+1)+': falta nombre de quien recibe',true); return; }
-      if(!vget('ep-estado-'+vi))    { showToast('Producto '+(vi+1)+': falta el estado',true); return; }
-      if(!vget('ep-municipio-'+vi)) { showToast('Producto '+(vi+1)+': falta el municipio',true); return; }
-      if(!vget('ep-colonia-'+vi))   { showToast('Producto '+(vi+1)+': falta la colonia',true); return; }
-      if(!vget('ep-calle-'+vi))     { showToast('Producto '+(vi+1)+': falta la calle',true); return; }
-      if(!vget('ep-cp-'+vi))        { showToast('Producto '+(vi+1)+': falta el codigo postal',true); return; }
-    }
-  }
-  if(!tipoPagoSel){ showToast('⚠️ Selecciona un método de pago',true); return; }
-  if(!carrito.length){ showToast('⚠️ Tu pedido está vacío',true); return; }
-  var tieneP = carrito.some(function(i){ return i.tipo==='Ramos Personalizados'; });
-  guardarDatosDir();
-  var enviosProd = leerEnviosPorProducto();
-  var ep0 = enviosProd[0] || {};
-  var datos = {
-    sucursal:sucursal, nombre:nombre, email:email, telefono:telefono,
-    cp:ep0.cp||'', estado:ep0.estado||'', municipio:ep0.municipio||'',
-    colonia:ep0.colonia||'', calle:ep0.calle||'',
-    noExt:ep0.ext||'', noInt:ep0.int||'',
-    referencias:ep0.referencias||'',
-    dirEnvio:ep0.dirEnvio||'', linkMaps:ep0.linkMaps||'',
-    nombreRecibe:ep0.nombre||'', telRecibe:ep0.tel||'',
-    fechaEntrega:ep0.fecha||v('ch-fecha-entrega'),
-    dedicatoria:enviosProd.map(function(ep){return ep.dedicatoria;}).filter(Boolean).join(' | '),
-    distanciaKm:'',
-    tipoPago:tipoPagoSel, recogerEnTienda:recogerEnTienda,
-    tienePersonalizado:tieneP, carrito:carrito,
-    enviosPorProducto:enviosProd
-  };
-  document.getElementById('loader').classList.add('show');
 
-  // VERSIÓN GITHUB: POST no-cors — guarda en hojas, envía correo PDF
-  var idPedidoGH = 'GH-' + new Date().getTime();
+var nombre   = v('ch-nombre');
 
-  // Resumen para WhatsApp
-  var msgWA = encodeURIComponent('Nuevo Pedido MAIA — ' + idPedidoGH + '\n');
-  msgWA += encodeURIComponent('Sucursal: ' + datos.sucursal + '\n');
-  msgWA += encodeURIComponent('Nombre: ' + datos.nombre + ' | Tel: ' + datos.telefono + '\n');
-  msgWA += encodeURIComponent('Email: ' + datos.email + '\n');
-  msgWA += encodeURIComponent('Pago: ' + datos.tipoPago + '\n');
-  msgWA += encodeURIComponent(datos.recogerEnTienda ? 'Recoger en tienda\n' : 'Envio a domicilio\n');
-  msgWA += encodeURIComponent('\nPedido:\n');
-  datos.carrito.forEach(function(it){
-    msgWA += encodeURIComponent('• ' + it.descripcion + ' x' + it.cantidad);
-    msgWA += encodeURIComponent(it.precio > 0 ? ' — $' + it.precio.toFixed(2) : ' — Por cotizar');
-    msgWA += encodeURIComponent('\n');
-    if (it.tipo === 'Ramos Personalizados' && it.personalizacion) {
-      var p = it.personalizacion;
-      if (p.ocasion)      msgWA += encodeURIComponent('  Ocasion: '      + p.ocasion      + '\n');
-      if (p.flores)       msgWA += encodeURIComponent('  Flores: '       + p.flores       + '\n');
-      if (p.presupuesto)  msgWA += encodeURIComponent('  Presupuesto: '  + p.presupuesto  + '\n');
-      if (p.fechaEntrega) msgWA += encodeURIComponent('  Fecha entrega: '+ p.fechaEntrega + '\n');
-    }
-  });
-  if (!datos.recogerEnTienda && datos.dirEnvio)
-    msgWA += encodeURIComponent('\nDir: ' + datos.dirEnvio + '\n');
+var telefono = v('ch-telefono');
 
-  // Enviar a Apps Script via POST no-cors
-  var payloadGH = {
-    sucursal:     datos.sucursal,
-    nombre:       datos.nombre,
-    telefono:     datos.telefono,
-    email:        datos.email,
-    tipoPago:     datos.tipoPago,
-    recoger:      datos.recogerEnTienda,
-    idPedido:     idPedidoGH,
-    notas:        'Pedido desde GitHub Tienda MAIA',
-    carrito:      JSON.stringify(datos.carrito),
-    dirEnvio:     datos.dirEnvio    || '',
-    dedicatoria:  datos.dedicatoria || '',
-    fechaEntrega: datos.fechaEntrega|| ''
-  };
-  fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payloadGH)
-  }).catch(function(e){ console.warn('POST pedido:', e); });
+var email    = v('ch-email');
 
-  document.getElementById('loader').classList.remove('show');
+if(!nombre)    { showToast('⚠️ Ingresa tu nombre completo',true); return; }
 
-  // Limpiar estado del carrito
-  carrito.forEach(function(it){
-    if(it._prodId){
-      var card=document.getElementById('prodcard-'+it._prodId);
-      if(card){ card.classList.remove('confirmado'); document.getElementById('qty-'+it._prodId).textContent='1'; }
-    }
-  });
-  carrito = []; tipoPagoSel = ''; recogerEnTienda = false;
-  document.getElementById('chk-recoger').checked = false;
-  document.getElementById('opt-recoger').classList.remove('sel');
-  document.getElementById('cart-envio-val').textContent = 'A confirmar';
-  renderCarrito();
-  document.querySelectorAll('.panel-full-row').forEach(function(p){ p.classList.remove('open'); });
-  var piWrap = document.getElementById('personal-items-wrap');
-  if (piWrap) { personalIdx=0; piWrap.innerHTML=buildItemPersonal(0); }
-  if (_datosDir) { _datosDir.linkMaps=''; _datosDir.fechaEntrega=''; _datosDir.dedicatorias=[]; _datosDir.dedicatoria=''; _datosDir.enviosPorProducto=[]; }
-  var chkAc = document.getElementById('chk-acepta');
-  if (chkAc) chkAc.checked = false;
-  var notaAc = document.getElementById('acepta-nota');
-  if (notaAc) notaAc.style.display = 'none';
-  var btnC = document.getElementById('btn-comprar');
-  if (btnC) btnC.disabled = true;
+if(!telefono)  { showToast('⚠️ Ingresa tu teléfono',true); return; }
 
-  mostrarExito(idPedidoGH, datos.nombre, datos.tienePersonalizado);
-  if (datos.tipoPago === 'Efectivo') mostrarInfoPago('efectivo');
-  else if (datos.tipoPago === 'Link Mercado Pago') mostrarInfoPago('mp');
-  else if (datos.tipoPago === 'Transferencia') mostrarInfoPago('transferencia');
+if(!email)     { showToast('⚠️ Ingresa tu correo electrónico',true); return; }
 
-  // Abrir WhatsApp con resumen del pedido
-  setTimeout(function(){
-    window.open('https://api.whatsapp.com/send?phone=5215579248882&text=' + msgWA, '_blank');
-  }, 900);
+if(!recogerEnTienda) {
+
+for (var vi=0; vi<carrito.length; vi++) {
+
+var vget = function(id){ var e=document.getElementById(id); return e?e.value.trim():''; };
+
+if(!vget('ep-nombre-'+vi))    { showToast('Producto '+(vi+1)+': falta nombre de quien recibe',true); return; }
+
+if(!vget('ep-estado-'+vi))    { showToast('Producto '+(vi+1)+': falta el estado',true); return; }
+
+if(!vget('ep-municipio-'+vi)) { showToast('Producto '+(vi+1)+': falta el municipio',true); return; }
+
+if(!vget('ep-colonia-'+vi))   { showToast('Producto '+(vi+1)+': falta la colonia',true); return; }
+
+if(!vget('ep-calle-'+vi))     { showToast('Producto '+(vi+1)+': falta la calle',true); return; }
+
+if(!vget('ep-cp-'+vi))        { showToast('Producto '+(vi+1)+': falta el codigo postal',true); return; }
+
 }
-// ═══════════════════════════════════════════════════════════
-//  MODALES DE PAGO — CAMBIO: textos actualizados + cierre con ESC
-// ═══════════════════════════════════════════════════════════
+
+}
+
+if(!tipoPagoSel){ showToast('⚠️ Selecciona un método de pago',true); return; }
+
+if(!carrito.length){ showToast('⚠️ Tu pedido está vacío',true); return; }
+
+var tieneP = carrito.some(function(i){ return i.tipo==='Ramos Personalizados'; });
+
+guardarDatosDir();
+
+var enviosProd = leerEnviosPorProducto();
+
+var ep0 = enviosProd[0] || {};
+
+var _folioLocal = (sucursal==='Ecatepec'?'SC':'OA')+'-'+new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'2-digit'}).replace(/[/]/g,'')+'-'+Math.floor(Math.random()*900+100);
+
+var datos = {
+
+_folioLocal: _folioLocal,
+
+sucursal:sucursal, nombre:nombre, email:email, telefono:telefono,
+
+cp:ep0.cp||'', estado:ep0.estado||'', municipio:ep0.municipio||'',
+
+colonia:ep0.colonia||'', calle:ep0.calle||'',
+
+noExt:ep0.ext||'', noInt:ep0.int||'',
+
+referencias:ep0.referencias||'',
+
+dirEnvio:ep0.dirEnvio||'', linkMaps:ep0.linkMaps||'',
+
+nombreRecibe:ep0.nombre||'', telRecibe:ep0.tel||'',
+
+fechaEntrega:ep0.fecha||v('ch-fecha-entrega'),
+
+dedicatoria:enviosProd.map(function(ep){return ep.dedicatoria;}).filter(Boolean).join(' | '),
+
+distanciaKm:'',
+
+tipoPago:tipoPagoSel, recogerEnTienda:recogerEnTienda,
+
+tienePersonalizado:tieneP, carrito:carrito,
+
+enviosPorProducto:enviosProd
+
+};
+
+document.getElementById('loader').classList.add('show');
+
+// POST no-cors: funciona desde GitHub Pages. El servidor registra todo.
+
+// No recibimos respuesta (no-cors), así que asumimos éxito y mostramos confirmación.
+
+var _pedidoPayload = JSON.stringify(datos);
+
+fetch(APPS_SCRIPT_URL, {
+
+method: 'POST',
+
+mode: 'no-cors',
+
+headers: { 'Content-Type': 'application/json' },
+
+body: _pedidoPayload
+
+}).then(function() {
+
+document.getElementById('loader').classList.remove('show');
+
+var r = { success: true, idPedido: (datos._folioLocal || ('GH-'+Date.now())), esPersonalizado: datos.tienePersonalizado };
+
+if (r.success) {
+
+carrito.forEach(function(it){
+
+if(it._prodId){
+
+var card=document.getElementById('prodcard-'+it._prodId);
+
+if(card){ card.classList.remove('confirmado'); document.getElementById('qty-'+it._prodId).textContent='1'; }
+
+}
+
+});
+
+carrito = []; tipoPagoSel = ''; recogerEnTienda = false;
+
+document.getElementById('chk-recoger').checked = false;
+
+document.getElementById('opt-recoger').classList.remove('sel');
+
+document.getElementById('cart-envio-val').textContent = 'A confirmar';
+
+renderCarrito();
+
+document.querySelectorAll('.panel-full-row').forEach(function(p){ p.classList.remove('open'); });
+
+var piWrap = document.getElementById('personal-items-wrap');
+
+if (piWrap) { personalIdx=0; piWrap.innerHTML=buildItemPersonal(0); }
+
+// V7.1: limpiar carrito completo, campos y checkbox al confirmar
+
+if (_datosDir) { _datosDir.linkMaps=''; _datosDir.fechaEntrega=''; _datosDir.dedicatorias=[]; _datosDir.dedicatoria=''; _datosDir.enviosPorProducto=[]; }
+
+// limpiar checkbox de aceptación
+
+var chkAc = document.getElementById('chk-acepta');
+
+if (chkAc) chkAc.checked = false;
+
+var notaAc = document.getElementById('acepta-nota');
+
+if (notaAc) notaAc.style.display = 'none';
+
+// deshabilitar botón comprar
+
+var btnC = document.getElementById('btn-comprar');
+
+if (btnC) btnC.disabled = true;
+
+mostrarExito(r.idPedido, datos.nombre, r.esPersonalizado);
+
+// V4: mostrar modal de pago si aplica
+
+if (datos.tipoPago === 'Efectivo') mostrarInfoPago('efectivo');
+
+else if (datos.tipoPago === 'Link Mercado Pago') mostrarInfoPago('mp');
+
+else if (datos.tipoPago === 'Transferencia') mostrarInfoPago('transferencia');
+
+} else {
+
+showToast('❌ Error: '+r.error, true);
+
+}
+
+})
+
+.catch(function() {
+
+document.getElementById('loader').classList.remove('show');
+
+showToast('❌ Error de conexión. Intenta de nuevo.',true);
+
+});
+
+}
+
+// V4: modal de información de pago
+
 function mostrarInfoPago(tipo) {
-  var box = document.getElementById('pago-info-box');
-  var textoComun =
-    '<div class="clabe-block" style="background:#fff8e1;border:1px solid #f0c040;color:#7a5c00;margin-top:10px;text-align:left">'+
-    '<strong>¡Recuerda</strong> si programaste tu ramo o arreglo floral del 1 al 3 de mayo del 2026, se te aplicará un descuento del <strong>15%</strong>, se aplica sobre el precio de los ramos o arreglos que elijas!'+
-    '</div>'+
-    '<div class="clabe-block" style="text-align:left">'+
-    '<strong>*Confirma tu pedido con el 50% de anticipo</strong> en caso de recoger en sucursal (el resto a la entrega); si es para envío a domicilio se agenda con el 100%.<br><br>'+
-    '<strong>*Importante:</strong> El costo de envío es variable dependiendo la distancia, así como fecha y horario que requieres.<br><br>'+
-    '<span style="color:#a06fa0">(Sujetos a disponibilidad)</span><br>'+
-    '8:00 - 11:00 &nbsp;/&nbsp; 12:00 - 15:00 &nbsp;/&nbsp; 16:00 - 19:00'+
-    '</div>';
 
-  if (tipo === 'efectivo') {
-    box.innerHTML =
-      '<h3>💵 Pago en Efectivo</h3>'+
-      '<p style="text-align:left">En un momento una Asesora MAIA se comunicará contigo para confirmar el horario de recolección de tu pedido en la sucursal.</p>'+
-      textoComun+
-      '<button class="btn-cerrar-pago" onclick="cerrarInfoPago()">Entendido ✓</button>';
-  } else if (tipo === 'mp') {
-    box.innerHTML =
-      '<h3>💳 Pago con Link Mercado Pago</h3>'+
-      '<p style="text-align:left">En un momento una Asesora MAIA se comunicará contigo para confirmar el Costo de envío y enviarte el Link de Mercado Pago.</p>'+
-      textoComun+
-      '<button class="btn-cerrar-pago" onclick="cerrarInfoPago()">Entendido ✓</button>';
-  } else {
-    // transferencia — CAMBIO: sin duplicar datos de tarjeta
-    box.innerHTML =
-      '<h3>🏦 Transferencia Bancaria</h3>'+
-      '<p style="text-align:left">En un momento una Asesora MAIA se comunicará contigo para confirmar el Costo de envío.</p>'+
-      '<div class="clabe-block" style="text-align:left">'+
-        '<strong>CLABE:</strong> 012180015670703889<br>'+
-        '<strong>Banco:</strong> BBVA<br>'+
-        '<strong>Beneficiario:</strong> Yetlanezi Solis Moreno'+
-      '</div>'+
-      textoComun+
-      '<button class="btn-cerrar-pago" onclick="cerrarInfoPago()">Entendido ✓</button>';
-  }
-  document.getElementById('pago-info-overlay').classList.add('open');
+var box = document.getElementById('pago-info-box');
+
+if (tipo === 'efectivo') {
+
+box.innerHTML =
+
+'<h3>Pago en Efectivo</h3>'+
+
+'<p>En un momento una Asesora MAIA se comunicará contigo para confirmar el horario de recolección de tu pedido en la sucursal.</p>'+
+
+'<div class="clabe-block" style="background:#fff8e1;border:1px solid #f0c040;color:#7a5c00;margin-top:10px">'+
+
+'¡Recuerda si programaste tu ramo o arreglo floral del 1 al 3 de mayo del 2026, se te aplicará un descuento del <strong>15%</strong>, se aplica sobre el precio de los ramos o arreglos que elijas!.'+
+
+'</div>'+
+
+'<p style="font-size:12px;margin-top:10px;color:#555;font-family:Arial,sans-serif">'+
+
+'*Confirma tu pedido con el 50% de anticipo en caso de recoger en sucursal (el resto a la entrega); si es para envío a domicilio se agenda con el 100%.<br><br>'+
+
+'*Importante: El costo de envío es variable dependiendo la distancia, así como fecha y horario que requieres.<br><br>'+
+
+'(Sujetos a disponibilidad)<br>'+
+
+'8:00 - 11:00 / 12:00 - 15:00 / 16:00 - 19:00'+
+
+'</p>'+
+
+'<button class="btn-cerrar-pago" onclick="cerrarInfoPago()">Entendido</button>';
+
+} else if (tipo === 'mp') {
+
+box.innerHTML =
+
+'<h3>Pago con Link Mercado Pago</h3>'+
+
+'<p>En un momento una Asesora MAIA se comunicará contigo para confirmar el Costo de envío y enviarte el Link de Mercado Pago.</p>'+
+
+'<div class="clabe-block" style="background:#fff8e1;border:1px solid #f0c040;color:#7a5c00">'+
+
+'¡Recuerda si programaste tu ramo o arreglo floral del 1 al 3 de mayo del 2026, se te aplicará un descuento del <strong>15%</strong>, se aplica sobre el precio de los ramos o arreglos que elijas!.'+
+
+'</div>'+
+
+'<p style="font-size:12px;margin-top:10px;color:#555;font-family:Arial,sans-serif">'+
+
+'*Confirma tu pedido con el 50% de anticipo en caso de recoger en sucursal (el resto a la entrega); si es para envío a domicilio se agenda con el 100%.<br><br>'+
+
+'*Importante: El costo de envío es variable dependiendo la distancia, así como fecha y horario que requieres.<br><br>'+
+
+'(Sujetos a disponibilidad)<br>'+
+
+'8:00 - 11:00 / 12:00 - 15:00 / 16:00 - 19:00'+
+
+'</p>'+
+
+'<button class="btn-cerrar-pago" onclick="cerrarInfoPago()">Entendido</button>';
+
+} else {
+
+box.innerHTML =
+
+'<h3>Transferencia Bancaria</h3>'+
+
+'<p>En un momento una Asesora MAIA se comunicará contigo para confirmar el Costo de envío.</p>'+
+
+'<div class="clabe-block">'+
+
+'<strong>CLABE:</strong> 012180015670703889<br>'+
+
+'<strong>Banco:</strong> BBVA<br>'+
+
+'<strong>Beneficiario:</strong> Yetlanezi Solis Moreno'+
+
+'</div>'+
+
+'<div class="clabe-block" style="background:#fff8e1;border:1px solid #f0c040;color:#7a5c00;margin-top:8px">'+
+
+'¡Recuerda si programaste tu ramo o arreglo floral del 1 al 3 de mayo del 2026, se te aplicará un descuento del <strong>15%</strong>, se aplica sobre el precio de los ramos o arreglos que elijas!.'+
+
+'</div>'+
+
+'<p style="font-size:12px;margin-top:10px;color:#555;font-family:Arial,sans-serif">'+
+
+'*Confirma tu pedido con el 50% de anticipo en caso de recoger en sucursal (el resto a la entrega); si es para envío a domicilio se agenda con el 100%.<br><br>'+
+
+'*Importante: El costo de envío es variable dependiendo la distancia, así como fecha y horario que requieres.<br><br>'+
+
+'(Sujetos a disponibilidad)<br>'+
+
+'8:00 - 11:00 / 12:00 - 15:00 / 16:00 - 19:00'+
+
+'</p>'+
+
+'<p style="margin-top:12px;font-weight:bold;color:#25D366">¡Envíanos tu comprobante por WhatsApp!</p>'+
+
+'<button class="btn-cerrar-pago" onclick="cerrarInfoPago()">Entendido</button>';
+
 }
 
-function cerrarInfoPago() {
-  document.getElementById('pago-info-overlay').classList.remove('open');
+document.getElementById('pago-info-overlay').classList.add('open');
+
 }
 
-// CAMBIO: cerrar modal de pago también con ESC (ya incluido en el listener global de keydown arriba)
+function cerrarInfoPago() { document.getElementById('pago-info-overlay').classList.remove('open'); }
 
 function mostrarExito(idPedido, nombre, esP) {
-  var clr = esP?'oro':'verde';
-  var tit = esP?'¡Solicitud enviada! 📋':'¡Pedido Confirmado! 🌷';
-  var ico = esP?'💐':'🌸';
-  var sub1= esP?'Hola <strong>'+nombre+'</strong>, recibimos tu solicitud. Pronto te contactaremos. ✨'
-              :'Hola <strong>'+nombre+'</strong>, tu pedido fue recibido. Pronto nos ponemos en contacto. 💐';
-  var sub2= esP?'Revisa tu correo: recibirás la confirmación de tu solicitud.'
-              :'Revisa tu correo: recibirás tu comprobante en PDF.';
-  document.getElementById('modal-body').innerHTML =
-    '<div class="success-box">'+
-    '<div class="success-ico">'+ico+'</div>'+
-    '<h2 class="success-titulo '+clr+'">'+tit+'</h2>'+
-    '<p class="success-sub">'+sub1+'</p>'+
-    '<div class="success-id">'+idPedido+'</div>'+
-    '<p class="success-sub">'+sub2+'</p><br>'+
-    '<button class="btn-nuevo" onclick="cerrarCheckout()">Seguir comprando 🌸</button>'+
-    '</div>';
-  document.getElementById('modal-checkout').classList.add('open');
+
+var clr = esP?'oro':'verde';
+
+var tit = esP?'¡Solicitud enviada! 📋':'¡Pedido Confirmado! 🌷';
+
+var ico = esP?'💐':'🌸';
+
+var sub1= esP?'Hola <strong>'+nombre+'</strong>, recibimos tu solicitud. Pronto te contactaremos. ✨'
+
+:'Hola <strong>'+nombre+'</strong>, tu pedido fue recibido. Pronto nos ponemos en contacto. 💐';
+
+var sub2= esP?'Revisa tu correo: recibirás la confirmación de tu solicitud.'
+
+:'Revisa tu correo: recibirás tu comprobante en PDF.';
+
+document.getElementById('modal-body').innerHTML =
+
+'<div class="success-box">'+
+
+'<div class="success-ico">'+ico+'</div>'+
+
+'<h2 class="success-titulo '+clr+'">'+tit+'</h2>'+
+
+'<p class="success-sub">'+sub1+'</p>'+
+
+'<div class="success-id">'+idPedido+'</div>'+
+
+'<p class="success-sub">'+sub2+'</p><br>'+
+
+'<button class="btn-nuevo" onclick="cerrarCheckout()">Seguir comprando 🌸</button>'+
+
+'</div>';
+
+document.getElementById('modal-checkout').classList.add('open');
+
 }
+
 // ═══════════════════════════════════════════════════════════
+
 //  TOAST + AVISO
+
 // ═══════════════════════════════════════════════════════════
+
 function formatPresupuesto(el) {
-  var raw = el.value.replace(/[^0-9]/g, '');
-  if (!raw) { el.value = ''; return; }
-  var num = parseInt(raw, 10);
-  el.value = '$' + num.toLocaleString('es-MX') + ' MXN';
-  el.setSelectionRange(el.value.length, el.value.length);
+
+var raw = el.value.replace(/[^0-9]/g, '');
+
+if (!raw) { el.value = ''; return; }
+
+var num = parseInt(raw, 10);
+
+el.value = '$' + num.toLocaleString('es-MX') + ' MXN';
+
+// mover cursor al final
+
+el.setSelectionRange(el.value.length, el.value.length);
+
 }
+
 function showToast(msg, err) {
-  var el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show'+(err?' err':'');
-  setTimeout(function(){ el.className='toast'; }, 3400);
+
+var el = document.getElementById('toast');
+
+el.textContent = msg;
+
+el.className = 'toast show'+(err?' err':'');
+
+setTimeout(function(){ el.className='toast'; }, 3400);
+
 }
+
 function abrirAviso() { document.getElementById('modal-aviso').classList.add('open'); }
+
 function cerrarAviso() { document.getElementById('modal-aviso').classList.remove('open'); }
+
 </script>
+
 </body>
+
 </html>
